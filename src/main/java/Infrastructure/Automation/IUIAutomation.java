@@ -1,28 +1,26 @@
 package Infrastructure.Automation;
 
-import com.sun.jna.Function;
-import com.sun.jna.Pointer;
+import Application.ElementFactory.WindowsElement;
+import Infrastructure.Utils.Library;
+import Infrastructure.Utils.PointerHelpers;
+import com.sun.jna.*;
+import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.COM.COMUtils;
 import com.sun.jna.platform.win32.COM.Unknown;
-import com.sun.jna.platform.win32.Guid;
-import com.sun.jna.platform.win32.Variant;
-import com.sun.jna.platform.win32.WinDef;
-import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
+
+import java.lang.reflect.Method;
+import java.util.HashMap;
 
 public class IUIAutomation {
 
     private Pointer interfacePointer;
-    private Guid.REFIID refiid;
-    private Pointer[] table;
+    private HashMap<String, Function> methods;
     
-    public IUIAutomation(Guid.REFIID refiid, PointerByReference pointerByReference){
-        this.refiid = refiid;
-        interfacePointer = pointerByReference.getValue();
-        Pointer tablePointer = interfacePointer.getPointer(0);
-        Pointer[] table = new Pointer[53];
-        tablePointer.read(0, table, 0, table.length);
+    public IUIAutomation(Library library){
+        this.methods = library.getMethods();
+        this.interfacePointer = library.getInstancePointer().getValue();
     }
     
     public void QueryInterface(Guid.REFIID byValue, PointerByReference pointerByReference) {
@@ -41,13 +39,10 @@ public class IUIAutomation {
 
     }
 
-    public void getRootElement(PointerByReference root) {
+    public PointerByReference getRootElement() {
         PointerByReference rootPointer = new PointerByReference();
-        Function f = Function.getFunction(table[5], Function.ALT_CONVENTION);
-        f.invoke(new Object[]{interfacePointer, rootPointer});
-        Unknown unknownRoot = new Unknown(rootPointer.getValue());
-        WinNT.HRESULT hresult = unknownRoot.QueryInterface(refiid, rootPointer);
-        COMUtils.checkRC(hresult);
+        int status = methods.get("GetRootElement").invokeInt(new Object[]{interfacePointer, rootPointer});
+        return rootPointer;
     }
 
     public void getFocusedElement(PointerByReference element) {
@@ -66,12 +61,29 @@ public class IUIAutomation {
 
     }
 
-    public void createPropertyCondition(int propertyId, Variant.VARIANT.ByValue value, PointerByReference condition) {
-
+    public PointerByReference createPropertyCondition(int propertyTypeId, String propertyValue) {
+        Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
+        WTypes.BSTR sysAllocated = OleAuto.INSTANCE.SysAllocString(propertyValue);
+        value.setValue(Variant.VT_BSTR, sysAllocated);
+        PointerByReference condition = new PointerByReference();
+        int status = methods.get("CreatePropertyCondition").invokeInt(new Object[]{interfacePointer, propertyTypeId, value, condition});
+        COMUtils.SUCCEEDED(status);
+        OleAuto.INSTANCE.SysFreeString(sysAllocated);
+        return condition;
     }
 
-    public void createAndCondition(Pointer condition1, Pointer condition2, PointerByReference condition) {
+    public PointerByReference createPropertyCondition(int propertyTypeId, int propertyValue) {
+        Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
+        value.setValue(Variant.VT_INT, propertyValue);
+        PointerByReference condition = new PointerByReference();
+        methods.get("CreatePropertyCondition").invokeInt(new Object[]{interfacePointer, propertyTypeId, value, condition});
+        return condition;
+    }
 
+    public PointerByReference createAndCondition(PointerByReference condition1, PointerByReference condition2) {
+        PointerByReference pointerByReference = new PointerByReference();
+        int status = methods.get("CreateAndCondition").invokeInt(new Object[]{interfacePointer, condition1.getValue(), condition2.getValue(), pointerByReference});
+        return pointerByReference;
     }
 
     public void createOrCondition(Pointer condition1, Pointer condition2, PointerByReference condition) {

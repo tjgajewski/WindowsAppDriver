@@ -1,16 +1,23 @@
 package Application.DriverFactory;
 
 
+import Application.ElementFactory.WindowsBy;
+import Application.ElementFactory.WindowsElement;
+import Infrastructure.Automation.IUIAutomation;
+import Infrastructure.Automation.IUIAutomationElement;
+import Infrastructure.Utils.Library;
+import Infrastructure.Utils.LibraryBuilder;
+import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,16 +28,23 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
 
 
     private DriverBuilder driverBuilder;
+    protected LibraryBuilder libraryBuilder;
+    protected IUIAutomation iuiAutomation;
+    protected IUIAutomationElement rootElement;
+    protected IUIAutomationElement windowElement;
+    protected Library iuiAutomationElementLib;
+    protected DesiredCapabilities capabilities;
 
     public EY_WindowsDriver(){
-
-
+        initializeDriver(new DesiredCapabilities());
     }
     public EY_WindowsDriver(DesiredCapabilities capabilities){
-
+        initializeDriver(capabilities);
     }
-    private void initializeDriver(){
-        driverBuilder = new DriverBuilder();
+    private void initializeDriver(DesiredCapabilities capabilities){
+        driverBuilder = new DriverBuilder(this);
+        driverBuilder.configureCapabilities(capabilities);
+        driverBuilder.connectToInterface();
         driverBuilder.build();
     }
 
@@ -57,8 +71,11 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
     }
 
     @Override
-    public WebElement findElement(By by) {
-        return null;
+    public WindowsElement findElement(By by) {
+        WindowsBy windowsBy = new WindowsBy(by);
+        PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAccessType(),windowsBy.getAccessName());
+        IUIAutomationElement element = windowElement.findFirst(propertyCondition);
+        return new WindowsElement(element, libraryBuilder);
     }
 
     @Override
@@ -68,12 +85,12 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
 
     @Override
     public void close() {
-
+        driverBuilder.closeApplication();
     }
 
     @Override
     public void quit() {
-
+        driverBuilder.closeApplication();
     }
 
     @Override
@@ -88,7 +105,7 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
 
     @Override
     public TargetLocator switchTo() {
-        return null;
+        return new WindowsTargetLocator();
     }
 
     @Override
@@ -128,5 +145,58 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
         byte[] imageInByte = baos.toByteArray();
         baos.close();
         return new String(Base64.encodeBase64(imageInByte));
+    }
+
+    public class WindowsTargetLocator implements WebDriver.TargetLocator {
+        @Override
+        public WebDriver frame(int i) {
+            return null;
+        }
+
+        @Override
+        public WebDriver frame(String stringBy) {
+            WindowsBy by = new WindowsBy(stringBy);
+            PointerByReference frameAttributes =iuiAutomation.createPropertyCondition(by.getAccessType(), by.getAccessName());
+            windowElement = rootElement.findFirst(frameAttributes);
+            windowElement.setFocus();
+            return EY_WindowsDriver.this;
+        }
+
+        @Override
+        public WebDriver frame(WebElement element) {
+            windowElement = ((WindowsElement) element).getIUIAutomationElement();
+            return null;
+        }
+
+        @Override
+        public WebDriver parentFrame() {
+            return null;
+        }
+
+        @Override
+        public EY_WindowsDriver window(String stringBy) {
+            WindowsBy by = new WindowsBy(stringBy);
+            WindowsBy tagBy = new WindowsBy("tagName", "window");
+            PointerByReference windowAttributes = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(by.getAccessType(), by.getAccessName()), iuiAutomation.createPropertyCondition(tagBy.getAccessType(), tagBy.getAccessName()));
+            windowElement = rootElement.findFirst(windowAttributes);
+            windowElement.setFocus();
+            return EY_WindowsDriver.this;
+        }
+
+        @Override
+        public WebDriver defaultContent() {
+            windowElement = rootElement;
+            return EY_WindowsDriver.this;
+        }
+
+        @Override
+        public WebElement activeElement() {
+            return null;
+        }
+
+        @Override
+        public Alert alert() {
+            return null;
+        }
     }
 }
