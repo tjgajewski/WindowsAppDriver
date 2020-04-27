@@ -1,4 +1,4 @@
-import Application.DriverFactory.EY_WindowsDriver;
+import Application.DriverFactory.WindowsDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -17,7 +17,7 @@ public class NotePadTest {
     public void before(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("applicationPath", "C:\\WINDOWS\\system32\\notepad.exe");
-        driver = new EY_WindowsDriver(capabilities);
+        driver = new WindowsDriver(capabilities);
         driver.switchTo().frame(new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.className("Notepad"))));
     }
 

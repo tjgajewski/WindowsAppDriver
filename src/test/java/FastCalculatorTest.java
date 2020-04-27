@@ -1,4 +1,4 @@
-import Application.DriverFactory.EY_WindowsDriver;
+import Application.DriverFactory.WindowsDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -16,7 +16,7 @@ public class FastCalculatorTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("applicationPath", "C:\\Windows\\System32\\calc.exe");
         capabilities.setCapability("applicationName", "Calculator.exe");
-        driver = new EY_WindowsDriver(capabilities);
+        driver = new WindowsDriver(capabilities);
         driver.switchTo().frame(new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.name("Calculator"))));
     }
 

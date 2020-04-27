@@ -10,17 +10,17 @@ public class WindowsBy {
     private int className = 30012;
     private int localControlType = 30004;
 
-    private int accessType;
+    private int attribute;
 
-    public int getAccessType() {
-        return accessType;
+    public int getAttribute() {
+        return attribute;
     }
 
-    public String getAccessName() {
-        return accessName;
+    public String getAttributeValue() {
+        return attributeValue;
     }
 
-    private String accessName;
+    private String attributeValue;
 
     public WindowsBy (By by){
         String[] locator = by.toString().split(":",2);
@@ -32,51 +32,51 @@ public class WindowsBy {
         getElementByAttributesSeleniumBy(locator[0],locator[1].trim());
     }
 
-    public WindowsBy (String accessType, String accessName){
-        getElementByAttributes(accessType,accessName);
+    public WindowsBy (String attribute, String attributeValue){
+        getElementByAttributes(attribute, attributeValue);
     }
 
-    public void getElementByAttributesSeleniumBy(String accessType, String accessName){
-        switch (accessType) {
+    public void getElementByAttributesSeleniumBy(String attribute, String attributeValue){
+        switch (attribute) {
             case "By.id":
-                this.accessType = automationId;
+                this.attribute = automationId;
                 break;
             case "By.name":
-                this.accessType = name;
+                this.attribute = name;
                 break;
             case "By.className":
-                this.accessType = className;
+                this.attribute = className;
                 break;
             case "By.tagName":
-                this.accessType = localControlType;
+                this.attribute = localControlType;
                 break;
             default:
-                throw new WebDriverException(accessType + " is an unspoorted property for finding an element");
+                throw new WebDriverException(attribute + " is an unspoorted property for finding an element");
         }
-        this.accessName = accessName;
+        this.attributeValue = attributeValue;
     }
 
-    public void getElementByAttributes(String accessType, String accessName){
-        switch (accessType.toLowerCase()) {
+    public void getElementByAttributes(String attribute, String attributeValue){
+        switch (attribute.toLowerCase()) {
             case "id":
             case "automationid":
-                this.accessType = automationId;
+                this.attribute = automationId;
                 break;
             case "name":
-                this.accessType = name;
+                this.attribute = name;
                 break;
             case "classname":
-                this.accessType = className;
+                this.attribute = className;
                 break;
             case "tagname":
             case "localizedcontroltype":
             case "tag":
-                this.accessType = localControlType;
+                this.attribute = localControlType;
                 break;
             default:
-                throw new WebDriverException(accessType + " is an unspoorted property for finding an element");
+                throw new WebDriverException(attribute + " is an unspoorted property for finding an element");
         }
-        this.accessName = accessName;
+        this.attributeValue = attributeValue;
     }
 
 }

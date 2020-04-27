@@ -10,7 +10,6 @@ import com.sun.jna.ptr.PointerByReference;
 import java.util.HashMap;
 
 public class LibraryBuilder {
-
     Guid.GUID iuiautomationClisid = new Guid.GUID("{FF48DBA4-60EF-4201-AA87-54103EEF594E}");
     Guid.IID iuiautomationIid = new Guid.IID("{30CBE57D-D9D0-452A-AB13-7AC5AC4825EE}");
     Guid.REFIID iuiautomationRefiid = new Guid.REFIID(iuiautomationIid);

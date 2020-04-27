@@ -4,9 +4,9 @@ import org.openqa.selenium.WebDriverException;
 
 public class WindowsProperty {
 
-    public static int getPropertyId(String name){
+    public static int getPropertyId(String attribute){
         int propertyId = 0;
-        switch (name.toLowerCase()){
+        switch (attribute.toLowerCase()){
             case "text":
                 propertyId = 30045;
                 break;
@@ -32,7 +32,7 @@ public class WindowsProperty {
                 propertyId = 30167;
                 break;
             default:
-                throw new WebDriverException(name + " is an unspoorted property type");
+                throw new WebDriverException(attribute + " is an unspoorted property type");
         }
         return propertyId;
     }

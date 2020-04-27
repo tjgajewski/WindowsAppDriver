@@ -4,7 +4,6 @@ import Infrastructure.Automation.IUIAutomation;
 import Infrastructure.Automation.IUIAutomationElement;
 import Infrastructure.Utils.LibraryBuilder;
 import com.sun.jna.ptr.PointerByReference;
-import org.apache.commons.io.FilenameUtils;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -15,9 +14,9 @@ import java.io.InputStreamReader;
 
 public class DriverBuilder {
 
-    EY_WindowsDriver driver;
+    WindowsDriver driver;
 
-    public DriverBuilder(EY_WindowsDriver driver){
+    DriverBuilder(WindowsDriver driver){
         this.driver = driver;
     }
 
@@ -27,7 +26,7 @@ public class DriverBuilder {
     private final String OPEN_APPLICATION = "openApplication";
     private final String APPLICATION_NAME = "applicationName";
 
-    public void configureCapabilities(DesiredCapabilities capabilities) {
+    void configureCapabilities(DesiredCapabilities capabilities) {
         if(capabilities.getCapabilityNames().contains(APPLICATION_FILE_PATH)) {
             if (!capabilities.getCapabilityNames().contains(OPEN_APPLICATION)) {
                 capabilities.setCapability(OPEN_APPLICATION, "auto");
@@ -45,7 +44,7 @@ public class DriverBuilder {
         driver.capabilities = capabilities;
     }
 
-    public void connectToInterface(){
+    void connectToInterface(){
         driver.libraryBuilder = new LibraryBuilder();
         driver.iuiAutomation = new IUIAutomation(driver.libraryBuilder.loadIuiAutomationLibrary());
         PointerByReference rootElementPointer = driver.iuiAutomation.getRootElement();
@@ -54,7 +53,7 @@ public class DriverBuilder {
         driver.windowElement = driver.rootElement;
     }
 
-    public void build() {
+    void build() {
         if(driver.capabilities.getCapabilityNames().contains(APPLICATION_FILE_PATH)) {
             openApplication(driver.capabilities.getCapability(APPLICATION_FILE_PATH).toString(), driver.capabilities.getCapability(OPEN_APPLICATION).toString());
         }
@@ -146,8 +145,8 @@ public class DriverBuilder {
                 waitForClose = false;
             }
             else{
-                long currentMiliseconds = System.currentTimeMillis();
-                if(startMiliseconds+maxWait<currentMiliseconds){
+                long currentMilliseconds = System.currentTimeMillis();
+                if(startMiliseconds+maxWait<currentMilliseconds){
                     waitForClose = false;
                 }
                 try {

@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, SearchContext {
+public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchContext {
 
 
     private DriverBuilder driverBuilder;
@@ -35,10 +35,12 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
     protected Library iuiAutomationElementLib;
     protected DesiredCapabilities capabilities;
 
-    public EY_WindowsDriver(){
+
+    public WindowsDriver(){
         initializeDriver(new DesiredCapabilities());
     }
-    public EY_WindowsDriver(DesiredCapabilities capabilities){
+
+    public WindowsDriver(DesiredCapabilities capabilities){
         initializeDriver(capabilities);
     }
     private void initializeDriver(DesiredCapabilities capabilities){
@@ -73,7 +75,7 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
     @Override
     public WindowsElement findElement(By by) {
         WindowsBy windowsBy = new WindowsBy(by);
-        PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAccessType(),windowsBy.getAccessName());
+        PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttribute(),windowsBy.getAttributeValue());
         IUIAutomationElement element = windowElement.findFirst(propertyCondition);
         return new WindowsElement(element, libraryBuilder);
     }
@@ -156,10 +158,10 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
         @Override
         public WebDriver frame(String stringBy) {
             WindowsBy by = new WindowsBy(stringBy);
-            PointerByReference frameAttributes =iuiAutomation.createPropertyCondition(by.getAccessType(), by.getAccessName());
+            PointerByReference frameAttributes =iuiAutomation.createPropertyCondition(by.getAttribute(), by.getAttributeValue());
             windowElement = rootElement.findFirst(frameAttributes);
             windowElement.setFocus();
-            return EY_WindowsDriver.this;
+            return WindowsDriver.this;
         }
 
         @Override
@@ -174,19 +176,19 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
         }
 
         @Override
-        public EY_WindowsDriver window(String stringBy) {
+        public WindowsDriver window(String stringBy) {
             WindowsBy by = new WindowsBy(stringBy);
             WindowsBy tagBy = new WindowsBy("tagName", "window");
-            PointerByReference windowAttributes = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(by.getAccessType(), by.getAccessName()), iuiAutomation.createPropertyCondition(tagBy.getAccessType(), tagBy.getAccessName()));
+            PointerByReference windowAttributes = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(by.getAttribute(), by.getAttributeValue()), iuiAutomation.createPropertyCondition(tagBy.getAttribute(), tagBy.getAttributeValue()));
             windowElement = rootElement.findFirst(windowAttributes);
             windowElement.setFocus();
-            return EY_WindowsDriver.this;
+            return WindowsDriver.this;
         }
 
         @Override
         public WebDriver defaultContent() {
             windowElement = rootElement;
-            return EY_WindowsDriver.this;
+            return WindowsDriver.this;
         }
 
         @Override
