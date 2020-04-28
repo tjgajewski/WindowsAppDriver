@@ -78,7 +78,8 @@ public class WindowsElement implements WebElement, Locatable {
     @Override
     public boolean isEnabled() {
         Object var = element.getCurrentPropertyValue("isEnabled");
-        return ((OaIdl.VARIANT_BOOL) var).booleanValue();
+        Boolean enabled = ((OaIdl.VARIANT_BOOL) var).booleanValue();
+        return enabled;
     }
 
     @Override
@@ -99,7 +100,7 @@ public class WindowsElement implements WebElement, Locatable {
 
     @Override
     public boolean isDisplayed() {
-        return false;
+        return true;
     }
 
     @Override

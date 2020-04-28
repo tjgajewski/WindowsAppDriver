@@ -22,6 +22,12 @@ public class WindowsBy {
 
     private String accessName;
 
+    public String getAccessTypeName() {
+        return accessTypeName;
+    }
+
+    private String accessTypeName;
+
     public WindowsBy (By by){
         String[] locator = by.toString().split(":",2);
         getElementByAttributesSeleniumBy(locator[0],locator[1].trim());
@@ -37,6 +43,7 @@ public class WindowsBy {
     }
 
     public void getElementByAttributesSeleniumBy(String accessType, String accessName){
+        this.accessTypeName = accessType;
         switch (accessType) {
             case "By.id":
                 this.accessType = automationId;

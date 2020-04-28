@@ -75,7 +75,7 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
     public WindowsElement findElement(By by) {
         WindowsBy windowsBy = new WindowsBy(by);
         PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAccessType(),windowsBy.getAccessName());
-        IUIAutomationElement element = windowElement.findFirst(propertyCondition);
+        IUIAutomationElement element = windowElement.findFirst(propertyCondition, windowsBy);
         return new WindowsElement(element, libraryBuilder);
     }
 
