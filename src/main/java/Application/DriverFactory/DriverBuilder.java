@@ -141,7 +141,7 @@ public class DriverBuilder {
 
     private void waitForApplicationToClose(String appName) throws IOException {
         long startMiliseconds = System.currentTimeMillis();
-        long maxWait = Long.parseLong(driver.capabilities.getCapability(LOAD_TIME_OUT).toString());
+        long maxWait = Long.parseLong(driver.capabilities.getCapability(LOAD_TIME_OUT).toString())*1000;
         Boolean waitForClose = true;
         do {
             if(openProcesses().contains(appName)){
