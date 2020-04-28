@@ -23,11 +23,9 @@ public class NotePadTest {
 
     @Test
     public void write(){
-
         driver.findElement(By.name("Text Editor")).sendKeys("Hello World");
         String text = driver.findElement(By.name("Text Editor")).getText();
-        Assert.assertTrue(text.equals("Hello World"), "Notepad recieves text!");
-
+        Assert.assertTrue(text.equals("Hello World"), "Notepad receives text!");
     }
 
     @AfterClass
