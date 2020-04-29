@@ -37,14 +37,6 @@ public class IUIAutomationElement {
        
     }
 
-    public IUIAutomationElement findFirst(PointerByReference conditionRef) {
-        Pointer condition = conditionRef.getValue();
-        PointerByReference elementPointer = new PointerByReference();
-        int statusCode = methods.get("FindFirst").invokeInt(new Object[]{interfacePointer, 4, condition, elementPointer});
-        COMUtils.SUCCEEDED(statusCode);
-        return new IUIAutomationElement(methods, elementPointer);
-    }
-
     public IUIAutomationElement findFirst(PointerByReference conditionRef, WindowsBy by) {
         Pointer condition = conditionRef.getValue();
         PointerByReference elementPointer = new PointerByReference();

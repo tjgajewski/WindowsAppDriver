@@ -76,7 +76,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     public WindowsElement findElement(By by) {
         WindowsBy windowsBy = new WindowsBy(by);
         PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(),windowsBy.getAttributeValue());
-        IUIAutomationElement element = windowElement.findFirst(propertyCondition);
+        IUIAutomationElement element = windowElement.findFirst(propertyCondition,windowsBy);
         return new WindowsElement(element, libraryBuilder);
     }
 
