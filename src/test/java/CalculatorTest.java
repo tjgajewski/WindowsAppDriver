@@ -17,8 +17,8 @@ public class CalculatorTest {
         capabilities.setCapability("applicationPath", "C:\\Windows\\System32\\calc.exe");
         capabilities.setCapability("applicationName", "Calculator.exe");
         driver = new WindowsDriver(capabilities);
-        driver.switchTo().frame(new WebDriverWait(driver, 30)
-                .until(ExpectedConditions.presenceOfElementLocated(By.name("Calculator"))));
+        WebElement calculatorWindow = new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.name("Calculator")));
+        driver.switchTo().frame(calculatorWindow);
     }
 
     @Test

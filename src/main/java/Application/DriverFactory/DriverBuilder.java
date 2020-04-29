@@ -103,17 +103,19 @@ public class DriverBuilder {
     private void waitForAppToOpen(String app) throws IOException {
         long startMiliseconds = System.currentTimeMillis();
         long maxWait = Long.parseLong(driver.capabilities.getCapability(LOAD_TIME_OUT).toString())*1000;
-        Boolean waitForInit = false;
+        Boolean waitForInit;
         do {
             waitForInit = openProcesses().contains(app);
-            long currentMiliseconds = System.currentTimeMillis();
-            if(startMiliseconds+maxWait<currentMiliseconds){
-                throw new WebDriverException("Failed waiting for application " + app + " to launch, tried for " + driver.capabilities.getCapability(LOAD_TIME_OUT).toString() + " seconds");
-            }
-            try {
-                Thread.sleep(Long.parseLong(driver.capabilities.getCapability(POLL_RATE).toString())*1000);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
+            if(waitForInit) {
+                long currentMiliseconds = System.currentTimeMillis();
+                if (startMiliseconds + maxWait < currentMiliseconds) {
+                    throw new WebDriverException("Failed waiting for application " + app + " to launch, tried for " + driver.capabilities.getCapability(LOAD_TIME_OUT).toString() + " seconds");
+                }
+                try {
+                    Thread.sleep(Long.parseLong(driver.capabilities.getCapability(POLL_RATE).toString()) * 1000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
             }
         }while(!waitForInit);
     }
@@ -138,22 +140,22 @@ public class DriverBuilder {
 
     private void waitForApplicationToClose(String appName) throws IOException {
         long startMiliseconds = System.currentTimeMillis();
-        long maxWait = Long.parseLong(driver.capabilities.getCapability(LOAD_TIME_OUT).toString());
+        long maxWait = Long.parseLong(driver.capabilities.getCapability(LOAD_TIME_OUT).toString())*1000;
         Boolean waitForClose = true;
         do {
             if(openProcesses().contains(appName)){
-                waitForClose = false;
-            }
-            else{
-                long currentMilliseconds = System.currentTimeMillis();
-                if(startMiliseconds+maxWait<currentMilliseconds){
-                    waitForClose = false;
+                long currentMiliseconds = System.currentTimeMillis();
+                if(startMiliseconds+maxWait<currentMiliseconds){
+                    throw new WebDriverException("Failed waiting for application " + appName + " to close, tried for " + driver.capabilities.getCapability(LOAD_TIME_OUT).toString() + " seconds");
                 }
                 try {
-                    Thread.sleep(Long.parseLong(driver.capabilities.getCapability(POLL_RATE).toString()));
+                    Thread.sleep(Long.parseLong(driver.capabilities.getCapability(POLL_RATE).toString())*1000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
+            }
+            else {
+                waitForClose = false;
             }
         }while(waitForClose);
     }

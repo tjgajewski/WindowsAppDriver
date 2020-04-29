@@ -1,5 +1,6 @@
 package Infrastructure.Automation;
 
+import Application.ElementFactory.WindowsBy;
 import Application.ElementFactory.WindowsProperty;
 import Infrastructure.Utils.Library;
 import com.sun.jna.Function;
@@ -9,6 +10,7 @@ import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
+import org.openqa.selenium.NoSuchElementException;
 
 import java.util.HashMap;
 
@@ -40,6 +42,16 @@ public class IUIAutomationElement {
         PointerByReference elementPointer = new PointerByReference();
         int statusCode = methods.get("FindFirst").invokeInt(new Object[]{interfacePointer, 4, condition, elementPointer});
         COMUtils.SUCCEEDED(statusCode);
+        return new IUIAutomationElement(methods, elementPointer);
+    }
+
+    public IUIAutomationElement findFirst(PointerByReference conditionRef, WindowsBy by) {
+        Pointer condition = conditionRef.getValue();
+        PointerByReference elementPointer = new PointerByReference();
+       methods.get("FindFirst").invokeInt(new Object[]{interfacePointer, 4, condition, elementPointer});
+        if(elementPointer.getValue() == null){
+            throw new NoSuchElementException("Unable to find element with locator " + by.getAccessTypeName() + ": " +by.getAccessName());
+        }
         return new IUIAutomationElement(methods, elementPointer);
     }
 

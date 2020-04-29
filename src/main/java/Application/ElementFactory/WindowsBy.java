@@ -22,6 +22,12 @@ public class WindowsBy {
 
     private String attributeValue;
 
+    public String getAccessTypeName() {
+        return accessTypeName;
+    }
+
+    private String accessTypeName;
+
     public WindowsBy (By by){
         String[] locator = by.toString().split(":",2);
         getElementByAttributesSeleniumBy(locator[0],locator[1].trim());
