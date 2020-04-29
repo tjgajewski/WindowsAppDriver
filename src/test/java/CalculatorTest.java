@@ -30,7 +30,7 @@ public class CalculatorTest {
         driver.findElement(By.name("Three")).click();
         driver.findElement(By.name("Equals")).click();
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
-        Assert.assertEquals(name, "Display is 7", "5 plus 3 should equal 8");
+        Assert.assertEquals(name, "Display is 8", "5 plus 3 should equal 8");
 
     }
 
