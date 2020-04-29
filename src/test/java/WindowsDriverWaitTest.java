@@ -1,4 +1,4 @@
-import Application.DriverFactory.EY_WindowsDriver;
+import Application.DriverFactory.WindowsDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -10,13 +10,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class WindowsDriverWaitTest {
-    EY_WindowsDriver driver;
+    WindowsDriver driver;
 
     @BeforeMethod
     public void before() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("applicationPath", "C:\\Program Files (x86)\\SAP\\FrontEnd\\SAPgui\\saplogon.exe");
-        driver = new EY_WindowsDriver(capabilities);
+        driver = new WindowsDriver(capabilities);
     }
 
     @Test
