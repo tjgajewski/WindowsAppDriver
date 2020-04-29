@@ -4,57 +4,54 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 
 public class WindowsBy {
-
     private int automationId = 30011;
     private int name = 30005;
     private int className = 30012;
     private int localControlType = 30004;
+    private String attribute;
+    private int attributeIndex;
+    private String attributeValue;
 
-    private int attribute;
+    public WindowsBy (By by){
+        String[] locator = by.toString().split(":",2);
+        setAttributeIndexByByMethod(locator[0],locator[1].trim());
+    }
 
-    public int getAttribute() {
+    public WindowsBy (String stringBy){
+        String[] locator = stringBy.split(":",2);
+        setAttributeIndexByByMethod(locator[0],locator[1].trim());
+    }
+
+    public WindowsBy (String attributeIndex, String attributeValue){
+        setAttributeIndexByAttribute(attributeIndex, attributeValue);
+    }
+
+    public String getAttribute() {
         return attribute;
+    }
+
+    public int getAttributeIndex() {
+        return attributeIndex;
     }
 
     public String getAttributeValue() {
         return attributeValue;
     }
 
-    private String attributeValue;
-
-    public String getAccessTypeName() {
-        return accessTypeName;
-    }
-
-    private String accessTypeName;
-
-    public WindowsBy (By by){
-        String[] locator = by.toString().split(":",2);
-        getElementByAttributesSeleniumBy(locator[0],locator[1].trim());
-    }
-
-    public WindowsBy (String stringBy){
-        String[] locator = stringBy.split(":",2);
-        getElementByAttributesSeleniumBy(locator[0],locator[1].trim());
-    }
-
-    public WindowsBy (String attribute, String attributeValue){
-        getElementByAttributes(attribute, attributeValue);
-    }
-
-    public void getElementByAttributesSeleniumBy(String attribute, String attributeValue){
+    public void setAttributeIndexByByMethod(String attribute, String attributeValue){
+        this.attribute=attribute;
         switch (attribute) {
             case "By.id":
-                this.attribute = automationId;
+                this.attributeIndex = automationId;
                 break;
             case "By.name":
-                this.attribute = name;
+                this.attributeIndex = name;
                 break;
             case "By.className":
-                this.attribute = className;
+                this.attributeIndex = className;
                 break;
             case "By.tagName":
-                this.attribute = localControlType;
+                this.attributeIndex = localControlType;
                 break;
             default:
                 throw new WebDriverException(attribute + " is an unspoorted property for finding an element");
@@ -62,22 +59,22 @@ public class WindowsBy {
         this.attributeValue = attributeValue;
     }
 
-    public void getElementByAttributes(String attribute, String attributeValue){
+    public void setAttributeIndexByAttribute(String attribute, String attributeValue){
         switch (attribute.toLowerCase()) {
             case "id":
             case "automationid":
-                this.attribute = automationId;
+                this.attributeIndex = automationId;
                 break;
             case "name":
-                this.attribute = name;
+                this.attributeIndex = name;
                 break;
             case "classname":
-                this.attribute = className;
+                this.attributeIndex = className;
                 break;
             case "tagname":
             case "localizedcontroltype":
             case "tag":
-                this.attribute = localControlType;
+                this.attributeIndex = localControlType;
                 break;
             default:
                 throw new WebDriverException(attribute + " is an unspoorted property for finding an element");

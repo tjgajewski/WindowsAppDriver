@@ -75,7 +75,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     @Override
     public WindowsElement findElement(By by) {
         WindowsBy windowsBy = new WindowsBy(by);
-        PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttribute(),windowsBy.getAttributeValue());
+        PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(),windowsBy.getAttributeValue());
         IUIAutomationElement element = windowElement.findFirst(propertyCondition);
         return new WindowsElement(element, libraryBuilder);
     }
@@ -158,7 +158,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         @Override
         public WebDriver frame(String stringBy) {
             WindowsBy by = new WindowsBy(stringBy);
-            PointerByReference frameAttributes =iuiAutomation.createPropertyCondition(by.getAttribute(), by.getAttributeValue());
+            PointerByReference frameAttributes =iuiAutomation.createPropertyCondition(by.getAttributeIndex(), by.getAttributeValue());
             windowElement = rootElement.findFirst(frameAttributes);
             windowElement.setFocus();
             return WindowsDriver.this;
@@ -179,7 +179,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         public WindowsDriver window(String stringBy) {
             WindowsBy by = new WindowsBy(stringBy);
             WindowsBy tagBy = new WindowsBy("tagName", "window");
-            PointerByReference windowAttributes = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(by.getAttribute(), by.getAttributeValue()), iuiAutomation.createPropertyCondition(tagBy.getAttribute(), tagBy.getAttributeValue()));
+            PointerByReference windowAttributes = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(by.getAttributeIndex(), by.getAttributeValue()), iuiAutomation.createPropertyCondition(tagBy.getAttributeIndex(), tagBy.getAttributeValue()));
             windowElement = rootElement.findFirst(windowAttributes);
             windowElement.setFocus();
             return WindowsDriver.this;

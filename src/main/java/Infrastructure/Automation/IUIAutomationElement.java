@@ -50,7 +50,7 @@ public class IUIAutomationElement {
         PointerByReference elementPointer = new PointerByReference();
        methods.get("FindFirst").invokeInt(new Object[]{interfacePointer, 4, condition, elementPointer});
         if(elementPointer.getValue() == null){
-            throw new NoSuchElementException("Unable to find element with locator " + by.getAccessTypeName() + ": " +by.getAccessName());
+            throw new NoSuchElementException("Unable to find element with locator " + by.getAttribute() + ": " +by.getAttributeValue());
         }
         return new IUIAutomationElement(methods, elementPointer);
     }
@@ -81,7 +81,7 @@ public class IUIAutomationElement {
     }
 
     public Object getCurrentPropertyValue(String propertyName) {
-        int propertyId = WindowsProperty.getPropertyId(propertyName);
+        int propertyId = WindowsProperty.getPropertyIndex(propertyName);
         Variant.VARIANT.ByReference propertyValue = new Variant.VARIANT.ByReference();
         methods.get("GetCurrentPropertyValue").invokeInt(new Object[]{interfacePointer, propertyId, propertyValue});
         return propertyValue.getValue();
