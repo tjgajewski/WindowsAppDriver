@@ -159,7 +159,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         public WebDriver frame(String stringBy) {
             WindowsBy by = new WindowsBy(stringBy);
             PointerByReference frameAttributes =iuiAutomation.createPropertyCondition(by.getAttributeIndex(), by.getAttributeValue());
-            windowElement = rootElement.findFirst(frameAttributes);
+            windowElement = rootElement.findFirst(frameAttributes, by);
             windowElement.setFocus();
             return WindowsDriver.this;
         }
@@ -180,7 +180,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
             WindowsBy by = new WindowsBy(stringBy);
             WindowsBy tagBy = new WindowsBy("tagName", "window");
             PointerByReference windowAttributes = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(by.getAttributeIndex(), by.getAttributeValue()), iuiAutomation.createPropertyCondition(tagBy.getAttributeIndex(), tagBy.getAttributeValue()));
-            windowElement = rootElement.findFirst(windowAttributes);
+            windowElement = rootElement.findFirst(windowAttributes, by);
             windowElement.setFocus();
             return WindowsDriver.this;
         }
