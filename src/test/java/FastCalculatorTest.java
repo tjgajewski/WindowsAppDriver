@@ -18,6 +18,7 @@ public class FastCalculatorTest {
         capabilities.setCapability("applicationName", "Calculator.exe");
         driver = new EY_WindowsDriver(capabilities);
         driver.switchTo().frame(new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.name("Calculator"))));
+
     }
 
     @Test

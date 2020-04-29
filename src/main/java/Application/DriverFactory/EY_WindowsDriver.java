@@ -40,6 +40,7 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
         initializeDriver(new DesiredCapabilities());
     }
     public EY_WindowsDriver(DesiredCapabilities capabilities){
+
         initializeDriver(capabilities);
     }
     private void initializeDriver(DesiredCapabilities capabilities){
@@ -179,7 +180,7 @@ public class EY_WindowsDriver extends RemoteWebDriver implements WebDriver, Sear
             WindowsBy by = new WindowsBy(stringBy);
             WindowsBy tagBy = new WindowsBy("tagName", "window");
             PointerByReference windowAttributes = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(by.getAccessType(), by.getAccessName()), iuiAutomation.createPropertyCondition(tagBy.getAccessType(), tagBy.getAccessName()));
-            windowElement = rootElement.findFirst(windowAttributes);
+            windowElement = rootElement.findFirst(windowAttributes, by);
             windowElement.setFocus();
             return EY_WindowsDriver.this;
         }
