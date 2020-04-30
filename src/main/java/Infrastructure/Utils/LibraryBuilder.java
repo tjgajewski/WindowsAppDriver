@@ -98,4 +98,15 @@ public class LibraryBuilder {
         }
         return new Library(iuiAutomationValueMethods, pointerByReference);
     }
+    HashMap<String, Function> iuiAutomationSelectMethods;
+    public Library loadIuIAutomationSelectItemLibrary(PointerByReference pointerByReference) {
+        if(iuiAutomationSelectMethods == null){
+            iuiAutomationSelectMethods = new HashMap<>();
+            Pointer interfacePointer = pointerByReference.getValue();
+            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(interfacePointer.getPointer(0), 6);
+            iuiAutomationSelectMethods.put("Select", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
+            iuiAutomationSelectMethods.put("CurrentIsSelected", Function.getFunction(methodsArray[4], Function.ALT_CONVENTION));
+        }
+        return new Library(iuiAutomationSelectMethods, pointerByReference);
+    }
 }

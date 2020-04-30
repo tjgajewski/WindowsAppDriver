@@ -14,6 +14,9 @@ public class WindowsProperty {
             case "automationid":
                 propertyIndex = 30011;
                 break;
+            case "isinvokepatternavailable":
+                propertyIndex = 30031;
+                break;
             case "name":
                 propertyIndex = 30005;
                 break;

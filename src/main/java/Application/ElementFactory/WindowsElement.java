@@ -2,6 +2,7 @@ package Application.ElementFactory;
 
 import Infrastructure.Automation.IUIAutomationElement;
 import Infrastructure.Automation.Patterns.InvokePattern;
+import Infrastructure.Automation.Patterns.SelectItemPattern;
 import Infrastructure.Automation.Patterns.ValuePattern;
 import Infrastructure.Utils.LibraryBuilder;
 import com.sun.jna.Library;
@@ -25,6 +26,7 @@ public class WindowsElement implements WebElement, Locatable {
     private IUIAutomationElement element;
     private int invokePatternID = 10000;
     private int valuePatternID = 10002;
+    private int selectItemPatternID = 10010;
     private LibraryBuilder libraryBuilder;
 
     public WindowsElement(IUIAutomationElement element, LibraryBuilder libraryBuilder){
@@ -34,9 +36,19 @@ public class WindowsElement implements WebElement, Locatable {
 
     @Override
     public void click() {
-        PointerByReference patternPointer = element.getCurrentPattern(invokePatternID);
-        InvokePattern invokePattern = new InvokePattern(libraryBuilder.loadIuiAutomationInvokeLibrary(patternPointer));
-        invokePattern.invoke();
+        if(patternIsSupported(invokePatternID)) {
+            PointerByReference patternPointer = element.getCurrentPattern(invokePatternID);
+            InvokePattern invokePattern = new InvokePattern(libraryBuilder.loadIuiAutomationInvokeLibrary(patternPointer));
+            invokePattern.invoke();
+        }
+        else if(patternIsSupported(selectItemPatternID)){
+            PointerByReference patternPointer = element.getCurrentPattern(selectItemPatternID);
+            SelectItemPattern selectItemPattern = new SelectItemPattern(libraryBuilder.loadIuIAutomationSelectItemLibrary(patternPointer));
+            selectItemPattern.select();
+        }
+        else {
+            throw new ElementNotSelectableException("Element has no supported click methods");
+        }
     }
 
     @Override
@@ -131,5 +143,10 @@ public class WindowsElement implements WebElement, Locatable {
     @Override
     public Coordinates getCoordinates() {
         return null;
+    }
+
+    private Boolean patternIsSupported(int patternID){
+        Object var = element.getCurrentPropertyValue(patternID);
+        return ((OaIdl.VARIANT_BOOL) var).booleanValue();
     }
 }
