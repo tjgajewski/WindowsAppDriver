@@ -1,16 +1,12 @@
 package Infrastructure.Automation;
 
-import Application.ElementFactory.WindowsElement;
 import Infrastructure.Utils.Library;
-import Infrastructure.Utils.PointerHelpers;
 import com.sun.jna.*;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.COM.COMUtils;
-import com.sun.jna.platform.win32.COM.Unknown;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class IUIAutomation {

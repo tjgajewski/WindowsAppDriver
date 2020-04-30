@@ -1,4 +1,4 @@
-package Application.DriverFactory;
+package application.driver.Factory;
 
 import Infrastructure.Automation.IUIAutomation;
 import Infrastructure.Automation.IUIAutomationElement;

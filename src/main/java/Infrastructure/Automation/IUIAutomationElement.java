@@ -1,11 +1,10 @@
 package Infrastructure.Automation;
 
-import Application.ElementFactory.WindowsBy;
-import Application.ElementFactory.WindowsProperty;
+import application.ElementFactory.WindowsBy;
+import application.ElementFactory.WindowsProperty;
 import Infrastructure.Utils.Library;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.COM.COMUtils;
 import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.IntByReference;
