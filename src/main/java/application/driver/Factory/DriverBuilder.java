@@ -12,10 +12,19 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 public class DriverBuilder {
 
+    /**
+     * The Driver.
+     */
     WindowsDriver driver;
 
+    /**
+     * Instantiates a new Driver builder.
+     *
+     * @param driver the driver
+     */
     DriverBuilder(WindowsDriver driver){
         this.driver = driver;
     }
@@ -26,6 +35,12 @@ public class DriverBuilder {
     private final String OPEN_APPLICATION = "openApplication";
     private final String APPLICATION_NAME = "applicationName";
 
+
+    /**
+     * Configure capabilities.
+     *
+     * @param capabilities the capabilities
+     */
     void configureCapabilities(DesiredCapabilities capabilities) {
         if(capabilities.getCapabilityNames().contains(APPLICATION_FILE_PATH)) {
             if (!capabilities.getCapabilityNames().contains(OPEN_APPLICATION)) {
@@ -44,6 +59,9 @@ public class DriverBuilder {
         driver.capabilities = capabilities;
     }
 
+    /**
+     * Connect to interface.
+     */
     void connectToInterface(){
         driver.libraryBuilder = new LibraryBuilder();
         driver.iuiAutomation = new IUIAutomation(driver.libraryBuilder.loadIuiAutomationLibrary());
@@ -52,7 +70,7 @@ public class DriverBuilder {
         driver.rootElement = new IUIAutomationElement(driver.iuiAutomationElementLib);
         driver.windowElement = driver.rootElement;
     }
-
+    
     void build() {
         if(driver.capabilities.getCapabilityNames().contains(APPLICATION_FILE_PATH)) {
             openApplication(driver.capabilities.getCapability(APPLICATION_FILE_PATH).toString(), driver.capabilities.getCapability(OPEN_APPLICATION).toString());
