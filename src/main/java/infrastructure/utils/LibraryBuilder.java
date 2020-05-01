@@ -75,7 +75,7 @@ public class LibraryBuilder {
         return new Library(methods, pointerByReference);
     }
     HashMap<String, Function> iuiAutomationInvokeMethods;
-    public Library loadIuiAutomationInvokeLibrary(PointerByReference pointerByReference){
+    public infrastructure.utils.Library loadIuiAutomationInvokeLibrary(PointerByReference pointerByReference){
 
         if(iuiAutomationInvokeMethods == null) {
             iuiAutomationInvokeMethods  = new HashMap<>();
