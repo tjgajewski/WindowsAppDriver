@@ -1,4 +1,4 @@
-package application.ElementFactory;
+package application.element.factory;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;

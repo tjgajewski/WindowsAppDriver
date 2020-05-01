@@ -1,6 +1,6 @@
-package Infrastructure.Automation.Patterns;
+package infrastructure.automation.patterns;
 
-import Infrastructure.Utils.Library;
+import infrastructure.utils.Library;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;

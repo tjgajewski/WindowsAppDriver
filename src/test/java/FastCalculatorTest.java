@@ -1,11 +1,13 @@
-import application.driver.Factory.WindowsDriver;
+import application.driver.factory.WindowsDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 public class FastCalculatorTest {
 
@@ -16,6 +18,7 @@ public class FastCalculatorTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("applicationPath", "C:\\Windows\\System32\\calc.exe");
         capabilities.setCapability("applicationName", "Calculator.exe");
+        capabilities.setCapability("ensureCleanSession", "true");
         driver = new WindowsDriver(capabilities);
         driver.switchTo().frame(new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.name("Calculator"))));
 
