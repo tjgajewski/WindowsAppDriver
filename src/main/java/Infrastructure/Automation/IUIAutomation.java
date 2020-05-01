@@ -1,6 +1,6 @@
-package infrastructure.automation;
+package Infrastructure.Automation;
 
-import infrastructure.utils.Library;
+import Infrastructure.Utils.Library;
 import com.sun.jna.*;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.COM.COMUtils;

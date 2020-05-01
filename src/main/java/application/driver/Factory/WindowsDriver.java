@@ -1,12 +1,12 @@
-package application.driver.factory;
+package application.driver.Factory;
 
 
-import application.element.factory.WindowsBy;
-import application.element.factory.WindowsElement;
-import infrastructure.automation.IUIAutomation;
-import infrastructure.automation.IUIAutomationElement;
-import infrastructure.utils.Library;
-import infrastructure.utils.LibraryBuilder;
+import application.ElementFactory.WindowsBy;
+import application.ElementFactory.WindowsElement;
+import Infrastructure.Automation.IUIAutomation;
+import Infrastructure.Automation.IUIAutomationElement;
+import Infrastructure.Utils.Library;
+import Infrastructure.Utils.LibraryBuilder;
 import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.*;

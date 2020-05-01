@@ -1,4 +1,4 @@
-package infrastructure.utils;
+package Infrastructure.Utils;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.COM.COMUtils;

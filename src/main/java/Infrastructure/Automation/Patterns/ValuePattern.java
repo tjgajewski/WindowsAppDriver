@@ -1,6 +1,6 @@
-package infrastructure.automation.patterns;
+package Infrastructure.Automation.Patterns;
 
-import infrastructure.utils.Library;
+import Infrastructure.Utils.Library;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.OleAuto;

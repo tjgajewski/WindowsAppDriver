@@ -1,10 +1,9 @@
-package application.element.factory;
+package application.ElementFactory;
 
-import infrastructure.automation.IUIAutomationElement;
-import infrastructure.automation.patterns.InvokePattern;
-import infrastructure.automation.patterns.SelectItemPattern;
-import infrastructure.automation.patterns.ValuePattern;
-import infrastructure.utils.LibraryBuilder;
+import Infrastructure.Automation.IUIAutomationElement;
+import Infrastructure.Automation.Patterns.InvokePattern;
+import Infrastructure.Automation.Patterns.ValuePattern;
+import Infrastructure.Utils.LibraryBuilder;
 import com.sun.jna.platform.win32.OaIdl;
 import com.sun.jna.ptr.PointerByReference;
 import org.openqa.selenium.*;
@@ -20,15 +19,8 @@ public class WindowsElement implements WebElement, Locatable {
     }
 
     private IUIAutomationElement element;
-
     private int invokePatternID = 10000;
-    private int isInvokePatternAvailID = 30031;
     private int valuePatternID = 10002;
-    private int isValuePatternAvailID = 30043;
-
-    private int selectItemPatternID = 10010;
-    private int isSelectItemPatternAvailID = 30036;
-
     private LibraryBuilder libraryBuilder;
 
     public WindowsElement(IUIAutomationElement element, LibraryBuilder libraryBuilder){
@@ -38,19 +30,9 @@ public class WindowsElement implements WebElement, Locatable {
 
     @Override
     public void click() {
-        if(patternIsSupported(isInvokePatternAvailID)) {
-            PointerByReference patternPointer = element.getCurrentPattern(invokePatternID);
-            InvokePattern invokePattern = new InvokePattern(libraryBuilder.loadIuiAutomationInvokeLibrary(patternPointer));
-            invokePattern.invoke();
-        }
-        else if(patternIsSupported(isSelectItemPatternAvailID)){
-            PointerByReference patternPointer = element.getCurrentPattern(selectItemPatternID);
-            SelectItemPattern selectItemPattern = new SelectItemPattern(libraryBuilder.loadIuIAutomationSelectItemLibrary(patternPointer));
-            selectItemPattern.select();
-        }
-        else {
-            throw new ElementNotSelectableException("Element has no supported click methods");
-        }
+        PointerByReference patternPointer = element.getCurrentPattern(invokePatternID);
+        InvokePattern invokePattern = new InvokePattern(libraryBuilder.loadIuiAutomationInvokeLibrary(patternPointer));
+        invokePattern.invoke();
     }
 
     @Override
@@ -145,10 +127,5 @@ public class WindowsElement implements WebElement, Locatable {
     @Override
     public Coordinates getCoordinates() {
         return null;
-    }
-
-    private Boolean patternIsSupported(int patternID){
-        Object var = element.getCurrentPropertyValue(patternID);
-        return ((OaIdl.VARIANT_BOOL) var).booleanValue();
     }
 }
