@@ -1,8 +1,8 @@
-package Application.DriverFactory;
+package application.driver.Factory;
 
 
-import Application.ElementFactory.WindowsBy;
-import Application.ElementFactory.WindowsElement;
+import application.ElementFactory.WindowsBy;
+import application.ElementFactory.WindowsElement;
 import Infrastructure.Automation.IUIAutomation;
 import Infrastructure.Automation.IUIAutomationElement;
 import Infrastructure.Utils.Library;

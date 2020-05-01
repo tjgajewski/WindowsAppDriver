@@ -1,19 +1,15 @@
-package Application.ElementFactory;
+package application.ElementFactory;
 
 import Infrastructure.Automation.IUIAutomationElement;
 import Infrastructure.Automation.Patterns.InvokePattern;
 import Infrastructure.Automation.Patterns.SelectItemPattern;
 import Infrastructure.Automation.Patterns.ValuePattern;
 import Infrastructure.Utils.LibraryBuilder;
-import com.sun.jna.Library;
-import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.COM.Unknown;
 import com.sun.jna.platform.win32.OaIdl;
 import com.sun.jna.ptr.PointerByReference;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
