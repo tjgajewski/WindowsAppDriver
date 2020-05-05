@@ -1,4 +1,4 @@
-package Infrastructure.Utils;
+package infrastructure.utils;
 
 import com.sun.jna.Function;
 import com.sun.jna.ptr.PointerByReference;

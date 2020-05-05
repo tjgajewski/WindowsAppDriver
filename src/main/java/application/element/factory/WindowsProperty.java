@@ -1,4 +1,4 @@
-package application.ElementFactory;
+package application.element.factory;
 
 import org.openqa.selenium.WebDriverException;
 
@@ -13,6 +13,9 @@ public class WindowsProperty {
             case "id":
             case "automationid":
                 propertyIndex = 30011;
+                break;
+            case "isinvokepatternavailable":
+                propertyIndex = 30031;
                 break;
             case "name":
                 propertyIndex = 30005;

@@ -1,4 +1,4 @@
-package application.ElementFactory;
+package application.element.factory;
 
 import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.automationapi.patterns.InvokePattern;
@@ -28,8 +28,15 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
     }
 
     private IUIAutomationElement element;
+
     private int invokePatternID = 10000;
+    private int isInvokePatternAvailID = 30031;
     private int valuePatternID = 10002;
+    private int isValuePatternAvailID = 30043;
+
+    private int selectItemPatternID = 10010;
+    private int isSelectItemPatternAvailID = 30036;
+
     private LibraryBuilder libraryBuilder;
 
     public WindowsElement(IUIAutomationElement element, LibraryBuilder libraryBuilder){
@@ -43,6 +50,7 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
 
     @Override
     public void click() {
+
         if(patternIsSupported(isInvokePatternAvailID)) {
             PointerByReference patternPointer = element.getCurrentPattern(invokePatternID);
             InvokePattern invokePattern = new InvokePattern(libraryBuilder.loadIuiAutomationInvokeLibrary(patternPointer));
@@ -159,5 +167,10 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
     @Override
     public Coordinates getCoordinates() {
         return null;
+    }
+
+    private Boolean patternIsSupported(int patternID){
+        Object var = element.getCurrentPropertyValue(patternID);
+        return ((OaIdl.VARIANT_BOOL) var).booleanValue();
     }
 }

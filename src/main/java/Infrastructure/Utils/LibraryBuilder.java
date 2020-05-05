@@ -1,4 +1,4 @@
-package Infrastructure.Utils;
+package infrastructure.utils;
 
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
@@ -75,7 +75,7 @@ public class LibraryBuilder {
         return new Library(methods, pointerByReference);
     }
     HashMap<String, Function> iuiAutomationInvokeMethods;
-    public Library loadIuiAutomationInvokeLibrary(PointerByReference pointerByReference){
+    public infrastructure.utils.Library loadIuiAutomationInvokeLibrary(PointerByReference pointerByReference){
 
         if(iuiAutomationInvokeMethods == null) {
             iuiAutomationInvokeMethods  = new HashMap<>();
@@ -97,5 +97,16 @@ public class LibraryBuilder {
             iuiAutomationValueMethods.put("GetCurrentIsReadOnly", Function.getFunction(methodsArray[5], Function.ALT_CONVENTION));
         }
         return new Library(iuiAutomationValueMethods, pointerByReference);
+    }
+    HashMap<String, Function> iuiAutomationSelectMethods;
+    public Library loadIuIAutomationSelectItemLibrary(PointerByReference pointerByReference) {
+        if(iuiAutomationSelectMethods == null){
+            iuiAutomationSelectMethods = new HashMap<>();
+            Pointer interfacePointer = pointerByReference.getValue();
+            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(interfacePointer.getPointer(0), 6);
+            iuiAutomationSelectMethods.put("Select", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
+            iuiAutomationSelectMethods.put("CurrentIsSelected", Function.getFunction(methodsArray[4], Function.ALT_CONVENTION));
+        }
+        return new Library(iuiAutomationSelectMethods, pointerByReference);
     }
 }
