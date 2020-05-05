@@ -56,7 +56,7 @@ public class CalculatorTest {
         driver.findElement(By.name("Three")).click();
         driver.findElement(By.name("Equals")).click();
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
-        Assert.assertTrue(name.equals("Display is 20"), "5 times 3 should equal 20");
+        Assert.assertFalse(name.equals("Display is 20"), "5 times 3 should equal 20");
 
     }
 
