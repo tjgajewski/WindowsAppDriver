@@ -1,5 +1,4 @@
-package application.driver.factory;
-
+package application.driver.Factory;
 
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;

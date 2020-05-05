@@ -1,8 +1,12 @@
+<<<<<<< HEAD:src/main/java/Infrastructure/automationapi/IUIAutomationElement.java
 package infrastructure.automationapi;
+=======
+package Infrastructure.Automation;
+>>>>>>> d7414fd4d5a34900b45cff03152dc67eb4d53d0e:src/main/java/Infrastructure/Automation/IUIAutomationElement.java
 
-import application.element.factory.WindowsBy;
-import infrastructure.utils.Library;
-import application.element.factory.WindowsProperty;
+import application.ElementFactory.WindowsBy;
+import application.ElementFactory.WindowsProperty;
+import Infrastructure.Utils.Library;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Variant;
@@ -65,10 +69,10 @@ public class IUIAutomationElement {
     public void buildUpdatedCache (Pointer cacheRequest, PointerByReference updatedElement) {
     }
 
-    public Object getCurrentPropertyValue(int propertyId) {
+    public String getCurrentPropertyValue(int propertyId) {
         Variant.VARIANT.ByReference propertyValue = new Variant.VARIANT.ByReference();
         methods.get("GetCurrentPropertyValue").invokeInt(new Object[]{interfacePointer, propertyId, propertyValue});
-        return propertyValue.getValue();
+        return propertyValue.getValue().toString();
     }
 
     public Object getCurrentPropertyValue(String propertyName) {

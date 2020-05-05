@@ -1,4 +1,3 @@
-
 import application.driver.factory.WindowsDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

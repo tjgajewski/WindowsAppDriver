@@ -1,4 +1,4 @@
-package application.driver.factory;
+package application.driver.Factory;
 
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
@@ -34,7 +34,6 @@ public class DriverBuilder {
     private final String POLL_RATE = "pollRate";
     private final String OPEN_APPLICATION = "openApplication";
     private final String APPLICATION_NAME = "applicationName";
-    private final String ENSURE_CLEAN_SESSION = "ensureCleanSession";
 
 
     /**
@@ -56,9 +55,6 @@ public class DriverBuilder {
             if (!capabilities.getCapabilityNames().contains(APPLICATION_NAME)) {
                 capabilities.setCapability(APPLICATION_NAME, new File(capabilities.getCapability(APPLICATION_FILE_PATH).toString()).getName());
             }
-            if (!capabilities.getCapabilityNames().contains(ENSURE_CLEAN_SESSION)) {
-                capabilities.setCapability(ENSURE_CLEAN_SESSION, "false");
-            }
         }
         driver.capabilities = capabilities;
     }
@@ -77,9 +73,6 @@ public class DriverBuilder {
     
     void build() {
         if(driver.capabilities.getCapabilityNames().contains(APPLICATION_FILE_PATH)) {
-            if(driver.capabilities.getCapability(ENSURE_CLEAN_SESSION).toString().equalsIgnoreCase("true")){
-                closeApplication();
-            }
             openApplication(driver.capabilities.getCapability(APPLICATION_FILE_PATH).toString(), driver.capabilities.getCapability(OPEN_APPLICATION).toString());
         }
     }

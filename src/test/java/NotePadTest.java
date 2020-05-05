@@ -1,4 +1,4 @@
-import application.driver.factory.WindowsDriver;
+import application.driver.Factory.WindowsDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;

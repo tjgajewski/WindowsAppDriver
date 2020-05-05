@@ -1,6 +1,10 @@
+<<<<<<< HEAD:src/main/java/Infrastructure/automationapi/IUIAutomation.java
 package infrastructure.automationapi;
+=======
+package Infrastructure.Automation;
+>>>>>>> d7414fd4d5a34900b45cff03152dc67eb4d53d0e:src/main/java/Infrastructure/Automation/IUIAutomation.java
 
-import infrastructure.utils.Library;
+import Infrastructure.Utils.Library;
 import com.sun.jna.*;
 import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.COM.COMUtils;
