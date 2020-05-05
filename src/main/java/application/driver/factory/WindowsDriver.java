@@ -3,8 +3,8 @@ package application.driver.factory;
 
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
-import infrastructure.automation.IUIAutomation;
-import infrastructure.automation.IUIAutomationElement;
+import infrastructure.automationapi.IUIAutomation;
+import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.utils.Library;
 import infrastructure.utils.LibraryBuilder;
 import com.sun.jna.ptr.PointerByReference;
@@ -167,6 +167,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         @Override
         public WebDriver frame(WebElement element) {
             windowElement = ((WindowsElement) element).getIUIAutomationElement();
+            windowElement.setFocus();
             return null;
         }
 

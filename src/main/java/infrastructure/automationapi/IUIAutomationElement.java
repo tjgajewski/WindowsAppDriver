@@ -1,4 +1,4 @@
-package infrastructure.automation;
+package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
 import infrastructure.utils.Library;

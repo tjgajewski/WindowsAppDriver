@@ -1,4 +1,4 @@
-package infrastructure.automation.patterns;
+package infrastructure.automationapi.patterns;
 
 import infrastructure.utils.Library;
 import com.sun.jna.Function;

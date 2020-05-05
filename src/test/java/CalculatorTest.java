@@ -19,6 +19,7 @@ public class CalculatorTest {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("applicationPath", "C:\\Windows\\System32\\calc.exe");
         capabilities.setCapability("applicationName", "Calculator.exe");
+        capabilities.setCapability("ensureCleanSession", "true");
         driver = new WindowsDriver(capabilities);
         WebElement calculatorWindow = new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.name("Calculator")));
         driver.switchTo().frame(calculatorWindow);

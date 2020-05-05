@@ -1,7 +1,7 @@
 package application.driver.factory;
 
-import infrastructure.automation.IUIAutomation;
-import infrastructure.automation.IUIAutomationElement;
+import infrastructure.automationapi.IUIAutomation;
+import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.utils.LibraryBuilder;
 import com.sun.jna.ptr.PointerByReference;
 import org.openqa.selenium.WebDriverException;

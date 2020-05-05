@@ -1,19 +1,27 @@
 package application.element.factory;
 
-import infrastructure.automation.IUIAutomationElement;
-import infrastructure.automation.patterns.InvokePattern;
-import infrastructure.automation.patterns.SelectItemPattern;
-import infrastructure.automation.patterns.ValuePattern;
+import infrastructure.automationapi.IUIAutomationElement;
+import infrastructure.automationapi.patterns.InvokePattern;
+import infrastructure.automationapi.patterns.SelectItemPattern;
+import infrastructure.automationapi.patterns.ValuePattern;
 import infrastructure.utils.LibraryBuilder;
 import com.sun.jna.platform.win32.OaIdl;
 import com.sun.jna.ptr.PointerByReference;
+import infrastructure.windowsapi.Keyboard;
+import infrastructure.windowsapi.Mouse;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
-public class WindowsElement implements WebElement, Locatable {
+public class WindowsElement extends RemoteWebElement implements WebElement, Locatable {
+
+    public String toString(){
+        return "Windows Element";
+    }
 
     public IUIAutomationElement getIUIAutomationElement() {
         return element;
@@ -36,8 +44,13 @@ public class WindowsElement implements WebElement, Locatable {
         this.libraryBuilder = libraryBuilder;
     }
 
+    public void setFocus(){
+        element.setFocus();
+    }
+
     @Override
     public void click() {
+
         if(patternIsSupported(isInvokePatternAvailID)) {
             PointerByReference patternPointer = element.getCurrentPattern(invokePatternID);
             InvokePattern invokePattern = new InvokePattern(libraryBuilder.loadIuiAutomationInvokeLibrary(patternPointer));
@@ -60,10 +73,18 @@ public class WindowsElement implements WebElement, Locatable {
 
     @Override
     public void sendKeys(CharSequence... charSequences) {
-        PointerByReference patternPointer = element.getCurrentPattern(valuePatternID);
-        ValuePattern valuePattern = new ValuePattern(libraryBuilder.loadIuiAutomationValueLibrary(patternPointer));
-        valuePattern.setValue(charSequences[0].toString());
+    for (int i = 0; i < charSequences.length; i++) {
+        if (patternIsSupported(isValuePatternAvailID) && charSequences[i] instanceof String && charSequences[i].charAt(0)!=Keyboard.CONTROL_KEY && charSequences[i].charAt(0)!=Keyboard.SHIFT_KEY && charSequences[i].charAt(0)!=Keyboard.ALT_KEY) {
+            PointerByReference patternPointer = element.getCurrentPattern(valuePatternID);
+            ValuePattern valuePattern = new ValuePattern(libraryBuilder.loadIuiAutomationValueLibrary(patternPointer));
+            valuePattern.setValue(charSequences[i].toString());
+        } else {
+            setFocus();
+            Keyboard.sendInput(charSequences[i]);
+        }
     }
+    }
+
 
     @Override
     public void clear() {
@@ -139,6 +160,7 @@ public class WindowsElement implements WebElement, Locatable {
 
     @Override
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
+
         return null;
     }
 

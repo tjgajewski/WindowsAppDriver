@@ -1,4 +1,4 @@
-package infrastructure.automation;
+package infrastructure.automationapi;
 
 import infrastructure.utils.Library;
 import com.sun.jna.*;
