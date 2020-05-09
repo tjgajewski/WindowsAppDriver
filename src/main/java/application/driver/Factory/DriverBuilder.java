@@ -1,8 +1,9 @@
 package application.driver.factory;
 
+import com.sun.jna.platform.win32.COM.COMUtils;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
-import infrastructure.utils.LibraryBuilder;
+import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -67,11 +68,9 @@ public class DriverBuilder {
      * Connect to interface.
      */
     void connectToInterface(){
-        driver.libraryBuilder = new LibraryBuilder();
-        driver.iuiAutomation = new IUIAutomation(driver.libraryBuilder.loadIuiAutomationLibrary());
-        PointerByReference rootElementPointer = driver.iuiAutomation.getRootElement();
-        driver.iuiAutomationElementLib = driver.libraryBuilder.loadIuiAutomationElementLibrary(rootElementPointer);
-        driver.rootElement = new IUIAutomationElement(driver.iuiAutomationElementLib);
+        driver.iuiAutomation = new IUIAutomation();
+        PointerByReference pointerToRootElement = driver.iuiAutomation.getRootElement();
+        driver.rootElement = new IUIAutomationElement(pointerToRootElement);
         driver.windowElement = driver.rootElement;
     }
     

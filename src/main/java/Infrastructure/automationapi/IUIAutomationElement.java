@@ -1,7 +1,7 @@
 package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
-import infrastructure.utils.Library;
+import infrastructure.utils.FunctionLibraries;
 import application.element.factory.WindowsProperty;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
@@ -9,6 +9,7 @@ import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
+import infrastructure.utils.FunctionLibrary;
 import org.openqa.selenium.NoSuchElementException;
 
 import java.util.HashMap;
@@ -16,102 +17,45 @@ import java.util.HashMap;
 public class IUIAutomationElement {
     
     private HashMap<String, Function> methods;
-    private Pointer interfacePointer;
+    private Pointer pointerToElement;
 
-    public IUIAutomationElement(Library library) {
+    public IUIAutomationElement(PointerByReference pointerToElementByReference) {
+        FunctionLibrary library = FunctionLibraries.load().iuiAutomationElementLibrary(pointerToElementByReference);
         this.methods = library.getMethods();
-        this.interfacePointer = library.getInstancePointer().getValue();
-    }
-
-    public IUIAutomationElement(HashMap<String, Function> methods, PointerByReference pointerByReference) {
-        this.methods = methods;
-        this.interfacePointer = pointerByReference.getValue();
+        this.pointerToElement = library.getPointerToInstance();
     }
     
     public void setFocus() {
-        methods.get("SetFocus").invokeInt(new Object[]{interfacePointer});
-    }
-
-    public void getCurrentRuntimeId (PointerByReference runtimeId) {
-       
+        methods.get("SetFocus").invokeInt(new Object[]{pointerToElement});
     }
 
     public IUIAutomationElement findFirst(PointerByReference conditionRef, WindowsBy by) {
         Pointer condition = conditionRef.getValue();
-        PointerByReference elementPointer = new PointerByReference();
-       methods.get("FindFirst").invokeInt(new Object[]{interfacePointer, 4, condition, elementPointer});
-        if(elementPointer.getValue() == null){
+        PointerByReference pointerToElementByReference = new PointerByReference();
+        methods.get("FindFirst").invokeInt(new Object[]{pointerToElement, 4, condition, pointerToElementByReference});
+        if(pointerToElementByReference.getValue() == null){
             throw new NoSuchElementException("Unable to find element with locator " + by.getAttribute() + ": " +by.getAttributeValue());
         }
-        return new IUIAutomationElement(methods, elementPointer);
-    }
-
-    public void findAll(Pointer condition, PointerByReference sr) {
-        
+        return new IUIAutomationElement(pointerToElementByReference);
     }
 
     public PointerByReference getCurrentPattern(int patternId){
         PointerByReference pointerByReference = new PointerByReference();
-        methods.get("GetCurrentPattern").invokeInt(new Object[]{interfacePointer, patternId, pointerByReference});
+        methods.get("GetCurrentPattern").invokeInt(new Object[]{pointerToElement, patternId, pointerByReference});
         return pointerByReference;
     }
 
-    public void findFirstBuildCache(int scope, Pointer condition, Pointer cacheRequest, PointerByReference found) {
-    }
-
-    public void findAllBuildCache (int scope, Pointer condition, Pointer cacheRequest, PointerByReference found) {
-    }
-
-    public void buildUpdatedCache (Pointer cacheRequest, PointerByReference updatedElement) {
-    }
-
-    public Object getCurrentPropertyValue(int propertyId) {
+    public Variant.VARIANT.ByReference getCurrentPropertyValue(int propertyId) {
         Variant.VARIANT.ByReference propertyValue = new Variant.VARIANT.ByReference();
-        methods.get("GetCurrentPropertyValue").invokeInt(new Object[]{interfacePointer, propertyId, propertyValue});
-        return propertyValue.getValue();
+        methods.get("GetCurrentPropertyValue").invokeInt(new Object[]{pointerToElement, propertyId, propertyValue});
+        return propertyValue;
     }
 
-    public Object getCurrentPropertyValue(String propertyName) {
+    public Variant.VARIANT.ByReference getCurrentPropertyValue(String propertyName) {
         int propertyId = WindowsProperty.getPropertyIndex(propertyName);
         Variant.VARIANT.ByReference propertyValue = new Variant.VARIANT.ByReference();
-        methods.get("GetCurrentPropertyValue").invokeInt(new Object[]{interfacePointer, propertyId, propertyValue});
-        return propertyValue.getValue();
-    }
-
-    public void getCurrentProcessId (IntByReference retVal) {
-
-    }
-
-    public void getCurrentControlType(IntByReference ipr) {
-
-    }
-
-    public void getCurrentLocalizedControlType (PointerByReference retVal) {
-
-    }
-
-    public void getCurrentName(PointerByReference sr) {
-
-    }
-
-    public void getCurrentAcceleratorKey (PointerByReference retVal) {
-
-    }
-
-    public void getCurrentIsEnabled (WinDef.BOOLByReference retVal) {
-
-    }
-
-    public void getCurrentAutomationId (PointerByReference retVal) {
-
-    }
-
-    public void getCurrentClassName(PointerByReference sr) {
-
-    }
-
-    public void getCurrentIsOffscreen (WinDef.BOOLByReference retVal) {
-
+        methods.get("GetCurrentPropertyValue").invokeInt(new Object[]{pointerToElement, propertyId, propertyValue});
+        return propertyValue;
     }
 
 }
