@@ -26,7 +26,7 @@ import java.util.Set;
 public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchContext {
 
 
-    private DriverBuilder driverBuilder;
+    private application.driver.factory.DriverBuilder driverBuilder;
     protected FunctionLibraries libraryBuilder;
     protected IUIAutomation iuiAutomation;
     protected IUIAutomationElement rootElement;

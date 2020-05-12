@@ -56,6 +56,17 @@ public class IUIAutomationElement {
         Variant.VARIANT.ByReference propertyValue = new Variant.VARIANT.ByReference();
         methods.get("GetCurrentPropertyValue").invokeInt(new Object[]{pointerToElement, propertyId, propertyValue});
         return propertyValue;
-    }
 
+    }
+    public WinDef.RECT getCurrentBoundingRectangle () {
+        WinDef.RECT retVal = new WinDef.RECT();
+        methods.get("GetCurrentBoundingRectangle").invokeInt(new Object[]{pointerToElement,retVal});
+        return retVal;
+    }
+    public WinDef.POINT getClickablePoint () {
+        WinDef.POINT.ByReference pbr = new WinDef.POINT.ByReference();
+        WinDef.BOOLByReference br = new WinDef.BOOLByReference();
+        methods.get("GetClickablePoint").invokeInt(new Object[]{pointerToElement,pbr, br});
+        return new  WinDef.POINT(pbr.x,pbr.y);
+    }
 }

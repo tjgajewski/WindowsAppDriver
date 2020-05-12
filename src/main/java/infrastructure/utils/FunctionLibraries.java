@@ -66,7 +66,7 @@ public class FunctionLibraries {
             iuiAutomationElementMethods = new HashMap<>();
             Unknown unknownRoot = new Unknown(pointerToElement);
             COMUtils.checkRC(unknownRoot.QueryInterface(iuiautomationElementRefiid, pointerToElementByReference));
-            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(pointerToElement.getPointer(0), 58);
+            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(pointerToElement.getPointer(0), 90);
             iuiAutomationElementMethods.put("SetFocus", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
             iuiAutomationElementMethods.put("GetCurrentRuntimeId", Function.getFunction(methodsArray[4], Function.ALT_CONVENTION));
             iuiAutomationElementMethods.put("FindFirst", Function.getFunction(methodsArray[5], Function.ALT_CONVENTION));
@@ -85,6 +85,8 @@ public class FunctionLibraries {
             iuiAutomationElementMethods.put("GetCurrentIsEnabled", Function.getFunction(methodsArray[28], Function.ALT_CONVENTION));
             iuiAutomationElementMethods.put("GetCurrentIsOffscreen", Function.getFunction(methodsArray[24], Function.ALT_CONVENTION));
             iuiAutomationElementMethods.put("GetCurrentAutomationId", Function.getFunction(methodsArray[29], Function.ALT_CONVENTION));
+            iuiAutomationElementMethods.put("GetCurrentBoundingRectangle", Function.getFunction(methodsArray[43], Function.ALT_CONVENTION));
+            iuiAutomationElementMethods.put("GetClickablePoint", Function.getFunction(methodsArray[84], Function.ALT_CONVENTION));
         }
         return new FunctionLibrary(iuiAutomationElementMethods, pointerToElement);
     }

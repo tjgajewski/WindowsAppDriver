@@ -1,5 +1,6 @@
 package application.element.factory;
 
+import com.sun.jna.platform.win32.WinDef;
 import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.automationapi.patterns.InvokePattern;
 import infrastructure.automationapi.patterns.SelectItemPattern;
@@ -110,7 +111,8 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
 
     @Override
     public Point getLocation() {
-        return null;
+        WinDef.POINT point = element.getClickablePoint();
+        return new Point(point.x,point.y);
     }
 
     @Override
@@ -120,7 +122,12 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
 
     @Override
     public Rectangle getRect() {
-        return null;
+        WinDef.RECT rect2 = element.getCurrentBoundingRectangle();
+        int x = (int) rect2.toRectangle().getX();
+        int y = (int) rect2.toRectangle().getY();
+        int width = rect2.toRectangle().width;
+        int height= rect2.toRectangle().height;
+        return new Rectangle(x,y,height,width);
     }
 
     @Override

@@ -26,6 +26,8 @@ public class FastCalculatorTest {
     public void addition(){
 
         driver.findElement(By.name("Five")).click();
+        driver.findElement(By.name("Five")).getRect();
+        driver.findElement(By.name("Five")).getLocation();
         driver.findElement(By.name("Plus")).click();
         driver.findElement(By.name("Three")).click();
         driver.findElement(By.name("Equals")).click();
