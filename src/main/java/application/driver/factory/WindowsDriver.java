@@ -3,10 +3,9 @@ package application.driver.factory;
 
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
-import infrastructure.automation.IUIAutomation;
-import infrastructure.automation.IUIAutomationElement;
-import infrastructure.utils.Library;
-import infrastructure.utils.LibraryBuilder;
+import infrastructure.automationapi.IUIAutomation;
+import infrastructure.automationapi.IUIAutomationElement;
+import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.*;
@@ -28,11 +27,11 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
 
 
     private DriverBuilder driverBuilder;
-    protected LibraryBuilder libraryBuilder;
+    protected FunctionLibraries libraryBuilder;
     protected IUIAutomation iuiAutomation;
     protected IUIAutomationElement rootElement;
     protected IUIAutomationElement windowElement;
-    protected Library iuiAutomationElementLib;
+    protected FunctionLibraries iuiAutomationElementLib;
     protected DesiredCapabilities capabilities;
 
 
@@ -77,7 +76,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         WindowsBy windowsBy = new WindowsBy(by);
         PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(),windowsBy.getAttributeValue());
         IUIAutomationElement element = windowElement.findFirst(propertyCondition,windowsBy);
-        return new WindowsElement(element, libraryBuilder);
+        return new WindowsElement(element);
     }
 
     @Override
@@ -167,6 +166,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         @Override
         public WebDriver frame(WebElement element) {
             windowElement = ((WindowsElement) element).getIUIAutomationElement();
+            windowElement.setFocus();
             return null;
         }
 

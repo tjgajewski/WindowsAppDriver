@@ -1,52 +1,44 @@
 package application.element.factory;
 
-import infrastructure.automation.IUIAutomationElement;
-import infrastructure.automation.patterns.InvokePattern;
-import infrastructure.automation.patterns.SelectItemPattern;
-import infrastructure.automation.patterns.ValuePattern;
-import infrastructure.utils.LibraryBuilder;
-import com.sun.jna.platform.win32.OaIdl;
-import com.sun.jna.ptr.PointerByReference;
+import infrastructure.automationapi.IUIAutomationElement;
+import infrastructure.automationapi.patterns.InvokePattern;
+import infrastructure.automationapi.patterns.SelectItemPattern;
+import infrastructure.automationapi.patterns.ValuePattern;
+import infrastructure.windowsapi.Keyboard;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
 
-public class WindowsElement implements WebElement, Locatable {
+public class WindowsElement extends RemoteWebElement implements WebElement, Locatable {
+
+    private IUIAutomationElement element;
+
+    public WindowsElement(IUIAutomationElement element){
+        this.element = element;
+    }
 
     public IUIAutomationElement getIUIAutomationElement() {
         return element;
     }
 
-    private IUIAutomationElement element;
+    public String toString(){
+        return element.getCurrentPropertyValue("name").stringValue();
+    }
 
-    private int invokePatternID = 10000;
-    private int isInvokePatternAvailID = 30031;
-    private int valuePatternID = 10002;
-    private int isValuePatternAvailID = 30043;
-
-    private int selectItemPatternID = 10010;
-    private int isSelectItemPatternAvailID = 30036;
-
-    private LibraryBuilder libraryBuilder;
-
-    public WindowsElement(IUIAutomationElement element, LibraryBuilder libraryBuilder){
-        this.element = element;
-        this.libraryBuilder = libraryBuilder;
+    public void setFocus(){
+        element.setFocus();
     }
 
     @Override
     public void click() {
-        if(patternIsSupported(isInvokePatternAvailID)) {
-            PointerByReference patternPointer = element.getCurrentPattern(invokePatternID);
-            InvokePattern invokePattern = new InvokePattern(libraryBuilder.loadIuiAutomationInvokeLibrary(patternPointer));
-            invokePattern.invoke();
+        if(InvokePattern.isAvailableForElement(element)) {
+            new InvokePattern(element).invoke();
         }
-        else if(patternIsSupported(isSelectItemPatternAvailID)){
-            PointerByReference patternPointer = element.getCurrentPattern(selectItemPatternID);
-            SelectItemPattern selectItemPattern = new SelectItemPattern(libraryBuilder.loadIuIAutomationSelectItemLibrary(patternPointer));
-            selectItemPattern.select();
+        else if(SelectItemPattern.isAvailableForElement(element)){
+            new SelectItemPattern(element).select();
         }
         else {
             throw new ElementNotSelectableException("Element has no supported click methods");
@@ -60,28 +52,30 @@ public class WindowsElement implements WebElement, Locatable {
 
     @Override
     public void sendKeys(CharSequence... charSequences) {
-        PointerByReference patternPointer = element.getCurrentPattern(valuePatternID);
-        ValuePattern valuePattern = new ValuePattern(libraryBuilder.loadIuiAutomationValueLibrary(patternPointer));
-        valuePattern.setValue(charSequences[0].toString());
+    for (int i = 0; i < charSequences.length; i++) {
+        if (ValuePattern.isAvailableForElement(element) && charSequences[i] instanceof String && charSequences[i].charAt(0)!=Keyboard.CONTROL_KEY && charSequences[i].charAt(0)!=Keyboard.SHIFT_KEY && charSequences[i].charAt(0)!=Keyboard.ALT_KEY) {
+            new ValuePattern(element).setValue(charSequences[i].toString());
+        } else {
+            setFocus();
+            Keyboard.sendInput(charSequences[i]);
+        }
     }
+    }
+
 
     @Override
     public void clear() {
-        PointerByReference patternPointer = element.getCurrentPattern(valuePatternID);
-        ValuePattern valuePattern = new ValuePattern(libraryBuilder.loadIuiAutomationValueLibrary(patternPointer));
-        valuePattern.setValue("");
+        new ValuePattern(element).setValue("");
     }
 
     @Override
     public String getTagName() {
-        Object var = element.getCurrentPropertyValue("tagname");
-        return var.toString();
+        return element.getCurrentPropertyValue("tagname").stringValue();
     }
 
     @Override
     public String getAttribute(String property) {
-        Object var = element.getCurrentPropertyValue(property);
-        return var.toString();
+        return element.getCurrentPropertyValue(property).stringValue();
     }
 
     @Override
@@ -91,15 +85,12 @@ public class WindowsElement implements WebElement, Locatable {
 
     @Override
     public boolean isEnabled() {
-        Object var = element.getCurrentPropertyValue("isEnabled");
-        Boolean enabled = ((OaIdl.VARIANT_BOOL) var).booleanValue();
-        return enabled;
+        return element.getCurrentPropertyValue("isenabled").booleanValue();
     }
 
     @Override
     public String getText() {
-        Object var = element.getCurrentPropertyValue("text");
-        return var.toString();
+        return element.getCurrentPropertyValue("text").stringValue();
     }
 
     @Override
@@ -147,8 +138,4 @@ public class WindowsElement implements WebElement, Locatable {
         return null;
     }
 
-    private Boolean patternIsSupported(int patternID){
-        Object var = element.getCurrentPropertyValue(patternID);
-        return ((OaIdl.VARIANT_BOOL) var).booleanValue();
-    }
 }

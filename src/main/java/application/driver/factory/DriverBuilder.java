@@ -1,8 +1,9 @@
 package application.driver.factory;
 
-import infrastructure.automation.IUIAutomation;
-import infrastructure.automation.IUIAutomationElement;
-import infrastructure.utils.LibraryBuilder;
+import com.sun.jna.platform.win32.COM.COMUtils;
+import infrastructure.automationapi.IUIAutomation;
+import infrastructure.automationapi.IUIAutomationElement;
+import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -12,10 +13,19 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 public class DriverBuilder {
 
+    /**
+     * The Driver.
+     */
     WindowsDriver driver;
 
+    /**
+     * Instantiates a new Driver builder.
+     *
+     * @param driver the driver
+     */
     DriverBuilder(WindowsDriver driver){
         this.driver = driver;
     }
@@ -27,6 +37,12 @@ public class DriverBuilder {
     private final String APPLICATION_NAME = "applicationName";
     private final String ENSURE_CLEAN_SESSION = "ensureCleanSession";
 
+
+    /**
+     * Configure capabilities.
+     *
+     * @param capabilities the capabilities
+     */
     void configureCapabilities(DesiredCapabilities capabilities) {
         if(capabilities.getCapabilityNames().contains(APPLICATION_FILE_PATH)) {
             if (!capabilities.getCapabilityNames().contains(OPEN_APPLICATION)) {
@@ -48,15 +64,16 @@ public class DriverBuilder {
         driver.capabilities = capabilities;
     }
 
+    /**
+     * Connect to interface.
+     */
     void connectToInterface(){
-        driver.libraryBuilder = new LibraryBuilder();
-        driver.iuiAutomation = new IUIAutomation(driver.libraryBuilder.loadIuiAutomationLibrary());
-        PointerByReference rootElementPointer = driver.iuiAutomation.getRootElement();
-        driver.iuiAutomationElementLib = driver.libraryBuilder.loadIuiAutomationElementLibrary(rootElementPointer);
-        driver.rootElement = new IUIAutomationElement(driver.iuiAutomationElementLib);
+        driver.iuiAutomation = new IUIAutomation();
+        PointerByReference pointerToRootElement = driver.iuiAutomation.getRootElement();
+        driver.rootElement = new IUIAutomationElement(pointerToRootElement);
         driver.windowElement = driver.rootElement;
     }
-
+    
     void build() {
         if(driver.capabilities.getCapabilityNames().contains(APPLICATION_FILE_PATH)) {
             if(driver.capabilities.getCapability(ENSURE_CLEAN_SESSION).toString().equalsIgnoreCase("true")){
