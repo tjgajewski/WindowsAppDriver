@@ -1,11 +1,10 @@
 package infrastructure.automationapi.patterns;
 
-import com.sun.jna.platform.win32.OaIdl;
-import infrastructure.automationapi.IUIAutomationElement;
-import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
+import infrastructure.automationapi.IUIAutomationElement;
+import infrastructure.utils.FunctionLibraries;
 import infrastructure.utils.FunctionLibrary;
 
 import java.util.HashMap;

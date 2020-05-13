@@ -5,6 +5,7 @@ import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.automationapi.patterns.InvokePattern;
 import infrastructure.automationapi.patterns.SelectItemPattern;
 import infrastructure.automationapi.patterns.ValuePattern;
+import infrastructure.robotapi.Robo;
 import infrastructure.windowsapi.Keyboard;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
@@ -42,8 +43,18 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
             new SelectItemPattern(element).select();
         }
         else {
-            throw new ElementNotSelectableException("Element has no supported click methods");
+            Point clickablePoint = getLocation();
+            Robo.getRoboInstance().mouseMove(clickablePoint);
+            Robo.getRoboInstance().leftClick();
+            Robo.getRoboInstance().returnMouseAfterMove();
         }
+    }
+
+    public void rightClick(){
+        Point clickablePoint = getLocation();
+        Robo.getRoboInstance().mouseMove(clickablePoint);
+        Robo.getRoboInstance().rightClick();
+        Robo.getRoboInstance().returnMouseAfterMove();
     }
 
     @Override
