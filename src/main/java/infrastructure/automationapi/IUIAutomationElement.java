@@ -1,6 +1,7 @@
 package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
+import infrastructure.automationapi.patterns.IUIAutomationElementArray;
 import infrastructure.utils.FunctionLibraries;
 import application.element.factory.WindowsProperty;
 import com.sun.jna.Function;
@@ -12,7 +13,9 @@ import com.sun.jna.ptr.PointerByReference;
 import infrastructure.utils.FunctionLibrary;
 import org.openqa.selenium.NoSuchElementException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class IUIAutomationElement {
     
@@ -37,6 +40,23 @@ public class IUIAutomationElement {
             throw new NoSuchElementException("Unable to find element with locator " + by.getAttribute() + ": " +by.getAttributeValue());
         }
         return new IUIAutomationElement(pointerToElementByReference);
+    }
+    public IUIAutomationElementArray findAll(PointerByReference conditionRef, WindowsBy by)  {
+        System.out.println("Beginning Find All");
+
+
+        Pointer condition = conditionRef.getValue();
+        PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
+        methods.get("FindAll").invokeInt(new Object[]{pointerToElement, 4, condition,  IUIAutomationElementArrayPbr});
+
+        if (IUIAutomationElementArrayPbr.getValue() == null) {
+            throw new NoSuchElementException("Unable to find elements with locator " + by.getAttribute() + ": " + by.getAttributeValue());
+        }
+
+        IUIAutomationElementArray returnArray = new IUIAutomationElementArray(IUIAutomationElementArrayPbr);
+        System.out.println("THIS POINT: " + returnArray.getLength());
+        return returnArray;
+
     }
 
     public PointerByReference getCurrentPattern(int patternId){

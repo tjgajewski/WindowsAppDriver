@@ -122,8 +122,6 @@ public class FunctionLibraries {
 
 
 
-
-
     private HashMap<String, Function> iuiAutomationSelectMethods;
     public FunctionLibrary iuiAutomationSelectItemLibrary(PointerByReference pointerToPatternClassInstanceByReference) {
         Pointer pointerToPatternClassInstance = pointerToPatternClassInstanceByReference.getValue();
@@ -135,4 +133,19 @@ public class FunctionLibraries {
         }
         return new FunctionLibrary(iuiAutomationSelectMethods, pointerToPatternClassInstance);
     }
+
+    private HashMap<String, Function> iuiAutomationElementArrayMethods;
+    public FunctionLibrary iuiAutomationElementArrayLibrary(PointerByReference pointerToClassInstanceByReference) {
+        Pointer pointerToClassInstance = pointerToClassInstanceByReference.getValue();
+        if(iuiAutomationElementArrayMethods == null){
+            iuiAutomationElementArrayMethods = new HashMap<>();
+            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(pointerToClassInstance.getPointer(0), 5);
+            iuiAutomationElementArrayMethods.put("length", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
+            iuiAutomationElementArrayMethods.put("getElement", Function.getFunction(methodsArray[4], Function.ALT_CONVENTION));
+        }
+        return new FunctionLibrary(iuiAutomationElementArrayMethods, pointerToClassInstance);
+    }
+
+
+
 }

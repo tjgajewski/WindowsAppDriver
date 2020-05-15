@@ -8,6 +8,7 @@ public class WindowsBy {
     private int name = 30005;
     private int className = 30012;
     private int localControlType = 30004;
+    private int comboSelector = 001;
     private String attribute;
     private int attributeIndex;
     private String attributeValue;
@@ -52,6 +53,9 @@ public class WindowsBy {
                 break;
             case "By.tagName":
                 this.attributeIndex = localControlType;
+                break;
+            case "By.cssSelector":
+                this.attributeIndex = comboSelector;
                 break;
             default:
                 throw new WebDriverException(attribute + " is an unspoorted property for finding an element");
