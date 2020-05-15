@@ -3,6 +3,7 @@ package infrastructure.automationapi.patterns;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.utils.FunctionLibraries;
@@ -22,9 +23,9 @@ public class IUIAutomationElementArray {
     }
 
     public int getLength(){
-        WinDef.UINT length = new WinDef.UINT();
+        IntByReference length = new IntByReference();
         methods.get("length").invokeInt(new Object[]{pointerToElementArray,length});
-        int lengthInt = length.intValue();
+        int lengthInt = length.getValue();
         return lengthInt;
     }
 

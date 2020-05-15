@@ -75,23 +75,17 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
        IUIAutomationElement element = null;
         if(windowsBy.getAttribute().equalsIgnoreCase("By.cssSelector")){
             List<By> byList = splitCssSelectorBy(by);
-            System.out.println("ByList Returned: " + byList.get(0).toString() + " " + byList.get(1).toString());
             WindowsBy windowsBy1 = new WindowsBy(byList.get(0));
-
             PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy1.getAttributeIndex(), windowsBy1.getAttributeValue());
-
-            System.out.println("Creating ArrayList");
             IUIAutomationElementArray elementArray = windowElement.findAll(propertyCondition, windowsBy1);
-
-            System.out.println("ElementArray is returned || size of array is: " + elementArray.getLength());
-
             String[] secondaryProperty = byList.get(1).toString().split(":");
             String propertyType = secondaryProperty[0].split("\\.")[1].replaceAll(" ", "");
             String propertyValue = secondaryProperty[1].replaceAll(" ", "");
-
-            System.out.println("WE ARE HERE || Secondary Property: " + propertyType + " Value: " + propertyValue);
             for(int i = 0; i < elementArray.getLength(); i++){
-                    if(elementArray.getElement(i).getCurrentPropertyValue(propertyType).equals(propertyValue)){
+                IUIAutomationElement currentElement = elementArray.getElement(i);
+                String currentPropertyvalue = currentElement.getCurrentPropertyValue(propertyType).stringValue();
+                System.out.println(currentPropertyvalue);
+                    if(currentPropertyvalue.equals(propertyValue)){
                             element = elementArray.getElement(i);
                             break;
                     }
@@ -138,10 +132,8 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         WindowsBy windowsBy = new WindowsBy(by);
         PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue());
         IUIAutomationElementArray elements = windowElement.findAll(propertyCondition, windowsBy);
-        System.out.println("Elements returned");
         List<WebElement> elementsList = new ArrayList<>();
         for(int i = 0; i < elements.getLength(); i++){
-            System.out.println("iteration: " + i);
             WindowsElement currentElement = new WindowsElement(elements.getElement(i));
             elementsList.add(currentElement);
         }
