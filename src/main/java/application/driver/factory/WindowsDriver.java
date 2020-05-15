@@ -76,20 +76,9 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         if(windowsBy.getAttribute().equalsIgnoreCase("By.cssSelector")){
             List<By> byList = splitCssSelectorBy(by);
             WindowsBy windowsBy1 = new WindowsBy(byList.get(0));
-            PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy1.getAttributeIndex(), windowsBy1.getAttributeValue());
-            IUIAutomationElementArray elementArray = windowElement.findAll(propertyCondition, windowsBy1);
-            String[] secondaryProperty = byList.get(1).toString().split(":");
-            String propertyType = secondaryProperty[0].split("\\.")[1].replaceAll(" ", "");
-            String propertyValue = secondaryProperty[1].replaceAll(" ", "");
-            for(int i = 0; i < elementArray.getLength(); i++){
-                IUIAutomationElement currentElement = elementArray.getElement(i);
-                String currentPropertyvalue = currentElement.getCurrentPropertyValue(propertyType).stringValue();
-                System.out.println(currentPropertyvalue);
-                    if(currentPropertyvalue.equals(propertyValue)){
-                            element = elementArray.getElement(i);
-                            break;
-                    }
-            }
+            WindowsBy windowsBy2 = new WindowsBy(byList.get(1));
+            PointerByReference propertyCondition = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(windowsBy1), iuiAutomation.createPropertyCondition(windowsBy2));
+            element = windowElement.findFirst(propertyCondition, windowsBy);
         }
         else{
             PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue());
@@ -113,7 +102,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
             stringList = Arrays.asList(original.split("#"));
             by2 = By.id(stringList.get(1));
         }
-        else if(original.contains("+")){
+        else if(original.contains("@")){
             stringList = Arrays.asList(original.split("@"));
             by2 = By.className(stringList.get(1));
         }

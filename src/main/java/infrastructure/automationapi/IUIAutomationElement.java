@@ -42,19 +42,13 @@ public class IUIAutomationElement {
         return new IUIAutomationElement(pointerToElementByReference);
     }
     public IUIAutomationElementArray findAll(PointerByReference conditionRef, WindowsBy by)  {
-        System.out.println("Beginning Find All");
-
-
         Pointer condition = conditionRef.getValue();
         PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
         methods.get("FindAll").invokeInt(new Object[]{pointerToElement, 4, condition,  IUIAutomationElementArrayPbr});
-
         if (IUIAutomationElementArrayPbr.getValue() == null) {
             throw new NoSuchElementException("Unable to find elements with locator " + by.getAttribute() + ": " + by.getAttributeValue());
         }
-
         IUIAutomationElementArray returnArray = new IUIAutomationElementArray(IUIAutomationElementArrayPbr);
-        System.out.println("THIS POINT: " + returnArray.getLength());
         return returnArray;
 
     }
