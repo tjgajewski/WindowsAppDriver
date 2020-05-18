@@ -106,6 +106,10 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
             stringList = Arrays.asList(original.split("@"));
             by2 = By.className(stringList.get(1));
         }
+        else if(original.contains("$")){
+            stringList = Arrays.asList(original.split("@"));
+            by2 = By.linkText(stringList.get(1));
+        }
         else{
             by2 = null;
         }
