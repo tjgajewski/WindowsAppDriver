@@ -208,10 +208,14 @@ public class Keyboard {
                 return 0x38;
             case '9' :
                 return 0x39;
+            case '\\':
+                return 0xDC;
+            case '/':
+                return 0x6F;
             case RELEASE:
                 return 0000;
             default :
-                throw new NotYetImplementedException("Unimplemented Character Value for "+c);
+                throw new NullPointerException("Unimplemented Character Value for "+c);
         }
 
     }
