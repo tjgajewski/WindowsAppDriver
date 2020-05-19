@@ -1,5 +1,6 @@
 
 import application.driver.factory.WindowsDriver;
+import application.element.factory.WindowsElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -31,6 +32,7 @@ public class FastCalculatorTest {
         driver.findElement(By.name("Plus")).click();
         driver.findElement(By.name("Three")).click();
         driver.findElement(By.name("Equals")).click();
+        ((WindowsElement) driver.findElement(By.name("Equals"))).rightClick();
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
         Assert.assertTrue(name.equals("Display is 8"), "5 plus 3 should equal 8");
 

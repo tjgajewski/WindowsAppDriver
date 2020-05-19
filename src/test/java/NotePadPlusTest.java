@@ -31,10 +31,10 @@ public class NotePadPlusTest {
     }
     @Test
     public void write() throws InterruptedException {
-        driver.findElement(By.className("Scintilla")).sendKeys("000000000000000000000000000");
+        driver.findElement(By.className("Scintilla")).sendKeys("SEI");
         Thread.sleep(1000);
         String name = driver.findElement(By.className("Scintilla")).getAttribute("name");
-        Assert.assertTrue(name.equals("000000000000000000000000000"), name +" is expected to be 000000000000000000000000000");
+        Assert.assertTrue(name.equals("SEI"), name +" is expected to be SEI");
     }
 
     @Test

@@ -8,6 +8,7 @@ import com.sun.jna.ptr.PointerByReference;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -97,11 +98,23 @@ public class DriverBuilder {
             }
         }
         if(determine.equalsIgnoreCase("yes")){
-            try {
-                Runtime.getRuntime().exec(applicationPath);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            if(applicationPath.toLowerCase().endsWith("exe")) {
+                try {
+                    Runtime.getRuntime().exec(applicationPath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            else{
+                try {
+                    Desktop.getDesktop().open(new File(applicationPath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
             try {
                 waitForAppToOpen(appName);
             } catch (IOException e) {
