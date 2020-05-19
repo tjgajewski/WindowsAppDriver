@@ -1,5 +1,6 @@
 package infrastructure.automationapi;
 
+import application.element.factory.WindowsBy;
 import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.*;
 import com.sun.jna.platform.win32.*;
@@ -28,6 +29,19 @@ public class IUIAutomation {
     }
 
     public PointerByReference createPropertyCondition(int propertyTypeId, String propertyValue) {
+        Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
+        WTypes.BSTR sysAllocated = OleAuto.INSTANCE.SysAllocString(propertyValue);
+        value.setValue(Variant.VT_BSTR, sysAllocated);
+        PointerByReference condition = new PointerByReference();
+        int status = methods.get("CreatePropertyCondition").invokeInt(new Object[]{pointerToInterface, propertyTypeId, value, condition});
+        COMUtils.SUCCEEDED(status);
+        OleAuto.INSTANCE.SysFreeString(sysAllocated);
+        return condition;
+    }
+
+    public PointerByReference createPropertyCondition(WindowsBy windowsBy) {
+        int propertyTypeId = windowsBy.getAttributeIndex();
+        String propertyValue = windowsBy.getAttributeValue();
         Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
         WTypes.BSTR sysAllocated = OleAuto.INSTANCE.SysAllocString(propertyValue);
         value.setValue(Variant.VT_BSTR, sysAllocated);

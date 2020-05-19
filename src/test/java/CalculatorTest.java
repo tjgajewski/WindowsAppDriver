@@ -28,10 +28,10 @@ public class CalculatorTest {
     @Test
     public void addition(){
 
-        driver.findElement(By.name("Five")).click();
-        driver.findElement(By.name("Plus")).click();
-        driver.findElement(By.name("Three")).click();
-        driver.findElement(By.name("Equals")).click();
+        driver.findElement(By.cssSelector("button.Five")).click();
+        driver.findElement(By.cssSelector("button.Plus")).click();
+        driver.findElement(By.cssSelector("button.Three")).click();
+        driver.findElement(By.cssSelector("button.Equals")).click();
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
         Assert.assertEquals(name, "Display is 8", "5 plus 3 should equal 8");
 
