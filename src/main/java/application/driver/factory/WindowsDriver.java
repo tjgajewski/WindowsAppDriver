@@ -3,6 +3,7 @@ package application.driver.factory;
 
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
+import com.google.common.collect.ImmutableMap;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.automationapi.patterns.IUIAutomationElementArray;
@@ -10,8 +11,10 @@ import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.*;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.Response;
 
 import javax.imageio.ImageIO;
 import java.awt.Dimension;
@@ -21,12 +24,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchContext {
+public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchContext{
 
 
     private application.driver.factory.DriverBuilder driverBuilder;
@@ -254,7 +256,164 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         public Alert alert() {
             return null;
         }
-
-
     }
+
+    protected class WindowsDriverOptions implements Options {
+        protected WindowsDriverOptions() {
+        }
+
+        @Beta
+        public Logs logs() {
+            return RemoteWebDriver.this.remoteLogs;
+        }
+
+        public void addCookie(Cookie cookie) {
+            cookie.validate();
+            RemoteWebDriver.this.execute("addCookie", ImmutableMap.of("cookie", cookie));
+        }
+
+        public void deleteCookieNamed(String name) {
+            RemoteWebDriver.this.execute("deleteCookie", ImmutableMap.of("name", name));
+        }
+
+        public void deleteCookie(Cookie cookie) {
+            this.deleteCookieNamed(cookie.getName());
+        }
+
+        public void deleteAllCookies() {
+            RemoteWebDriver.this.execute("deleteAllCookies");
+        }
+
+        public Set<Cookie> getCookies() {
+            Object returned = RemoteWebDriver.this.execute("getCookies").getValue();
+            Set<Cookie> toReturn = new HashSet();
+            if (!(returned instanceof Collection)) {
+                return toReturn;
+            } else {
+                ((Collection)returned).stream().map((o) -> {
+                    return (Map)o;
+                }).map((rawCookie) -> {
+                    org.openqa.selenium.Cookie.Builder builder = (new org.openqa.selenium.Cookie.Builder((String)rawCookie.get("name"), (String)rawCookie.get("value"))).path((String)rawCookie.get("path")).domain((String)rawCookie.get("domain")).isSecure(rawCookie.containsKey("secure") && (Boolean)rawCookie.get("secure")).isHttpOnly(rawCookie.containsKey("httpOnly") && (Boolean)rawCookie.get("httpOnly"));
+                    Number expiryNum = (Number)rawCookie.get("expiry");
+                    builder.expiresOn(expiryNum == null ? null : new Date(TimeUnit.SECONDS.toMillis(expiryNum.longValue())));
+                    return builder.build();
+                }).forEach(toReturn::add);
+                return toReturn;
+            }
+        }
+
+        public Cookie getCookieNamed(String name) {
+            Set<Cookie> allCookies = this.getCookies();
+            Iterator var3 = allCookies.iterator();
+
+            Cookie cookie;
+            do {
+                if (!var3.hasNext()) {
+                    return null;
+                }
+
+                cookie = (Cookie)var3.next();
+            } while(!cookie.getName().equals(name));
+
+            return cookie;
+        }
+
+        public Timeouts timeouts() {
+            return new RemoteWebDriver.RemoteWebDriverOptions.RemoteTimeouts();
+        }
+
+        public ImeHandler ime() {
+            return new RemoteWebDriver.RemoteWebDriverOptions.RemoteInputMethodManager();
+        }
+
+        @Beta
+        public Window window() {
+            return new RemoteWebDriver.RemoteWebDriverOptions.RemoteWindow();
+        }
+
+        @Beta
+        protected class WindowsWindow implements Window {
+            Map<String, Object> rawPoint;
+
+            protected WindowsWindow() {
+            }
+
+            public void setSize(org.openqa.selenium.Dimension targetSize) {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+            }
+
+            public void setPosition(org.openqa.selenium.Point targetPosition) {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+            }
+
+            public org.openqa.selenium.Dimension getSize() {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+                return null;
+            }
+
+            public org.openqa.selenium.Point getPosition() {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+                return null;
+            }
+
+            public void maximize() {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+            }
+
+            public void fullscreen() {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+            }
+        }
+
+
+        protected class RemoteTimeouts implements Timeouts {
+            protected RemoteTimeouts() {
+            }
+
+            public Timeouts implicitlyWait(long time, TimeUnit unit) {
+                RemoteWebDriver.this.execute("setTimeout", ImmutableMap.of("implicit", TimeUnit.MILLISECONDS.convert(time, unit)));
+                return this;
+            }
+
+            public Timeouts setScriptTimeout(long time, TimeUnit unit) {
+                RemoteWebDriver.this.execute("setTimeout", ImmutableMap.of("script", TimeUnit.MILLISECONDS.convert(time, unit)));
+                return this;
+            }
+
+            public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
+                RemoteWebDriver.this.execute("setTimeout", ImmutableMap.of("pageLoad", TimeUnit.MILLISECONDS.convert(time, unit)));
+                return this;
+            }
+        }
+
+        protected class RemoteInputMethodManager implements ImeHandler {
+            protected RemoteInputMethodManager() {
+            }
+
+            public List<String> getAvailableEngines() {
+                Response response = RemoteWebDriver.this.execute("imeGetAvailableEngines");
+                return (List)response.getValue();
+            }
+
+            public String getActiveEngine() {
+                Response response = RemoteWebDriver.this.execute("imeGetActiveEngine");
+                return (String)response.getValue();
+            }
+
+            public boolean isActivated() {
+                Response response = RemoteWebDriver.this.execute("imeIsActivated");
+                return (Boolean)response.getValue();
+            }
+
+            public void deactivate() {
+                RemoteWebDriver.this.execute("imeDeactivate");
+            }
+
+            public void activateEngine(String engine) {
+                RemoteWebDriver.this.execute("imeActivateEngine", ImmutableMap.of("engine", engine));
+            }
+        }
+    }
+
+
 }
