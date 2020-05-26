@@ -1,4 +1,5 @@
 import application.driver.factory.WindowsDriver;
+import application.element.factory.WindowsElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,6 +33,7 @@ public class CalculatorTest {
         driver.findElement(By.cssSelector("button.Plus")).click();
         driver.findElement(By.cssSelector("button.Three")).click();
         driver.findElement(By.cssSelector("button.Equals")).click();
+        ((WindowsElement) driver.findElement(By.cssSelector("button.Equals"))).rightClick();
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
         Assert.assertEquals(name, "Display is 8", "5 plus 3 should equal 8");
 
