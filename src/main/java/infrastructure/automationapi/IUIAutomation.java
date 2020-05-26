@@ -7,8 +7,10 @@ import com.sun.jna.platform.win32.*;
 import com.sun.jna.platform.win32.COM.COMUtils;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.utils.FunctionLibrary;
+import org.openqa.selenium.By;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class IUIAutomation {
 
@@ -64,6 +66,20 @@ public class IUIAutomation {
         PointerByReference pointerByReference = new PointerByReference();
         int status = methods.get("CreateAndCondition").invokeInt(new Object[]{pointerToInterface, condition1.getValue(), condition2.getValue(), pointerByReference});
         return pointerByReference;
+    }
+
+    public PointerByReference createMultipleConditions(List<By> byList){
+
+        WindowsBy windowsBy1 = new WindowsBy(byList.get(0));
+        PointerByReference baseCondition = createPropertyCondition(windowsBy1);
+
+        for(int i = 1; i < byList.size(); i++){
+            WindowsBy windowsBy2 = new WindowsBy(byList.get(i));
+            PointerByReference propertyCondition = createAndCondition(baseCondition, createPropertyCondition(windowsBy2));
+            baseCondition = propertyCondition;
+        }
+
+        return baseCondition;
     }
 
     

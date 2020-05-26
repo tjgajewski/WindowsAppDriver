@@ -29,7 +29,7 @@ public class CalculatorTest {
     @Test
     public void addition(){
 
-        driver.findElement(By.cssSelector("button.Five")).click();
+        driver.findElement(By.cssSelector("button.Five#num5Button")).click();
         driver.findElement(By.cssSelector("button.Plus")).click();
         driver.findElement(By.cssSelector("button.Three")).click();
         driver.findElement(By.cssSelector("button.Equals")).click();

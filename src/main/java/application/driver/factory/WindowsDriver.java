@@ -75,9 +75,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
        IUIAutomationElement element = null;
         if(windowsBy.getAttribute().equalsIgnoreCase("By.cssSelector")){
             List<By> byList = splitCssSelectorBy(by);
-            WindowsBy windowsBy1 = new WindowsBy(byList.get(0));
-            WindowsBy windowsBy2 = new WindowsBy(byList.get(1));
-            PointerByReference propertyCondition = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(windowsBy1), iuiAutomation.createPropertyCondition(windowsBy2));
+            PointerByReference propertyCondition = iuiAutomation.createMultipleConditions(byList);
             element = windowElement.findFirst(propertyCondition, windowsBy);
         }
         else{
@@ -90,32 +88,27 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     public List<By> splitCssSelectorBy(By by){
         String original = by.toString().split(":")[1];
         original = original.replaceAll(" ", "");
-        List<String> stringList = new ArrayList<>();
         List<By>byList = new ArrayList<>();
-        By by1;
-        By by2;
-        if(original.contains(".")){
-            stringList = Arrays.asList(original.split("\\."));
-            by2 = By.name(stringList.get(1));
+        String[] stringArray = original.split("(?=\\.)|(?=#)|(?=@)|(?=\\$)");
+        By b1 =  By.tagName(stringArray[0]);
+        byList.add(b1);
+        for(int i = 1; i < stringArray.length; i++){
+            String value = stringArray[i];
+            By tempBy = null;
+            if(value.contains(".")){
+                tempBy = By.name(value.replaceAll("\\.", ""));
+            }
+            if(value.contains("#")){
+                tempBy = By.id(value.replaceAll("#", ""));
+            }
+            if(value.contains("@")){
+                tempBy = By.className(value.replaceAll("@", ""));
+            }
+            if(value.contains("$")){
+                tempBy = By.linkText(value.replaceAll("\\$", ""));
+            }
+            byList.add(tempBy);
         }
-        else if(original.contains("#")){
-            stringList = Arrays.asList(original.split("#"));
-            by2 = By.id(stringList.get(1));
-        }
-        else if(original.contains("@")){
-            stringList = Arrays.asList(original.split("@"));
-            by2 = By.className(stringList.get(1));
-        }
-        else if(original.contains("$")){
-            stringList = Arrays.asList(original.split("\\$"));
-            by2 = By.linkText(stringList.get(1));
-        }
-        else{
-            by2 = null;
-        }
-        by1 = By.tagName(stringList.get(0));
-        byList.add(by1);
-        byList.add(by2);
         return byList;
     }
 
