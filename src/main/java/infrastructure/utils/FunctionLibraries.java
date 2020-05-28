@@ -146,6 +146,18 @@ public class FunctionLibraries {
         return new FunctionLibrary(iuiAutomationElementArrayMethods, pointerToClassInstance);
     }
 
+    private HashMap<String, Function> iWindowProviderMethods;
+    public FunctionLibrary iWindowProviderLibrary(PointerByReference pointerToClassInstanceByReference) {
+        Pointer pointerToClassInstance = pointerToClassInstanceByReference.getValue();
+        if(iWindowProviderMethods == null){
+            iWindowProviderMethods = new HashMap<>();
+            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(pointerToClassInstance.getPointer(0), 5);
+            iWindowProviderMethods.put("SetVisualState", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
+            iWindowProviderMethods.put("Close", Function.getFunction(methodsArray[4], Function.ALT_CONVENTION));
+        }
+        return new FunctionLibrary(iWindowProviderMethods, pointerToClassInstance);
+    }
+
 
 
 }

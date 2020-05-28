@@ -70,7 +70,6 @@ public class CalculatorTest {
         driver.findElement(By.name("Three")).click();
         driver.findElement(By.name("Equals")).click();
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
-        driver.manage().window().maximize();
         Assert.assertTrue(name.equals("Display is 1.666666666666667"), "5 divided 3 should equal 1.666666666666667");
     }
 
