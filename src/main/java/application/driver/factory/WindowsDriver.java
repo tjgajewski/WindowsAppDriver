@@ -6,8 +6,8 @@ import application.element.factory.WindowsElement;
 import com.google.common.collect.ImmutableMap;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
-import infrastructure.automationapi.IWindowProvider;
-import infrastructure.automationapi.patterns.IUIAutomationElementArray;
+import infrastructure.automationapi.patterns.WindowPattern;
+import infrastructure.automationapi.IUIAutomationElementArray;
 import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
@@ -39,7 +39,6 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     protected IUIAutomationElement windowElement;
     protected FunctionLibraries iuiAutomationElementLib;
     protected DesiredCapabilities capabilities;
-    protected IWindowProvider windowProvider;
 
 
     public WindowsDriver(){
@@ -330,9 +329,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
             }
 
             public void maximize() {
-                windowProvider.setWindowVisualState(1);
-                System.out.println("This method is being overwritten successfully - this line has been executed post"
-                + " post setWindowVisualState call");
+                new WindowPattern(windowElement).setWindowVisualState(1);
             }
 
             public void fullscreen() {

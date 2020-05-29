@@ -1,13 +1,8 @@
 package application.driver.factory;
 
-import application.element.factory.WindowsBy;
-import com.sun.jna.platform.win32.COM.COMUtils;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
-import infrastructure.automationapi.IWindowProvider;
-import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -76,11 +71,6 @@ public class DriverBuilder {
         PointerByReference pointerToRootElement = driver.iuiAutomation.getRootElement();
         driver.rootElement = new IUIAutomationElement(pointerToRootElement);
         driver.windowElement = driver.rootElement;
-        driver.windowProvider = new IWindowProvider(pointerToRootElement);
-
-//        IUIAutomation iuiAutomation = new IUIAutomation();
-//        WindowsBy windowsBy = new WindowsBy(By.id("asdas"));
-//        driver.windowProvider = new IWindowProvider(iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue()));
     }
     
     void build() {

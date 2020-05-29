@@ -1,21 +1,17 @@
 package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
-import infrastructure.automationapi.patterns.IUIAutomationElementArray;
 import infrastructure.utils.FunctionLibraries;
 import application.element.factory.WindowsProperty;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WinDef;
-import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.utils.FunctionLibrary;
 import org.openqa.selenium.NoSuchElementException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class IUIAutomationElement {
     
