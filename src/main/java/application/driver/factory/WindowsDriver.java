@@ -331,7 +331,8 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
 
             public void maximize() {
                 windowProvider.setWindowVisualState(1);
-                System.out.println("This method is being overwritten successfully");
+                System.out.println("This method is being overwritten successfully - this line has been executed post"
+                + " post setWindowVisualState call");
             }
 
             public void fullscreen() {

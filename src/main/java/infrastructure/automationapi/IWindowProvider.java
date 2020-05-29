@@ -24,6 +24,8 @@ public class IWindowProvider {
     2 - Minimized
      */
     public void setWindowVisualState(Integer state){
+        System.out.println(methods.get("SetVisualState").invokeInt(new Object[]{pointerToInterface, state}));
         methods.get("SetVisualState").invokeInt(new Object[]{pointerToInterface, state});
+        System.out.println(methods.get("SetVisualState").invokeInt(new Object[]{pointerToInterface, state}));
     }
 }
