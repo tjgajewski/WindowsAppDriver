@@ -34,6 +34,7 @@ public class CalculatorTest {
         driver.findElement(By.name("Programmer Calculator")).isDisplayed();
         driver.findElement(By.name("Programmer Calculator")).getSize();
         driver.findElement(By.name("Programmer Calculator")).getRect();
+        driver.findElement(By.cssSelector("button.Five#num5Button")).click();
         driver.findElement(By.cssSelector("button.Plus")).click();
         driver.findElement(By.cssSelector("button.Three")).click();
         driver.findElement(By.cssSelector("button.Equals")).click();
