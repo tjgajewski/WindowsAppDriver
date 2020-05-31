@@ -30,6 +30,10 @@ public class CalculatorTest {
     public void addition(){
 
         driver.findElement(By.cssSelector("button.Five")).click();
+        driver.findElement(By.name("Open Navigation")).click();
+        driver.findElement(By.name("Programmer Calculator")).isDisplayed();
+        driver.findElement(By.name("Programmer Calculator")).getSize();
+        driver.findElement(By.name("Programmer Calculator")).getRect();
         driver.findElement(By.cssSelector("button.Plus")).click();
         driver.findElement(By.cssSelector("button.Three")).click();
         driver.findElement(By.cssSelector("button.Equals")).click();
