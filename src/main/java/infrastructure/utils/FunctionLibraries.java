@@ -146,6 +146,15 @@ public class FunctionLibraries {
         return new FunctionLibrary(iuiAutomationElementArrayMethods, pointerToClassInstance);
     }
 
-
-
+    private HashMap<String, Function> iuiAutomationWindowPatternMethods;
+    public FunctionLibrary iuiAutomationWindowPatternLibrary(PointerByReference pointerToPatternClassInstanceByReference) {
+        Pointer pointerToPatternClassInstance = pointerToPatternClassInstanceByReference.getValue();
+        if(iuiAutomationWindowPatternMethods == null){
+            iuiAutomationWindowPatternMethods = new HashMap<>();
+            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(pointerToPatternClassInstance.getPointer(0), 6);
+            iuiAutomationWindowPatternMethods.put("Close", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
+            iuiAutomationWindowPatternMethods.put("SetVisualState", Function.getFunction(methodsArray[5], Function.ALT_CONVENTION));
+        }
+        return new FunctionLibrary(iuiAutomationWindowPatternMethods, pointerToPatternClassInstance);
+    }
 }

@@ -24,6 +24,11 @@ public class NotePadTest {
     }
 
     @Test
+    public void testLinkTextBy(){
+        driver.findElement(By.linkText("hello")).sendKeys("Success");
+    }
+
+    @Test
     public void write() {
         driver.findElement(By.name("Text Editor")).sendKeys("Hello/World\\");
         String text = driver.findElement(By.name("Text Editor")).getText();

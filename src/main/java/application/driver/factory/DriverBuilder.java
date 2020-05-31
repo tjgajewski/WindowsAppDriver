@@ -1,9 +1,7 @@
 package application.driver.factory;
 
-import com.sun.jna.platform.win32.COM.COMUtils;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
-import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;

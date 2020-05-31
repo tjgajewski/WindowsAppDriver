@@ -3,15 +3,19 @@ package application.driver.factory;
 
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
+import com.google.common.collect.ImmutableMap;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
-import infrastructure.automationapi.patterns.IUIAutomationElementArray;
+import infrastructure.automationapi.patterns.WindowPattern;
+import infrastructure.automationapi.IUIAutomationElementArray;
 import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.*;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.Response;
 
 import javax.imageio.ImageIO;
 import java.awt.Dimension;
@@ -21,12 +25,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
-public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchContext {
+public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchContext{
 
 
     private application.driver.factory.DriverBuilder driverBuilder;
@@ -75,9 +78,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
        IUIAutomationElement element = null;
         if(windowsBy.getAttribute().equalsIgnoreCase("By.cssSelector")){
             List<By> byList = splitCssSelectorBy(by);
-            WindowsBy windowsBy1 = new WindowsBy(byList.get(0));
-            WindowsBy windowsBy2 = new WindowsBy(byList.get(1));
-            PointerByReference propertyCondition = iuiAutomation.createAndCondition(iuiAutomation.createPropertyCondition(windowsBy1), iuiAutomation.createPropertyCondition(windowsBy2));
+            PointerByReference propertyCondition = iuiAutomation.createMultipleConditions(byList);
             element = windowElement.findFirst(propertyCondition, windowsBy);
         }
         else{
@@ -90,32 +91,27 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     public List<By> splitCssSelectorBy(By by){
         String original = by.toString().split(":")[1];
         original = original.replaceAll(" ", "");
-        List<String> stringList = new ArrayList<>();
         List<By>byList = new ArrayList<>();
-        By by1;
-        By by2;
-        if(original.contains(".")){
-            stringList = Arrays.asList(original.split("\\."));
-            by2 = By.name(stringList.get(1));
+        String[] stringArray = original.split("(?=\\.)|(?=#)|(?=@)|(?=\\$)");
+        By b1 =  By.tagName(stringArray[0]);
+        byList.add(b1);
+        for(int i = 1; i < stringArray.length; i++){
+            String value = stringArray[i];
+            By tempBy = null;
+            if(value.contains(".")){
+                tempBy = By.name(value.replaceAll("\\.", ""));
+            }
+            if(value.contains("#")){
+                tempBy = By.id(value.replaceAll("#", ""));
+            }
+            if(value.contains("@")){
+                tempBy = By.className(value.replaceAll("@", ""));
+            }
+            if(value.contains("$")){
+                tempBy = By.linkText(value.replaceAll("\\$", ""));
+            }
+            byList.add(tempBy);
         }
-        else if(original.contains("#")){
-            stringList = Arrays.asList(original.split("#"));
-            by2 = By.id(stringList.get(1));
-        }
-        else if(original.contains("@")){
-            stringList = Arrays.asList(original.split("@"));
-            by2 = By.className(stringList.get(1));
-        }
-        else if(original.contains("$")){
-            stringList = Arrays.asList(original.split("\\$"));
-            by2 = By.linkText(stringList.get(1));
-        }
-        else{
-            by2 = null;
-        }
-        by1 = By.tagName(stringList.get(0));
-        byList.add(by1);
-        byList.add(by2);
         return byList;
     }
 
@@ -170,7 +166,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
 
     @Override
     public Options manage() {
-        return null;
+        return new WindowsDriver.WindowsDriverOptions();
     }
 
     @Override
@@ -254,7 +250,140 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         public Alert alert() {
             return null;
         }
+    }
+
+    protected class WindowsDriverOptions implements Options {
+        protected WindowsDriverOptions() {
+        }
+
+        @Beta
+        public Logs logs() {
+            //TODO: throw an exception or handle this method
+            return null;
+        }
+
+        public void addCookie(Cookie cookie) {
+            //TODO: throw an exception or handle this method
+        }
+
+        public void deleteCookieNamed(String name) {
+            //TODO: throw an exception or handle this method
+        }
+
+        public void deleteCookie(Cookie cookie) {
+            this.deleteCookieNamed(cookie.getName());
+        }
+
+        public void deleteAllCookies() {
+            //TODO: throw an exception or handle this method
+        }
+
+        public Set<Cookie> getCookies() {
+            //TODO: throw an exception or handle this method
+            return null;
+        }
+
+        public Cookie getCookieNamed(String name) {
+            //TODO: throw an exception or handle this method
+            return null;
+        }
+
+        public Timeouts timeouts() {
+            //TODO: throw an exception or handle this method
+            return null;
+        }
+
+        public ImeHandler ime() {
+            //TODO: throw an exception or handle this method
+            return null;
+        }
+
+        @Beta
+        public Window window() {
+            return new WindowsDriver.WindowsDriverOptions.WindowsWindow();
+        }
+
+        @Beta
+        protected class WindowsWindow implements Window {
+            Map<String, Object> rawPoint;
+
+            protected WindowsWindow() {
+            }
+
+            public void setSize(org.openqa.selenium.Dimension targetSize) {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+            }
+
+            public void setPosition(org.openqa.selenium.Point targetPosition) {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+            }
+
+            public org.openqa.selenium.Dimension getSize() {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+                return null;
+            }
+
+            public org.openqa.selenium.Point getPosition() {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+                return null;
+            }
+
+            public void maximize() {
+                new WindowPattern(windowElement).setWindowVisualState(1);
+            }
+
+            public void fullscreen() {
+//            TODO: Create the Windows Driver equivalent of this; refer to RemoteWebDriver class
+            }
+        }
 
 
+        protected class RemoteTimeouts implements Timeouts {
+            protected RemoteTimeouts() {
+            }
+
+            public Timeouts implicitlyWait(long time, TimeUnit unit) {
+                WindowsDriver.this.execute("setTimeout", ImmutableMap.of("implicit", TimeUnit.MILLISECONDS.convert(time, unit)));
+                return this;
+            }
+
+            public Timeouts setScriptTimeout(long time, TimeUnit unit) {
+                WindowsDriver.this.execute("setTimeout", ImmutableMap.of("script", TimeUnit.MILLISECONDS.convert(time, unit)));
+                return this;
+            }
+
+            public Timeouts pageLoadTimeout(long time, TimeUnit unit) {
+                WindowsDriver.this.execute("setTimeout", ImmutableMap.of("pageLoad", TimeUnit.MILLISECONDS.convert(time, unit)));
+                return this;
+            }
+        }
+
+        protected class RemoteInputMethodManager implements ImeHandler {
+            protected RemoteInputMethodManager() {
+            }
+
+            public List<String> getAvailableEngines() {
+                Response response = WindowsDriver.this.execute("imeGetAvailableEngines");
+                return (List) response.getValue();
+            }
+
+            public String getActiveEngine() {
+                Response response = WindowsDriver.this.execute("imeGetActiveEngine");
+                return (String) response.getValue();
+            }
+
+            public boolean isActivated() {
+                Response response = WindowsDriver.this.execute("imeIsActivated");
+                return (Boolean) response.getValue();
+            }
+
+            public void deactivate() {
+                WindowsDriver.this.execute("imeDeactivate");
+            }
+
+            public void activateEngine(String engine) {
+                WindowsDriver.this.execute("imeActivateEngine", ImmutableMap.of("engine", engine));
+            }
+        }
     }
 }
