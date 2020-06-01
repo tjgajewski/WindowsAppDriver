@@ -4,6 +4,7 @@ import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.automationapi.IUIAutomationElement;
+import infrastructure.automationapi.WindowVisualState;
 import infrastructure.utils.FunctionLibraries;
 import infrastructure.utils.FunctionLibrary;
 import java.util.HashMap;
@@ -20,12 +21,11 @@ public class WindowPattern {
         this.pointerToInterface = library.getPointerToInstance();
     }
 
-    /*
-    0 - Normal
-    1 - Maximized
-    2 - Minimized
-     */
-    public void setWindowVisualState(Integer state){
-        methods.get("SetVisualState").invokeInt(new Object[]{pointerToInterface, state});
+    public void setWindowVisualState(WindowVisualState state){
+        methods.get("SetVisualState").invokeInt((new Object[]{pointerToInterface, state.getDesiredStateIntValue()}));
+    }
+
+    public void close(){
+        methods.get("Close").invoke(new Object[]{pointerToInterface});
     }
 }

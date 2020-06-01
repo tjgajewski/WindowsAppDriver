@@ -6,6 +6,7 @@ import application.element.factory.WindowsElement;
 import com.google.common.collect.ImmutableMap;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
+import infrastructure.automationapi.WindowVisualState;
 import infrastructure.automationapi.patterns.WindowPattern;
 import infrastructure.automationapi.IUIAutomationElementArray;
 import infrastructure.utils.FunctionLibraries;
@@ -54,8 +55,6 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         driverBuilder.connectToInterface();
         driverBuilder.build();
     }
-
-
 
     @Override
     public void get(String s) {
@@ -136,7 +135,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
 
     @Override
     public void close() {
-        driverBuilder.closeApplication();
+        new WindowPattern(windowElement).close();
     }
 
     @Override
@@ -329,7 +328,11 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
             }
 
             public void maximize() {
-                new WindowPattern(windowElement).setWindowVisualState(1);
+                new WindowPattern(windowElement).setWindowVisualState(WindowVisualState.MAXIMIZED);
+            }
+
+            public void minimize(){
+                new WindowPattern(windowElement).setWindowVisualState(WindowVisualState.MINIMIZED);
             }
 
             public void fullscreen() {

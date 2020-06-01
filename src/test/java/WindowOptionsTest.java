@@ -29,6 +29,14 @@ public class WindowOptionsTest {
         driver.manage().window().maximize();
     }
 
+    @Test
+    public void closeWindow(){
+        driver.manage().window().maximize();
+        driver.findElement(By.cssSelector("button.Five#num5Button")).click();
+        driver.findElement(By.cssSelector("button.Plus")).click();
+        driver.close();
+    }
+
     @AfterMethod
     public void after(){
         driver.quit();
