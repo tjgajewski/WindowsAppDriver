@@ -119,7 +119,7 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
 
     @Override
         public boolean isDisplayed() {
-        if(element.getCurrentBoundingRectangle() != null){ return true; }
+        if(element.getCurrentBoundingRectangle().toRectangle().width > 0 || element.getCurrentBoundingRectangle().toRectangle().height > 0){ return true; }
         else{ return false; }
     }
 
