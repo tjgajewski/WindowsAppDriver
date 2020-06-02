@@ -30,6 +30,11 @@ public class WindowOptionsTest {
     }
 
     @Test
+    public void minimizeWindow(){
+        ((WindowsDriver.WindowsDriverOptions.WindowsWindow) driver.manage().window()).minimize();
+    }
+
+    @Test
     public void closeWindow(){
         driver.manage().window().maximize();
         driver.findElement(By.cssSelector("button.Five#num5Button")).click();

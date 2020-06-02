@@ -251,7 +251,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         }
     }
 
-    protected class WindowsDriverOptions implements Options {
+    public class WindowsDriverOptions implements Options {
         protected WindowsDriverOptions() {
         }
 
@@ -303,7 +303,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         }
 
         @Beta
-        protected class WindowsWindow implements Window {
+        public class WindowsWindow implements Window {
             Map<String, Object> rawPoint;
 
             protected WindowsWindow() {
