@@ -1,6 +1,7 @@
 package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
+import infrastructure.ElementNotFoundException;
 import infrastructure.utils.FunctionLibraries;
 import application.element.factory.WindowsProperty;
 import com.sun.jna.Function;
@@ -33,7 +34,7 @@ public class IUIAutomationElement {
         PointerByReference pointerToElementByReference = new PointerByReference();
         methods.get("FindFirst").invokeInt(new Object[]{pointerToElement, 4, condition, pointerToElementByReference});
         if(pointerToElementByReference.getValue() == null){
-            throw new NoSuchElementException("Unable to find element with locator " + by.getAttribute() + ": " +by.getAttributeValue());
+            throw new ElementNotFoundException(by.getAttribute(), by.getAttributeValue());
         }
         return new IUIAutomationElement(pointerToElementByReference);
     }
@@ -42,7 +43,7 @@ public class IUIAutomationElement {
         PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
         methods.get("FindAll").invokeInt(new Object[]{pointerToElement, 4, condition,  IUIAutomationElementArrayPbr});
         if (IUIAutomationElementArrayPbr.getValue() == null) {
-            throw new NoSuchElementException("Unable to find elements with locator " + by.getAttribute() + ": " + by.getAttributeValue());
+            throw new ElementNotFoundException(by.getAttribute(), by.getAttributeValue());
         }
         IUIAutomationElementArray returnArray = new IUIAutomationElementArray(IUIAutomationElementArrayPbr);
         return returnArray;

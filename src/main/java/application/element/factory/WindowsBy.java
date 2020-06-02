@@ -1,5 +1,6 @@
 package application.element.factory;
 
+import infrastructure.WindowsDriverException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
 
@@ -62,7 +63,7 @@ public class WindowsBy {
                 this.attributeIndex = textValue;
                 break;
             default:
-                throw new WebDriverException(attribute + " is an unspoorted property for finding an element");
+                throw new WindowsDriverException(attribute + " is an unspoorted property for finding an element");
         }
         this.attributeValue = attributeValue;
     }
@@ -85,7 +86,7 @@ public class WindowsBy {
                 this.attributeIndex = localControlType;
                 break;
             default:
-                throw new WebDriverException(attribute + " is an unspoorted property for finding an element");
+                throw new WindowsDriverException(attribute + " is an unspoorted property for finding an element");
         }
         this.attributeValue = attributeValue;
     }
