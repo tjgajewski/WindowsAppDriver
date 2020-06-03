@@ -34,11 +34,9 @@ public class CalculatorTest {
         driver.findElement(By.name("Programmer Calculator")).isDisplayed();
         driver.findElement(By.name("Programmer Calculator")).getSize();
         driver.findElement(By.name("Programmer Calculator")).getRect();
-        driver.findElement(By.cssSelector("button.Five#num5Button")).click();
         driver.findElement(By.cssSelector("button.Plus")).click();
         driver.findElement(By.cssSelector("button.Three")).click();
         driver.findElement(By.cssSelector("button.Equals")).click();
-        ((WindowsElement) driver.findElement(By.cssSelector("button.Equals"))).rightClick();
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
         Assert.assertEquals(name, "Display is 8", "5 plus 3 should equal 8");
 
