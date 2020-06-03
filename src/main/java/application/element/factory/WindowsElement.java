@@ -17,9 +17,11 @@ import java.util.List;
 public class WindowsElement extends RemoteWebElement implements WebElement, Locatable {
 
     private IUIAutomationElement element;
+    protected String dynamicElementId;
 
-    public WindowsElement(IUIAutomationElement element){
+    public WindowsElement(IUIAutomationElement element, String dynamicElementId){
         this.element = element;
+        this.dynamicElementId = dynamicElementId;
     }
 
     public IUIAutomationElement getIUIAutomationElement() {
@@ -32,6 +34,11 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
 
     public void setFocus(){
         element.setFocus();
+    }
+
+    public void moveToElement(){
+        Point clickablePoint = getLocation();
+        Robo.getRoboInstance().mouseMove(clickablePoint);
     }
 
     @Override
@@ -153,7 +160,7 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
 
     @Override
     public Coordinates getCoordinates() {
-        return null;
+        return new WindowsElementCoordinates(this);
     }
 
 }

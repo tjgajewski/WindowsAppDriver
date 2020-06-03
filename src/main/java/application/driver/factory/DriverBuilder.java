@@ -1,5 +1,6 @@
 package application.driver.factory;
 
+import application.driver.command.WindowsDriverCommands;
 import com.sun.jna.platform.win32.COM.COMUtils;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
@@ -76,6 +77,7 @@ public class DriverBuilder {
     }
     
     void build() {
+        driver.command = new WindowsDriverCommands(driver);
         if(driver.capabilities.getCapabilityNames().contains(APPLICATION_FILE_PATH)) {
             if(driver.capabilities.getCapability(ENSURE_CLEAN_SESSION).toString().equalsIgnoreCase("true")){
                 closeApplication();

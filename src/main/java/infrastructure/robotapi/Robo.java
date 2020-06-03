@@ -34,7 +34,9 @@ public class Robo {
     public void mouseMove(Point point){
         int x = (int) MouseInfo.getPointerInfo().getLocation().getX();
         int y = (int) MouseInfo.getPointerInfo().getLocation().getY();
-        previousLocation = new Point(x,y);
+        if(x!=point.getX()||y!=point.getY()) {
+            previousLocation = new Point(x, y);
+        }
         robot.mouseMove(point.getX(), point.getY());
     }
 

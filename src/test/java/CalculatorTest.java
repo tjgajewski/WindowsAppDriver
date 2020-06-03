@@ -3,6 +3,7 @@ import application.element.factory.WindowsElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -36,6 +37,20 @@ public class CalculatorTest {
         ((WindowsElement) driver.findElement(By.cssSelector("button.Equals"))).rightClick();
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
         Assert.assertEquals(name, "Display is 8", "5 plus 3 should equal 8");
+
+    }
+
+    @Test
+    public void addition2(){
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(By.name("Five")));
+        action.click();
+        action.perform();
+        driver.findElement(By.name("Minus")).click();
+        driver.findElement(By.name("Three")).click();
+        driver.findElement(By.name("Equals")).click();
+        String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
+        Assert.assertTrue(name.equals("Display is 2"), "5 minus 3 should equal 2");
 
     }
 

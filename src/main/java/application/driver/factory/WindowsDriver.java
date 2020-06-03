@@ -1,6 +1,7 @@
 package application.driver.factory;
 
 
+import application.driver.command.WindowsDriverCommands;
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
 import infrastructure.automationapi.IUIAutomation;
@@ -10,8 +11,10 @@ import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.Response;
 
 import javax.imageio.ImageIO;
 import java.awt.Dimension;
@@ -21,10 +24,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchContext {
 
@@ -36,6 +37,8 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     protected IUIAutomationElement windowElement;
     protected FunctionLibraries iuiAutomationElementLib;
     protected DesiredCapabilities capabilities;
+    protected WindowsDriverCommands command;
+    private HashMap<String, By> generatedElements = new HashMap<>();
 
 
     public WindowsDriver(){
@@ -82,7 +85,9 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
             PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue());
             element = windowElement.findFirst(propertyCondition, windowsBy);
         }
-        return new WindowsElement(element);
+        String dynamicElementId = String.valueOf(generatedElements.size());
+        generatedElements.put(dynamicElementId,by);
+        return new WindowsElement(element,dynamicElementId);
     }
 
     public List<By> splitCssSelectorBy(By by){
@@ -120,7 +125,9 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         IUIAutomationElementArray elements = windowElement.findAll(propertyCondition, windowsBy);
         List<WebElement> elementsList = new ArrayList<>();
         for(int i = 0; i < elements.getLength(); i++){
-            WindowsElement currentElement = new WindowsElement(elements.getElement(i));
+            String dynamicElementId = String.valueOf(generatedElements.size());
+            generatedElements.put(dynamicElementId,by);
+            WindowsElement currentElement = new WindowsElement(elements.getElement(i),dynamicElementId);
             elementsList.add(currentElement);
         }
         return elementsList;
@@ -193,6 +200,17 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         byte[] imageInByte = baos.toByteArray();
         baos.close();
         return new String(Base64.encodeBase64(imageInByte));
+    }
+
+    @Override
+    public void perform(Collection<Sequence> actions) {
+        throw new UnsupportedCommandException ("HTML API not implemented in EY Windows Driver");
+    }
+
+    @Override
+    protected Response execute(String driverCommand, Map<String, ?> parameters) {
+        command.execute(driverCommand, parameters, generatedElements);
+        return new Response();
     }
 
     public class WindowsTargetLocator implements WebDriver.TargetLocator {
