@@ -39,6 +39,7 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
     @Override
     public void click() {
         if(InvokePattern.isAvailableForElement(element)) {
+
             new InvokePattern(element).invoke();
         }
         else if(SelectItemPattern.isAvailableForElement(element)){
