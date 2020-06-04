@@ -1,6 +1,7 @@
 import application.driver.factory.WindowsDriver;
 import application.element.factory.WindowsElement;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -44,7 +45,7 @@ public class CalculatorTest {
     public void addition2(){
         Actions action = new Actions(driver);
         action.moveToElement(driver.findElement(By.name("Five")));
-        action.click();
+        action.sendKeys("hello");
         action.perform();
         driver.findElement(By.name("Minus")).click();
         driver.findElement(By.name("Three")).click();

@@ -25,13 +25,10 @@ public class NotePadPlusTest {
         WebElement notePadWin = new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.className("Notepad++")));
         driver.switchTo().frame(notePadWin);
         driver.findElement(By.className("Scintilla")).sendKeys(Keys.chord(Keys.CONTROL, "n"));
-        //new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(By.name("File"))).click();
-        //new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(By.name("Print"))).click();
-       // driver.findElement(By.name("New")).click();
     }
     @Test
     public void write() throws InterruptedException {
-        driver.findElement(By.className("Scintilla")).sendKeys("\\/SEI");
+        driver.findElement(By.className("Scintilla")).sendKeys("SEI");
         Thread.sleep(1000);
         String name = driver.findElement(By.className("Scintilla")).getAttribute("name");
         Assert.assertTrue(name.equals("SEI"), name +" is expected to be SEI");

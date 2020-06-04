@@ -43,7 +43,7 @@ public class WindowsDriverWaitTest {
     public void enabled(){
         WebElement sapWindow = new WebDriverWait(driver, 30).until(ExpectedConditions.elementToBeClickable(By.name("SAP Logon 750")));
         driver.switchTo().frame(sapWindow);
-        driver.findElement(By.id("1091")).sendKeys("This is a test");
+        driver.findElement(By.className("Edit")).sendKeys("This is a test");
         String text = driver.findElement(By.id("1091")).getText();
         Assert.assertTrue(text.equals("This is a test"), "SAP Logon receives text!");
     }

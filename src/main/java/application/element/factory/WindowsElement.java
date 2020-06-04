@@ -1,6 +1,10 @@
 package application.element.factory;
 
+import application.driver.DriverHelpers;
+import application.driver.factory.WindowsDriver;
 import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.ptr.PointerByReference;
+import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.automationapi.patterns.InvokePattern;
 import infrastructure.automationapi.patterns.SelectItemPattern;
@@ -22,6 +26,17 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
     public WindowsElement(IUIAutomationElement element, String dynamicElementId){
         this.element = element;
         this.dynamicElementId = dynamicElementId;
+    }
+
+    public WindowsElement(By by, String dynamicElementId, IUIAutomation iuiAutomation,IUIAutomationElement frameElement){
+        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement);
+        this.element = element;
+        this.dynamicElementId = dynamicElementId;
+    }
+
+    public WindowsElement(By by, IUIAutomation iuiAutomation,IUIAutomationElement frameElement){
+        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement);
+        this.element = element;
     }
 
     public IUIAutomationElement getIUIAutomationElement() {

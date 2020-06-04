@@ -32,6 +32,15 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
 
     private application.driver.factory.DriverBuilder driverBuilder;
     protected FunctionLibraries libraryBuilder;
+
+    public IUIAutomation getIuiAutomation() {
+        return iuiAutomation;
+    }
+
+    public IUIAutomationElement getWindowElement() {
+        return windowElement;
+    }
+
     protected IUIAutomation iuiAutomation;
     protected IUIAutomationElement rootElement;
     protected IUIAutomationElement windowElement;
@@ -74,47 +83,10 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
 
     @Override
     public WindowsElement findElement(By by) {
-        WindowsBy windowsBy = new WindowsBy(by);
-       IUIAutomationElement element = null;
-        if(windowsBy.getAttribute().equalsIgnoreCase("By.cssSelector")){
-            List<By> byList = splitCssSelectorBy(by);
-            PointerByReference propertyCondition = iuiAutomation.createMultipleConditions(byList);
-            element = windowElement.findFirst(propertyCondition, windowsBy);
-        }
-        else{
-            PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue());
-            element = windowElement.findFirst(propertyCondition, windowsBy);
-        }
         String dynamicElementId = String.valueOf(generatedElements.size());
+        WindowsElement windowsElement = new WindowsElement(by,dynamicElementId,iuiAutomation,windowElement);
         generatedElements.put(dynamicElementId,by);
-        return new WindowsElement(element,dynamicElementId);
-    }
-
-    public List<By> splitCssSelectorBy(By by){
-        String original = by.toString().split(":")[1];
-        original = original.replaceAll(" ", "");
-        List<By>byList = new ArrayList<>();
-        String[] stringArray = original.split("(?=\\.)|(?=#)|(?=@)|(?=\\$)");
-        By b1 =  By.tagName(stringArray[0]);
-        byList.add(b1);
-        for(int i = 1; i < stringArray.length; i++){
-            String value = stringArray[i];
-            By tempBy = null;
-            if(value.contains(".")){
-                tempBy = By.name(value.replaceAll("\\.", ""));
-            }
-            if(value.contains("#")){
-                tempBy = By.id(value.replaceAll("#", ""));
-            }
-            if(value.contains("@")){
-                tempBy = By.className(value.replaceAll("@", ""));
-            }
-            if(value.contains("$")){
-                tempBy = By.linkText(value.replaceAll("\\$", ""));
-            }
-            byList.add(tempBy);
-        }
-        return byList;
+        return windowsElement;
     }
 
 

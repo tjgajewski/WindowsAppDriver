@@ -31,7 +31,7 @@ public class NotePadTest {
 
     @Test
     public void write() {
-        driver.findElement(By.name("Text Editor")).sendKeys("Hello/World\\");
+        driver.findElement(By.name("Text Editor")).sendKeys("Hello World");
         Actions action = new Actions(driver);
         action.contextClick(driver.findElement(By.name("Text Editor")));
         action.perform();
