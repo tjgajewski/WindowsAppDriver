@@ -1,6 +1,6 @@
 package application.element.factory;
 
-import org.openqa.selenium.WebDriverException;
+import infrastructure.WindowsDriverException;
 
 public class WindowsProperty {
 
@@ -35,7 +35,7 @@ public class WindowsProperty {
                 propertyIndex = 30167;
                 break;
             default:
-                throw new WebDriverException(attribute + " is an unspoorted property type");
+                throw new WindowsDriverException(attribute + " is an unspoorted property type");
         }
         return propertyIndex;
     }

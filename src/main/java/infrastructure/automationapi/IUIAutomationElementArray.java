@@ -1,11 +1,9 @@
-package infrastructure.automationapi.patterns;
+package infrastructure.automationapi;
 
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
-import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.utils.FunctionLibraries;
 import infrastructure.utils.FunctionLibrary;
 

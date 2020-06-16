@@ -1,21 +1,17 @@
 package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
-import infrastructure.automationapi.patterns.IUIAutomationElementArray;
+import infrastructure.ElementNotAvailableException;
 import infrastructure.utils.FunctionLibraries;
 import application.element.factory.WindowsProperty;
 import com.sun.jna.Function;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WinDef;
-import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.utils.FunctionLibrary;
-import org.openqa.selenium.NoSuchElementException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class IUIAutomationElement {
     
@@ -35,9 +31,9 @@ public class IUIAutomationElement {
     public IUIAutomationElement findFirst(PointerByReference conditionRef, WindowsBy by) {
         Pointer condition = conditionRef.getValue();
         PointerByReference pointerToElementByReference = new PointerByReference();
-        methods.get("FindFirst").invokeInt(new Object[]{pointerToElement, 4, condition, pointerToElementByReference});
+        int errorCode = methods.get("FindFirst").invokeInt(new Object[]{pointerToElement, 4, condition, pointerToElementByReference});
         if(pointerToElementByReference.getValue() == null){
-            throw new NoSuchElementException("Unable to find element with locator " + by.getAttribute() + ": " +by.getAttributeValue());
+            throw new ElementNotAvailableException(by.getAttribute(), by.getAttributeValue());
         }
         return new IUIAutomationElement(pointerToElementByReference);
     }
@@ -46,7 +42,7 @@ public class IUIAutomationElement {
         PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
         methods.get("FindAll").invokeInt(new Object[]{pointerToElement, 4, condition,  IUIAutomationElementArrayPbr});
         if (IUIAutomationElementArrayPbr.getValue() == null) {
-            throw new NoSuchElementException("Unable to find elements with locator " + by.getAttribute() + ": " + by.getAttributeValue());
+            throw new ElementNotAvailableException(by.getAttribute(), by.getAttributeValue());
         }
         IUIAutomationElementArray returnArray = new IUIAutomationElementArray(IUIAutomationElementArrayPbr);
         return returnArray;

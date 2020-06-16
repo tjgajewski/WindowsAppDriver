@@ -15,6 +15,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
 import java.util.List;
 
@@ -59,6 +61,7 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
     @Override
     public void click() {
         if(InvokePattern.isAvailableForElement(element)) {
+
             new InvokePattern(element).invoke();
         }
         else if(SelectItemPattern.isAvailableForElement(element)){
@@ -138,8 +141,9 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
     }
 
     @Override
-    public boolean isDisplayed() {
-        return true;
+        public boolean isDisplayed() {
+        if(element.getCurrentBoundingRectangle().toRectangle().width > 0 || element.getCurrentBoundingRectangle().toRectangle().height > 0){ return true; }
+        else{ return false; }
     }
 
     @Override
@@ -150,7 +154,10 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
 
     @Override
     public Dimension getSize() {
-        return null;
+        WinDef.RECT rect2 = element.getCurrentBoundingRectangle();
+        int width = rect2.toRectangle().width;
+        int height= rect2.toRectangle().height;
+        return new Dimension(width,height);
     }
 
     @Override
