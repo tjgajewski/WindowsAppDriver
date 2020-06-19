@@ -42,7 +42,7 @@ public class WindowsActions implements WindowsActionsInterface {
 
     @Override
     public void sendKeysToActiveElement(Map<String, ?> parameters, HashMap<String, By> generatedElements) {
-        CharSequence text = (CharSequence) parameters.get("value");
+        CharSequence[] text = (CharSequence[]) parameters.get("value");
         element.sendKeys(text);
         Robo.getRoboInstance().returnMouseAfterMove();
     }
