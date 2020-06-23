@@ -212,6 +212,8 @@ public class Keyboard {
                 return 0xDC;
             case '/':
                 return 0x6F;
+            case '.':
+                return 0xBE;
             case RELEASE:
                 return 0000;
             default :
