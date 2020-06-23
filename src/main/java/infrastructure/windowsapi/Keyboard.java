@@ -89,7 +89,6 @@ public class Keyboard {
     public static final char DOWN_KEY = '\uE015';
     public static final char SHIFT_KEY = '\uE008';
     public static final char RELEASE = '\uE000';
-
     public static final char F1_KEY = '\uE031';
     public static final char F2_KEY = '\uE032';
     public static final char F3_KEY = '\uE033';
