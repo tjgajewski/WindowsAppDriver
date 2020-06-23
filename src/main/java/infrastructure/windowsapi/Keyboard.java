@@ -7,6 +7,7 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import org.openqa.selenium.ElementNotInteractableException;
 
+
 public class Keyboard {
 
     public static void sendInput(CharSequence... charSequences){
@@ -88,6 +89,19 @@ public class Keyboard {
     public static final char DOWN_KEY = '\uE015';
     public static final char SHIFT_KEY = '\uE008';
     public static final char RELEASE = '\uE000';
+
+    public static final char F1_KEY = '\uE031';
+    public static final char F2_KEY = '\uE032';
+    public static final char F3_KEY = '\uE033';
+    public static final char F4_KEY = '\uE034';
+    public static final char F5_KEY = '\uE035';
+    public static final char F6_KEY = '\uE036';
+    public static final char F7_KEY = '\uE037';
+    public static final char F8_KEY = '\uE038';
+    public static final char F9_KEY = '\uE039';
+    public static final char F10_KEY = '\uE03A';
+    public static final char F11_KEY = '\uE03B';
+    public static final char F12_KEY = '\uE03C';
     private static long charToVKCode(Character c){
         switch (c){
             case ENTER_KEY:
@@ -108,6 +122,30 @@ public class Keyboard {
                 return 0x28;
             case SHIFT_KEY:
                 return 0x10;
+            case F1_KEY:
+                return 0x70;
+            case F2_KEY:
+                return 0x71;
+            case F3_KEY:
+                return 0x72;
+            case F4_KEY:
+                return 0x73;
+            case F5_KEY:
+                return 0x74;
+            case F6_KEY:
+                return 0x75;
+            case F7_KEY:
+                return 0x76;
+            case F8_KEY:
+                return 0x77;
+            case F9_KEY:
+                return 0x78;
+            case F10_KEY:
+                return 0x79;
+            case F11_KEY:
+                return 0x7A;
+            case F12_KEY:
+                return 0x7B;
             case ' ':
                 return 0x20;
             case 'a' :

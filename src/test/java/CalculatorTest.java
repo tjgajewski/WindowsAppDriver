@@ -92,6 +92,11 @@ public class CalculatorTest {
         Assert.assertTrue(name.equals("Display is 1.666666666666667"), "5 divided 3 should equal 1.666666666666667");
     }
 
+    @Test
+    public void debugging()
+    {
+        driver.findElement(By.name("Five")).sendKeys(Keys.F9);
+    }
     @AfterMethod
     public void after(){
         driver.quit();
