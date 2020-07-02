@@ -3,6 +3,8 @@ import application.driver.factory.WindowsDriver;
 import application.element.factory.WindowsElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,15 +22,24 @@ public class FastCalculatorTest {
         capabilities.setCapability("applicationName", "Calculator.exe");
         capabilities.setCapability("ensureCleanSession", "true");
         driver = new WindowsDriver(capabilities);
-        driver.switchTo().frame(new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.name("Calculator"))));
+        WebElement e = new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.name("Spotify Premium")));
+        Actions a = new Actions(driver);
+        a.moveToElement(e);
+        a.contextClick();
+        a.perform();
+        driver.switchTo().frame(e);
     }
 
     @Test
     public void addition(){
 
-        driver.findElement(By.name("Five")).click();
+      //  driver.findElement(By.name("Five")).click();
         driver.findElement(By.name("Five")).getRect();
         driver.findElement(By.name("Five")).getLocation();
+        Actions a = new Actions(driver);
+        a.moveToElement(driver.findElement(By.name("Five")));
+        a.click();
+        a.perform();
         driver.findElement(By.name("Plus")).click();
         driver.findElement(By.name("Three")).click();
         driver.findElement(By.name("Equals")).click();

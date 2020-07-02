@@ -30,7 +30,6 @@ public class CalculatorTest {
 
     @Test
     public void addition(){
-
         driver.findElement(By.cssSelector("button.Five")).click();
         driver.findElement(By.name("Open Navigation")).click();
         driver.findElement(By.name("Programmer Calculator")).isDisplayed();

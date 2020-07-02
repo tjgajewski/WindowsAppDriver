@@ -1,6 +1,7 @@
 package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
+import com.sun.jna.internal.ReflectionUtils;
 import infrastructure.ElementNotAvailableException;
 import infrastructure.utils.FunctionLibraries;
 import application.element.factory.WindowsProperty;
@@ -77,6 +78,13 @@ public class IUIAutomationElement {
         WinDef.POINT.ByReference pbr = new WinDef.POINT.ByReference();
         WinDef.BOOLByReference br = new WinDef.BOOLByReference();
         methods.get("GetClickablePoint").invokeInt(new Object[]{pointerToElement,pbr, br});
-        return new  WinDef.POINT(pbr.x,pbr.y);
+        if(br.getValue().booleanValue() == true) {
+            return new WinDef.POINT(pbr.x, pbr.y);
+        }
+        else{
+            WinDef.RECT rect = getCurrentBoundingRectangle();
+            return new WinDef.POINT((rect.left+rect.right)/2, (rect.bottom+rect.top)/2);
+        }
+
     }
 }

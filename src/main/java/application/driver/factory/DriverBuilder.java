@@ -2,9 +2,12 @@ package application.driver.factory;
 
 
 import application.driver.command.WindowsDriverCommands;
+import com.sun.jna.platform.win32.Tlhelp32;
+import com.sun.jna.platform.win32.User32;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
 import com.sun.jna.ptr.PointerByReference;
+import org.json.JSONObject;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -13,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 
 public class DriverBuilder {
@@ -196,6 +200,24 @@ public class DriverBuilder {
                 waitForClose = false;
             }
         }while(waitForClose);
+    }
+
+    private ArrayList<String> filePathsForAllProcesses() throws IOException {
+        String command = "wmic process where \"executablepath='C:\\\\WINDOWS\\\\system32\\\\NOTEPAD.EXE'\" get Handle /FORMAT:LIST";
+// Executing the command
+        Process powerShellProcess = Runtime.getRuntime().exec(command);
+// Getting the results
+        powerShellProcess.getOutputStream().close();
+        String line;
+        BufferedReader stdout = new BufferedReader(new InputStreamReader(
+                powerShellProcess.getInputStream()));
+        while ((line = stdout.readLine()) != null) {
+            System.out.println(line);
+            line = line.trim();
+
+        }
+        stdout.close();
+        return null;
     }
 
 }
