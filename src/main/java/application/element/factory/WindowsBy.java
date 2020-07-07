@@ -63,7 +63,7 @@ public class WindowsBy {
                 this.attributeIndex = textValue;
                 break;
             default:
-                throw new WindowsDriverException(attribute + " is an unspoorted property for finding an element");
+                throw new WindowsDriverException(attribute + " is an unsupported property for finding an element");
         }
         this.attributeValue = attributeValue;
     }
@@ -85,8 +85,14 @@ public class WindowsBy {
             case "tag":
                 this.attributeIndex = localControlType;
                 break;
+            case "By.cssSelector":
+                this.attributeIndex = comboSelector;
+                break;
+            case "By.linkText":
+                this.attributeIndex = textValue;
+                break;
             default:
-                throw new WindowsDriverException(attribute + " is an unspoorted property for finding an element");
+                throw new WindowsDriverException(attribute + " is an unsupported property for finding an element");
         }
         this.attributeValue = attributeValue;
     }
