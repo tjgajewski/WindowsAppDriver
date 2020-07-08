@@ -2,12 +2,9 @@ package application.driver.factory;
 
 
 import application.driver.command.WindowsDriverCommands;
-import com.sun.jna.platform.win32.Tlhelp32;
-import com.sun.jna.platform.win32.User32;
+import com.sun.jna.ptr.PointerByReference;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
-import com.sun.jna.ptr.PointerByReference;
-import org.json.JSONObject;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 

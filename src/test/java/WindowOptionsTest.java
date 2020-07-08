@@ -1,5 +1,6 @@
 import application.driver.factory.WindowsDriver;
 import application.element.factory.WindowsElement;
+import net.sf.jni4net.Bridge;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,6 +16,7 @@ public class WindowOptionsTest {
     private WebDriver driver;
     @BeforeMethod
     public void before(){
+        ManagedSpyLib.init();
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("applicationPath", "C:\\Windows\\System32\\calc.exe");
         capabilities.setCapability("applicationName", "Calculator.exe");
