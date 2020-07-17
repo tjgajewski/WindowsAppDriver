@@ -19,8 +19,12 @@ public class NotePadTest {
     public void before(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("applicationPath", "C:\\WINDOWS\\system32\\notepad.exe");
-        driver = new WindowsDriver(capabilities);
-        driver.switchTo().frame(new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.className("Notepad"))));
+
+
+        WebDriver driver = new WindowsDriver();
+        driver.findElement(By.name("Text Editor")).sendKeys("Hello World");
+        String text = driver.findElement(By.name("Text Editor")).getText();
+        Assert.assertTrue(text.equals("Hello World"), "Notepad receives text!");
 
     }
 

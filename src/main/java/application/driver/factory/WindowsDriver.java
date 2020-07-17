@@ -61,6 +61,8 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     public WindowsDriver(DesiredCapabilities capabilities){
         initializeDriver(capabilities);
     }
+
+
     private void initializeDriver(DesiredCapabilities capabilities){
         driverBuilder = new DriverBuilder(this);
         driverBuilder.configureCapabilities(capabilities);
