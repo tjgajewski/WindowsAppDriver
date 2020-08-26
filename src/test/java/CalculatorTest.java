@@ -1,5 +1,11 @@
+import application.actions.factory.WindowsActions;
 import application.driver.factory.WindowsDriver;
+import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
+import com.sun.jna.ptr.PointerByReference;
+import infrastructure.automationapi.IUIAutomation;
+import infrastructure.automationapi.IUIAutomationElement;
+import infrastructure.automationapi.IUIAutomationTreeWalker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +21,7 @@ import org.testng.annotations.Test;
 
 public class CalculatorTest {
 
-    private WebDriver driver;
+    private WindowsDriver driver;
 
     @BeforeMethod
     public void before(){
@@ -94,7 +100,10 @@ public class CalculatorTest {
     @Test
     public void debugging()
     {
-        driver.findElement(By.name("Five")).sendKeys(Keys.F9);
+       WindowsElement startElement = driver.findElement(By.name("Five"));
+//       startElement.click();
+//       By by = By.name("Five");
+//       driver.getNextSibling(by).click();
     }
     @AfterMethod
     public void after(){

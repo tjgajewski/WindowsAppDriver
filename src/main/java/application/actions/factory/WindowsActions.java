@@ -8,6 +8,7 @@ import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.robotapi.Robo;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,5 +47,13 @@ public class WindowsActions implements WindowsActionsInterface {
         element.sendKeys(text);
         Robo.getRoboInstance().returnMouseAfterMove();
     }
+
+//    @Override
+//    public void doubleClick(Map<String, ?> parameters, HashMap<String, By> generatedElements){
+//        By by = generatedElements.get(parameters.get("element"));
+//        element = new WindowsElement(by, driver.getIuiAutomation(), driver.getWindowElement());
+//        Actions action = new Actions(driver);
+//        action.doubleClick(element);
+//    }
 
 }

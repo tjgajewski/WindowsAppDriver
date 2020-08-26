@@ -18,9 +18,11 @@ public class IUIAutomationElement {
     
     private HashMap<String, Function> methods;
     private Pointer pointerToElement;
+    private PointerByReference pointerByRefToElement;
 
     public IUIAutomationElement(PointerByReference pointerToElementByReference) {
         FunctionLibrary library = FunctionLibraries.load().iuiAutomationElementLibrary(pointerToElementByReference);
+        this.pointerByRefToElement = pointerToElementByReference;
         this.methods = library.getMethods();
         this.pointerToElement = library.getPointerToInstance();
     }
@@ -86,5 +88,9 @@ public class IUIAutomationElement {
             return new WinDef.POINT((rect.left+rect.right)/2, (rect.bottom+rect.top)/2);
         }
 
+    }
+
+    public PointerByReference getPointerByRefToElement(){
+        return pointerByRefToElement;
     }
 }
