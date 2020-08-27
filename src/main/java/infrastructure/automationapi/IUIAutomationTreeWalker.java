@@ -26,7 +26,7 @@ public class IUIAutomationTreeWalker {
 
     public IUIAutomationElement getNextSiblingElement(IUIAutomationElement element){
         PointerByReference pointerToNextSiblingByReference = new PointerByReference();
-        methods.get("getNextSiblingElement").invokeInt(new Object[]{element.getPointerByRefToElement(), pointerToNextSiblingByReference});
+        methods.get("getNextSiblingElement").invokeInt(new Object[]{pointerToTreeWalker, element.getPointerToElement(), pointerToNextSiblingByReference});
         return new IUIAutomationElement(pointerToNextSiblingByReference);
     }
 

@@ -17,6 +17,11 @@ import java.util.HashMap;
 public class IUIAutomationElement {
     
     private HashMap<String, Function> methods;
+
+    public Pointer getPointerToElement() {
+        return pointerToElement;
+    }
+
     private Pointer pointerToElement;
     private PointerByReference pointerByRefToElement;
 

@@ -85,10 +85,26 @@ public class IUIAutomation {
     public IUIAutomationTreeWalker getTreeWalker(){
         PointerByReference pointerToWalker = new PointerByReference();
         getControlViewWalker(pointerToWalker);
+
+
         Unknown conditionA = new Unknown(pointerToWalker.getValue());
         PointerByReference pointerToNewWalker= new PointerByReference();
-        conditionA.QueryInterface(new Guid.REFIID(IUIAutomationTreeWalker.IID), pointerToNewWalker);
+
         methods.get("CreateTreeWalker").invokeInt(new Object[]{pointerToInterface, conditionA, pointerToNewWalker});
+
+
+        WinNT.HRESULT resultA = conditionA.QueryInterface(new Guid.REFIID(IUIAutomationTreeWalker.IID), pointerToNewWalker);
+
+//        if(COMUtils.SUCCEEDED((resultA)){
+//
+//
+//            IUIAutomationTreeWalker walker = IUIAutomationTreeWalkerConverter.pointerToInterface(pointerToNewWalker);
+//            return new AutomationWalker(walker);
+//        }
+//        else{
+//            throw new InfrastructureException(resultA.intValue());
+//        }
+
             IUIAutomationTreeWalker walker = new IUIAutomationTreeWalker(pointerToNewWalker);
             return walker;
 

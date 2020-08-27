@@ -101,9 +101,10 @@ public class CalculatorTest {
     public void debugging()
     {
        WindowsElement startElement = driver.findElement(By.name("Five"));
-//       startElement.click();
-//       By by = By.name("Five");
-//       driver.getNextSibling(by).click();
+       startElement.click();
+       By by = By.name("Five");
+      System.out.println(driver.getNextSibling(by).getAttribute("name"));
+      driver.getNextSibling(by).click();
     }
     @AfterMethod
     public void after(){
