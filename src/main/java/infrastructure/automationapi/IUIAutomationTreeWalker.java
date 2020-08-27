@@ -30,27 +30,27 @@ public class IUIAutomationTreeWalker {
         return new IUIAutomationElement(pointerToNextSiblingByReference);
     }
 
-//    public IUIAutomationElement getParentElement(PointerByReference pointerToElementByReference){
-//        PointerByReference pointerToParentByReference = new PointerByReference();
-//        methods.get("getParentElement").invokeInt(new Object[]{pointerToTreeWalker, pointerToElementByReference, pointerToParentByReference});
-//        return new IUIAutomationElement(pointerToParentByReference);
-//    }
-//
-//    public IUIAutomationElement getFirstChildElement(PointerByReference pointerToElementByReference){
-//        PointerByReference pointerToFirstChildByReference = new PointerByReference();
-//        methods.get("getFirstChildElement").invokeInt(new Object[]{pointerToTreeWalker, pointerToElementByReference, pointerToFirstChildByReference});
-//        return new IUIAutomationElement(pointerToFirstChildByReference);
-//    }
-//
-//    public IUIAutomationElement getLastChildElement(PointerByReference pointerToElementByReference){
-//        PointerByReference pointerToLastChildByReference = new PointerByReference();
-//        methods.get("getLastChildElement").invokeInt(new Object[]{pointerToTreeWalker, pointerToElementByReference, pointerToLastChildByReference});
-//        return new IUIAutomationElement(pointerToLastChildByReference);
-//    }
-//
-//    public IUIAutomationElement getPreviousSiblingElement(PointerByReference pointerToElementByReference){
-//        PointerByReference pointerToPreviousSiblingByReference = new PointerByReference();
-//        methods.get("getPreviousSiblingElement").invokeInt(new Object[]{pointerToTreeWalker, pointerToElementByReference, pointerToPreviousSiblingByReference});
-//        return new IUIAutomationElement(pointerToPreviousSiblingByReference);
-//    }
+    public IUIAutomationElement getParentElement(IUIAutomationElement element){
+        PointerByReference pointerToParentByReference = new PointerByReference();
+        methods.get("getParentElement").invokeInt(new Object[]{pointerToTreeWalker, element.getPointerToElement(), pointerToParentByReference});
+        return new IUIAutomationElement(pointerToParentByReference);
+    }
+
+    public IUIAutomationElement getFirstChildElement(IUIAutomationElement element){
+        PointerByReference pointerToFirstChildByReference = new PointerByReference();
+        methods.get("getFirstChildElement").invokeInt(new Object[]{pointerToTreeWalker, element.getPointerToElement(), pointerToFirstChildByReference});
+        return new IUIAutomationElement(pointerToFirstChildByReference);
+    }
+
+    public IUIAutomationElement getLastChildElement(IUIAutomationElement element){
+        PointerByReference pointerToLastChildByReference = new PointerByReference();
+        methods.get("getLastChildElement").invokeInt(new Object[]{pointerToTreeWalker, element.getPointerToElement(), pointerToLastChildByReference});
+        return new IUIAutomationElement(pointerToLastChildByReference);
+    }
+
+    public IUIAutomationElement getPreviousSiblingElement(IUIAutomationElement element){
+        PointerByReference pointerToPreviousSiblingByReference = new PointerByReference();
+        methods.get("getPreviousSiblingElement").invokeInt(new Object[]{pointerToTreeWalker, element.getPointerToElement(), pointerToPreviousSiblingByReference});
+        return new IUIAutomationElement(pointerToPreviousSiblingByReference);
+    }
 }

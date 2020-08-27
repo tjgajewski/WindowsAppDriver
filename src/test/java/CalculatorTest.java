@@ -100,11 +100,7 @@ public class CalculatorTest {
     @Test
     public void debugging()
     {
-       WindowsElement startElement = driver.findElement(By.name("Five"));
-       startElement.click();
-       By by = By.name("Five");
-      System.out.println(driver.getNextSibling(by).getAttribute("name"));
-      driver.getNextSibling(by).click();
+        driver.findElement(By.xpath(".Five/>/>")).click();
     }
     @AfterMethod
     public void after(){

@@ -62,6 +62,9 @@ public class WindowsBy {
             case "By.linkText":
                 this.attributeIndex = textValue;
                 break;
+            case "By.xpath":
+                this.attributeIndex = comboSelector;
+                break;
             default:
                 throw new WindowsDriverException(attribute + " is an unsupported property for finding an element");
         }
@@ -90,6 +93,9 @@ public class WindowsBy {
                 break;
             case "By.linkText":
                 this.attributeIndex = textValue;
+                break;
+            case "By.xpath":
+                this.attributeIndex = comboSelector;
                 break;
             default:
                 throw new WindowsDriverException(attribute + " is an unsupported property for finding an element");

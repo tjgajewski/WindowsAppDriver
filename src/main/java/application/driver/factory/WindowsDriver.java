@@ -94,7 +94,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     public WindowsElement getNextSibling(By by){
         IUIAutomationTreeWalker treeWalker = iuiAutomation.getTreeWalker();
         String dynamicElementId = String.valueOf(generatedElements.size());
-        IUIAutomationElement firstElement =  ElementHelpers.getIUIAutomationElement(by, iuiAutomation, windowElement);
+        IUIAutomationElement firstElement =  ElementHelpers.getIUIAutomationElement(by, iuiAutomation, windowElement, dynamicElementId);
         IUIAutomationElement targetElement = treeWalker.getNextSiblingElement(firstElement);
         WindowsElement windowsElement = new WindowsElement(targetElement, dynamicElementId);
         return windowsElement;

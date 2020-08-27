@@ -43,8 +43,8 @@ public class FunctionLibraries {
             iuiAutomationFunctions.put("GetElementFromHandle", Function.getFunction(methodsArray[6], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("ElementFromPoint", Function.getFunction(methodsArray[7], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateTreeWalker", Function.getFunction(methodsArray[13], Function.ALT_CONVENTION));
-            iuiAutomationFunctions.put("ControlViewWalker", Function.getFunction(methodsArray[14], Function.ALT_CONVENTION));
-            iuiAutomationFunctions.put("ContentViewWalker", Function.getFunction(methodsArray[15], Function.ALT_CONVENTION));
+            iuiAutomationFunctions.put("GetControlViewWalker", Function.getFunction(methodsArray[14], Function.ALT_CONVENTION));
+            iuiAutomationFunctions.put("GetContentViewWalker", Function.getFunction(methodsArray[15], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateCacheRequest", Function.getFunction(methodsArray[20], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreatePropertyCondition", Function.getFunction(methodsArray[23], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateAndCondition", Function.getFunction(methodsArray[25], Function.ALT_CONVENTION));
@@ -53,8 +53,6 @@ public class FunctionLibraries {
             iuiAutomationFunctions.put("CreateFalseCondition", Function.getFunction(methodsArray[22], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateNotCondition", Function.getFunction(methodsArray[31], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("GetPatternProgrammaticName", Function.getFunction(methodsArray[50], Function.ALT_CONVENTION));
-            iuiAutomationFunctions.put("CreateTreeWalker", Function.getFunction(methodsArray[13], Function.ALT_CONVENTION));
-            iuiAutomationFunctions.put("GetControlViewWalker", Function.getFunction(methodsArray[14], Function.ALT_CONVENTION));
         }
         return new FunctionLibrary(iuiAutomationFunctions, iuiAutomationInterfacePointer);
     }

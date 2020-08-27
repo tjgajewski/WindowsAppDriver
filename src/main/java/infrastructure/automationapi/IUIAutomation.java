@@ -70,10 +70,8 @@ public class IUIAutomation {
     }
 
     public PointerByReference createMultipleConditions(List<By> byList){
-
         WindowsBy windowsBy1 = new WindowsBy(byList.get(0));
         PointerByReference baseCondition = createPropertyCondition(windowsBy1);
-
         for(int i = 1; i < byList.size(); i++){
             WindowsBy windowsBy2 = new WindowsBy(byList.get(i));
             PointerByReference propertyCondition = createAndCondition(baseCondition, createPropertyCondition(windowsBy2));
@@ -85,38 +83,20 @@ public class IUIAutomation {
     public IUIAutomationTreeWalker getTreeWalker(){
         PointerByReference pointerToWalker = new PointerByReference();
         getControlViewWalker(pointerToWalker);
-
-
         Unknown conditionA = new Unknown(pointerToWalker.getValue());
         PointerByReference pointerToNewWalker= new PointerByReference();
-
         methods.get("CreateTreeWalker").invokeInt(new Object[]{pointerToInterface, conditionA, pointerToNewWalker});
-
-
-        WinNT.HRESULT resultA = conditionA.QueryInterface(new Guid.REFIID(IUIAutomationTreeWalker.IID), pointerToNewWalker);
-
-//        if(COMUtils.SUCCEEDED((resultA)){
-//
-//
-//            IUIAutomationTreeWalker walker = IUIAutomationTreeWalkerConverter.pointerToInterface(pointerToNewWalker);
-//            return new AutomationWalker(walker);
-//        }
-//        else{
-//            throw new InfrastructureException(resultA.intValue());
-//        }
-
-            IUIAutomationTreeWalker walker = new IUIAutomationTreeWalker(pointerToNewWalker);
-            return walker;
-
+        conditionA.QueryInterface(new Guid.REFIID(IUIAutomationTreeWalker.IID), pointerToNewWalker);
+        IUIAutomationTreeWalker walker = new IUIAutomationTreeWalker(pointerToNewWalker);
+        return walker;
     }
 
     public void getControlViewWalker(PointerByReference pointerToWalker){
-        methods.get("ControlViewWalker").invokeInt(new Object[]{pointerToInterface, pointerToWalker});
+        methods.get("GetControlViewWalker").invokeInt(new Object[]{pointerToInterface, pointerToWalker});
     }
 
     public void getContentViewWalker(PointerByReference pointerToWalker){
-        methods.get("ContentViewWalker").invokeInt(new Object[]{pointerToInterface, pointerToWalker});
+        methods.get("GetContentViewWalker").invokeInt(new Object[]{pointerToInterface, pointerToWalker});
     }
 
-    
 }
