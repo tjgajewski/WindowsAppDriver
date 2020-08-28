@@ -64,7 +64,6 @@ public class DriverHelpers{
 
     public static By xpathParser(String value){
         By tempBy = null;
-//    [@id='hello']/^/>/*
         String[]valueSplit1 = value.split("\\/");
         String[]valueSplit2 = valueSplit1[0].split("=");
         String attribute = valueSplit2[0];
