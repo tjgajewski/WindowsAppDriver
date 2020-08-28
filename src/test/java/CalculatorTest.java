@@ -100,8 +100,8 @@ public class CalculatorTest {
     @Test
     public void debugging()
     {
-        driver.findElement(By.xpath(".Five/>/>")).click();
-        driver.findElement(By.xpath(".Five/<")).click();
+        driver.findElement(By.xpath("[@name='Five']/>/>")).click();
+        driver.findElement(By.xpath("[@name='Five']/<")).click();
     }
     @AfterMethod
     public void after(){

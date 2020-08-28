@@ -20,12 +20,12 @@ public class DriverHelpers{
         byList.add(b1);
         for(int i = 1; i < stringArray.length; i++){
             String value = stringArray[i];
-            By tempBy = returnParsedBy(value);
+            By tempBy = cssParser(value);
             byList.add(tempBy);}
         return byList;
     }
 
-    public static By returnParsedBy(String value){
+    public static By cssParser(String value){
         By tempBy = null;
         if(value.contains(".")){
             tempBy = By.name(value.replaceAll("\\.", ""));}
@@ -44,7 +44,7 @@ public class DriverHelpers{
         original = original.replaceAll(" ", "");
         String[] xpathCommandList = original.split("\\/");
         String firstElementString =  xpathCommandList[0];
-        By tempBy = returnParsedBy(firstElementString);
+        By tempBy = xpathParser(firstElementString);
         IUIAutomationElement firstElement =  ElementHelpers.getIUIAutomationElement(tempBy, iuiAutomation, frameElement, dynamicElementId);
         IUIAutomationElement currentElement = firstElement;
         for(int i = 1; i < xpathCommandList.length; i ++){
@@ -60,6 +60,32 @@ public class DriverHelpers{
             if(currentCommand.equalsIgnoreCase("**")){
                 currentElement = treeWalker.getLastChildElement(currentElement);} }
         return currentElement;
+    }
+
+    public static By xpathParser(String value){
+        By tempBy = null;
+//    [@id='hello']/^/>/*
+        String[]valueSplit1 = value.split("\\/");
+        String[]valueSplit2 = valueSplit1[0].split("=");
+        String attribute = valueSplit2[0];
+        String attributeValue = valueSplit2[1].replaceAll("[^a-zA-Z0-9]+","");
+        attribute = attribute.replaceAll("[^a-zA-Z0-9]+", "");
+        if(attribute.equalsIgnoreCase("id")) {
+            tempBy = By.id(attributeValue);
+        }
+        if(attribute.equalsIgnoreCase("text")||attribute.equalsIgnoreCase("value")){
+            tempBy = By.linkText(attributeValue);
+        }
+        if(attribute.equalsIgnoreCase("name")){
+            tempBy = By.name(attributeValue);
+        }
+        if(attribute.equalsIgnoreCase("class")){
+            tempBy = By.className(attributeValue);
+        }
+        if(attribute.equalsIgnoreCase("tag")||attribute.equalsIgnoreCase("localcontroltype")){
+            tempBy = By.tagName(attributeValue);
+        }
+        return tempBy;
     }
 
 }
