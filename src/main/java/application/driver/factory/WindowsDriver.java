@@ -188,6 +188,10 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         command.execute(driverCommand, parameters, generatedElements);
         return new Response();
     }
+    @Override
+    public Object executeScript(String script, Object... args) {
+        return null;
+    }
 
     public class WindowsTargetLocator implements WebDriver.TargetLocator {
         @Override
