@@ -1,6 +1,7 @@
 package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
+import com.sun.jna.platform.win32.COM.Unknown;
 import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.*;
 import com.sun.jna.platform.win32.*;
@@ -69,19 +70,33 @@ public class IUIAutomation {
     }
 
     public PointerByReference createMultipleConditions(List<By> byList){
-
         WindowsBy windowsBy1 = new WindowsBy(byList.get(0));
         PointerByReference baseCondition = createPropertyCondition(windowsBy1);
-
         for(int i = 1; i < byList.size(); i++){
             WindowsBy windowsBy2 = new WindowsBy(byList.get(i));
             PointerByReference propertyCondition = createAndCondition(baseCondition, createPropertyCondition(windowsBy2));
             baseCondition = propertyCondition;
         }
-
         return baseCondition;
     }
 
-    
-    
+    public IUIAutomationTreeWalker getTreeWalker(){
+        PointerByReference pointerToWalker = new PointerByReference();
+        getControlViewWalker(pointerToWalker);
+        Unknown conditionA = new Unknown(pointerToWalker.getValue());
+        PointerByReference pointerToNewWalker= new PointerByReference();
+        methods.get("CreateTreeWalker").invokeInt(new Object[]{pointerToInterface, conditionA, pointerToNewWalker});
+        conditionA.QueryInterface(new Guid.REFIID(IUIAutomationTreeWalker.IID), pointerToNewWalker);
+        IUIAutomationTreeWalker walker = new IUIAutomationTreeWalker(pointerToNewWalker);
+        return walker;
+    }
+
+    public void getControlViewWalker(PointerByReference pointerToWalker){
+        methods.get("GetControlViewWalker").invokeInt(new Object[]{pointerToInterface, pointerToWalker});
+    }
+
+    public void getContentViewWalker(PointerByReference pointerToWalker){
+        methods.get("GetContentViewWalker").invokeInt(new Object[]{pointerToInterface, pointerToWalker});
+    }
+
 }

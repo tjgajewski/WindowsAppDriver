@@ -25,7 +25,7 @@ public class FunctionLibraries {
     private Guid.IID iuiautomationIid = new Guid.IID("{30CBE57D-D9D0-452A-AB13-7AC5AC4825EE}");
     private Guid.GUID iuiautomationClisid = new Guid.GUID("{FF48DBA4-60EF-4201-AA87-54103EEF594E}");
     private Guid.REFIID iuiautomationRefiid = new Guid.REFIID(iuiautomationIid);
-
+    private Guid.GUID iuiautomationTreeIid = new Guid.GUID("{4042C624-389C-4AFC-A630-9DF854A541FC}");
 
     private HashMap<String, Function> iuiAutomationFunctions;
     private Pointer iuiAutomationInterfacePointer;
@@ -42,6 +42,9 @@ public class FunctionLibraries {
             iuiAutomationFunctions.put("GetFocusedElement", Function.getFunction(methodsArray[5], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("GetElementFromHandle", Function.getFunction(methodsArray[6], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("ElementFromPoint", Function.getFunction(methodsArray[7], Function.ALT_CONVENTION));
+            iuiAutomationFunctions.put("CreateTreeWalker", Function.getFunction(methodsArray[13], Function.ALT_CONVENTION));
+            iuiAutomationFunctions.put("GetControlViewWalker", Function.getFunction(methodsArray[14], Function.ALT_CONVENTION));
+            iuiAutomationFunctions.put("GetContentViewWalker", Function.getFunction(methodsArray[15], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateCacheRequest", Function.getFunction(methodsArray[20], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreatePropertyCondition", Function.getFunction(methodsArray[23], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateAndCondition", Function.getFunction(methodsArray[25], Function.ALT_CONVENTION));
@@ -50,8 +53,6 @@ public class FunctionLibraries {
             iuiAutomationFunctions.put("CreateFalseCondition", Function.getFunction(methodsArray[22], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateNotCondition", Function.getFunction(methodsArray[31], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("GetPatternProgrammaticName", Function.getFunction(methodsArray[50], Function.ALT_CONVENTION));
-            iuiAutomationFunctions.put("CreateTreeWalker", Function.getFunction(methodsArray[13], Function.ALT_CONVENTION));
-            iuiAutomationFunctions.put("GetControlViewWalker", Function.getFunction(methodsArray[14], Function.ALT_CONVENTION));
         }
         return new FunctionLibrary(iuiAutomationFunctions, iuiAutomationInterfacePointer);
     }
@@ -156,5 +157,30 @@ public class FunctionLibraries {
             iuiAutomationWindowPatternMethods.put("SetVisualState", Function.getFunction(methodsArray[5], Function.ALT_CONVENTION));
         }
         return new FunctionLibrary(iuiAutomationWindowPatternMethods, pointerToPatternClassInstance);
+    }
+
+    private HashMap<String, Function> iuiAutomationTreeWalkerMethods;
+    public FunctionLibrary iuiAutomationTreeWalkerLibrary(PointerByReference pointerToTreeWalkerByRefference) {
+        Pointer pointerToTreeWalker = pointerToTreeWalkerByRefference.getValue();
+        if(iuiAutomationTreeWalkerMethods == null){
+            iuiAutomationTreeWalkerMethods= new HashMap<>();
+            Ole ole = new Ole(iuiautomationClisid, iuiautomationIid);
+            COMUtils.checkRC(ole.getUnknown().QueryInterface(iuiautomationRefiid, pointerToTreeWalkerByRefference));
+            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(pointerToTreeWalker.getPointer(0), 16);
+            iuiAutomationTreeWalkerMethods.put("getParentElement", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getFirstChildElement", Function.getFunction(methodsArray[4], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getLastChildElement", Function.getFunction(methodsArray[5], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getNextSiblingElement", Function.getFunction(methodsArray[6], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getPreviousSiblingElement", Function.getFunction(methodsArray[7], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("normalizeElement", Function.getFunction(methodsArray[8], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getParentElementBuildCache", Function.getFunction(methodsArray[9], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getFirstChildElementBuildCache", Function.getFunction(methodsArray[10], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getLastChildElementBuildCache", Function.getFunction(methodsArray[11], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getNextSiblingElementBuildCache", Function.getFunction(methodsArray[12], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("getPreviousSiblingElementBuildCache", Function.getFunction(methodsArray[13], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("NormalizeElementBuildCache", Function.getFunction(methodsArray[14], Function.ALT_CONVENTION));
+            iuiAutomationTreeWalkerMethods.put("condition", Function.getFunction(methodsArray[15], Function.ALT_CONVENTION));
+        }
+        return new FunctionLibrary(iuiAutomationTreeWalkerMethods, pointerToTreeWalker);
     }
 }

@@ -2,14 +2,12 @@ package application.driver.factory;
 
 
 import application.driver.command.WindowsDriverCommands;
+import application.element.factory.ElementHelpers;
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
 import com.google.common.collect.ImmutableMap;
-import infrastructure.automationapi.IUIAutomation;
-import infrastructure.automationapi.IUIAutomationElement;
-import infrastructure.automationapi.WindowVisualState;
+import infrastructure.automationapi.*;
 import infrastructure.automationapi.patterns.WindowPattern;
-import infrastructure.automationapi.IUIAutomationElementArray;
 import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
@@ -93,7 +91,14 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         return windowsElement;
     }
 
-
+    public WindowsElement getNextSibling(By by){
+        IUIAutomationTreeWalker treeWalker = iuiAutomation.getTreeWalker();
+        String dynamicElementId = String.valueOf(generatedElements.size());
+        IUIAutomationElement firstElement =  ElementHelpers.getIUIAutomationElement(by, iuiAutomation, windowElement, dynamicElementId);
+        IUIAutomationElement targetElement = treeWalker.getNextSiblingElement(firstElement);
+        WindowsElement windowsElement = new WindowsElement(targetElement, dynamicElementId);
+        return windowsElement;
+    }
     @Override
     public List<WebElement> findElements(By by) {
         WindowsBy windowsBy = new WindowsBy(by);

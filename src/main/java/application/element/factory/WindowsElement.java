@@ -31,13 +31,13 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
     }
 
     public WindowsElement(By by, String dynamicElementId, IUIAutomation iuiAutomation,IUIAutomationElement frameElement){
-        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement);
+        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement, dynamicElementId);
         this.element = element;
         this.dynamicElementId = dynamicElementId;
     }
 
     public WindowsElement(By by, IUIAutomation iuiAutomation,IUIAutomationElement frameElement){
-        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement);
+        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement, dynamicElementId);
         this.element = element;
     }
 

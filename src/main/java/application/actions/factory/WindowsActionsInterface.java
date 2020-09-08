@@ -31,4 +31,14 @@ public interface WindowsActionsInterface {
      * @param generatedElements the generated elements
      */
     void sendKeysToActiveElement(Map<String, ?> parameters, HashMap<String, By> generatedElements);
+
+//    /**
+//     * Mouse double click.
+//     *
+//     * @param parameters        the parameters
+//     * @param generatedElements the generated elements
+//     */
+//    void doubleClick(Map<String, ?> parameters, HashMap<String, By> generatedElements);
 }
+
+

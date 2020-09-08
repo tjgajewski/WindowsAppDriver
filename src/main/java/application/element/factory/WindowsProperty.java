@@ -34,6 +34,9 @@ public class WindowsProperty {
             case "size":
                 propertyIndex = 30167;
                 break;
+            case "defaultaction":
+                propertyIndex = 30100;
+                break;
             default:
                 throw new WindowsDriverException(attribute + " is an unspoorted property type");
         }
