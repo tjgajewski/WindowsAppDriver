@@ -1,6 +1,7 @@
 package application.driver;
 
 import application.element.factory.ElementHelpers;
+import application.element.factory.WindowsBy;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.automationapi.IUIAutomationTreeWalker;
@@ -11,9 +12,10 @@ import java.util.List;
 
 public class DriverHelpers{
 
-    public static List<By> splitCssSelectorBy(By by){
-        String original = by.toString().split(":")[1];
-        original = original.replaceAll(" ", "");
+    public static List<By> splitCssSelectorBy(WindowsBy by){
+       // String original = by.toString().split(":")[1];
+        //original = original.replaceAll(" ", "");
+        String original = by.getAttributeValue();
         List<By>byList = new ArrayList<>();
         String[] stringArray = original.split("(?=\\.)|(?=#)|(?=@)|(?=\\$)");
         By b1 =  By.tagName(stringArray[0]);
@@ -38,13 +40,14 @@ public class DriverHelpers{
         return tempBy;
     }
 
-    public static IUIAutomationElement returnXpathElement(By by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId){
+    public static IUIAutomationElement returnXpathElement(WindowsBy by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId){
         IUIAutomationTreeWalker treeWalker = iuiAutomation.getTreeWalker();
-        String original = by.toString().split(":")[1];
-        original = original.replaceAll(" ", "");
+       // String original = by.toString().split(":")[1];
+      //  original = original.replaceAll(" ", "");
+        String original = by.getAttributeValue();
         String[] xpathCommandList = original.split("\\/");
         String firstElementString =  xpathCommandList[0];
-        By tempBy = xpathParser(firstElementString);
+        WindowsBy tempBy = xpathParser(firstElementString);
         IUIAutomationElement firstElement =  ElementHelpers.getIUIAutomationElement(tempBy, iuiAutomation, frameElement, dynamicElementId);
         IUIAutomationElement currentElement = firstElement;
         for(int i = 1; i < xpathCommandList.length; i ++){
@@ -62,27 +65,30 @@ public class DriverHelpers{
         return currentElement;
     }
 
-    public static By xpathParser(String value){
-        By tempBy = null;
+    public static WindowsBy xpathParser(String value){
+        WindowsBy tempBy = null;
         String[]valueSplit1 = value.split("\\/");
-        String[]valueSplit2 = valueSplit1[0].split("=");
+        String[]valueSplit2 = valueSplit1[0].split("=",2);
         String attribute = valueSplit2[0];
         String attributeValue = valueSplit2[1].replaceAll("[^a-zA-Z0-9]+","");
         attribute = attribute.replaceAll("[^a-zA-Z0-9]+", "");
         if(attribute.equalsIgnoreCase("id")) {
-            tempBy = By.id(attributeValue);
+            tempBy = new WindowsBy(By.id(attributeValue));
         }
-        if(attribute.equalsIgnoreCase("text")||attribute.equalsIgnoreCase("value")){
-            tempBy = By.linkText(attributeValue);
+        else if(attribute.equalsIgnoreCase("text")||attribute.equalsIgnoreCase("value")){
+            tempBy = new WindowsBy(By.linkText(attributeValue));
         }
-        if(attribute.equalsIgnoreCase("name")){
-            tempBy = By.name(attributeValue);
+        else if(attribute.equalsIgnoreCase("name")){
+            tempBy = new WindowsBy(By.name(attributeValue));
         }
-        if(attribute.equalsIgnoreCase("class")){
-            tempBy = By.className(attributeValue);
+        else if(attribute.equalsIgnoreCase("class")){
+            tempBy = new WindowsBy(By.className(attributeValue));
         }
-        if(attribute.equalsIgnoreCase("tag")||attribute.equalsIgnoreCase("localcontroltype")){
-            tempBy = By.tagName(attributeValue);
+        else if(attribute.equalsIgnoreCase("tag")||attribute.equalsIgnoreCase("localcontroltype")){
+            tempBy = new WindowsBy(By.tagName(attributeValue));
+        }
+        else{
+            tempBy = new WindowsBy(attribute, attributeValue);
         }
         return tempBy;
     }

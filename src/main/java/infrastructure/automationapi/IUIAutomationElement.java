@@ -11,6 +11,7 @@ import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.utils.FunctionLibrary;
+import org.openqa.selenium.NoSuchElementException;
 
 import java.util.HashMap;
 
@@ -41,7 +42,7 @@ public class IUIAutomationElement {
         PointerByReference pointerToElementByReference = new PointerByReference();
         int errorCode = methods.get("FindFirst").invokeInt(new Object[]{pointerToElement, 4, condition, pointerToElementByReference});
         if(pointerToElementByReference.getValue() == null){
-            throw new ElementNotAvailableException(by.getAttribute(), by.getAttributeValue());
+            throw new NoSuchElementException("Unable to find an element using "+ by.toString());
         }
         return new IUIAutomationElement(pointerToElementByReference);
     }

@@ -99,7 +99,13 @@ public class CalculatorTest {
 
     @Test
     public void debugging()
-    {
+    {//BoundingRectangle	[l=759,t=618,r=852,b=691]BoundingRectangle	[l=759,t=694,r=852,b=767]BoundingRectangle	[l=759,t=618,r=852,b=691]
+
+
+       // String s =driver.findElement(By.cssSelector("button.Eight")).getAttribute("BoundingRectangle");
+        //driver.findElement(By.xpath("[@BoundingRectangle=759,618,852,691")).click();
+        driver.findElement(By.cssSelector("button.Five")).click();
+        driver.findElementByRect("button.[l=759,t=694,r=852,b=767]");
         driver.findElement(By.xpath("[@name='Five']/>/>")).click();
         driver.findElement(By.xpath("[@name='Five']/<")).click();
     }

@@ -2,6 +2,11 @@ package application.element.factory;
 
 import application.driver.DriverHelpers;
 import application.driver.factory.WindowsDriver;
+import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.COM.IDispatch;
+import com.sun.jna.platform.win32.OaIdl;
+import com.sun.jna.platform.win32.Variant;
+import com.sun.jna.platform.win32.WTypes;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.automationapi.IUIAutomation;
@@ -112,7 +117,17 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
 
     @Override
     public String getAttribute(String property) {
-        return element.getCurrentPropertyValue(property).stringValue();
+        return element.getCurrentPropertyValue(property).getValue().toString();
+    }
+
+    public Object getProperty(String property) {
+        Variant.VARIANT.ByReference propertyVal = element.getCurrentPropertyValue(property);
+        return propertyVal.getValue();
+    }
+
+    public WinDef.HWND getNativeWindowHandle() {
+        Object value = element.getCurrentPropertyValue("hwnd");
+        return new WinDef.HWND(Pointer.createConstant(Integer.valueOf(value.toString())));
     }
 
     @Override
@@ -184,5 +199,8 @@ public class WindowsElement extends RemoteWebElement implements WebElement, Loca
     public Coordinates getCoordinates() {
         return new WindowsElementCoordinates(this);
     }
+
+
+
 
 }

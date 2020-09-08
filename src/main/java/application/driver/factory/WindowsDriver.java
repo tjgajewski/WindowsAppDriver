@@ -193,10 +193,6 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         command.execute(driverCommand, parameters, generatedElements);
         return new Response();
     }
-    @Override
-    public Object executeScript(String script, Object... args) {
-        return null;
-    }
 
     public class WindowsTargetLocator implements WebDriver.TargetLocator {
         @Override
@@ -250,6 +246,19 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         public Alert alert() {
             return null;
         }
+    }
+
+    public WindowsElement findElementByRect(String rect){
+        String[] parts = rect.split("\\.");
+        List<WebElement> eles = findElements(By.tagName(parts[0]));
+        for(WebElement ele : eles){
+            org.openqa.selenium.Rectangle rectangle = ele.getRect();
+            String rectActual = "[l="+rectangle.getX()+",t=" +rectangle.getY()+",r="+(rectangle.getX()+rectangle.getWidth())+ ",b=" + (rectangle.getY()+rectangle.getHeight())+"]";
+            if(rectActual.equals(parts[1])){
+                return (WindowsElement) ele;
+            }
+        }
+        return null;
     }
 
     public class WindowsDriverOptions implements Options {

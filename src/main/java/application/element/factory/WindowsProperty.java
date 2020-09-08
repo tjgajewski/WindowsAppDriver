@@ -37,6 +37,13 @@ public class WindowsProperty {
             case "defaultaction":
                 propertyIndex = 30100;
                 break;
+            case "boundingrectangle":
+                propertyIndex = 30001;
+                break;
+            case "hwnd":
+            case "handle":
+                propertyIndex = 30020;
+                break;
             default:
                 throw new WindowsDriverException(attribute + " is an unspoorted property type");
         }

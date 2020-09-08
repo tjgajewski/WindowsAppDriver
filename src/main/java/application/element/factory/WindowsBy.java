@@ -14,6 +14,7 @@ public class WindowsBy {
     private int attributeIndex;
     private String attributeValue;
     private int textValue = 30045;
+    private int boundingRect = 30001;
 
     public WindowsBy (By by){
         String[] locator = by.toString().split(":",2);
@@ -97,10 +98,19 @@ public class WindowsBy {
             case "By.xpath":
                 this.attributeIndex = comboSelector;
                 break;
+            case "boundingrectangle":
+                this.attributeIndex = boundingRect;
+                break;
             default:
                 throw new WindowsDriverException(attribute + " is an unsupported property for finding an element");
         }
         this.attributeValue = attributeValue;
+        this.attribute = attribute;
+    }
+
+    @Override
+    public String toString(){
+        return attribute+": "+attributeValue;
     }
 
 }

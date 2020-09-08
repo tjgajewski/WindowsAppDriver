@@ -70,7 +70,13 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>JNI4NetJava</groupId>
+            <artifactId>JNI4NetJava</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/JNI4Net/jni4net.j-0.8.9.0.jar</systemPath>
+        </dependency>
 
 
     </dependencies>

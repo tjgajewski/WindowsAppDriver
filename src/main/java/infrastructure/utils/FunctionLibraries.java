@@ -88,6 +88,7 @@ public class FunctionLibraries {
             iuiAutomationElementMethods.put("GetCurrentAutomationId", Function.getFunction(methodsArray[29], Function.ALT_CONVENTION));
             iuiAutomationElementMethods.put("GetCurrentBoundingRectangle", Function.getFunction(methodsArray[43], Function.ALT_CONVENTION));
             iuiAutomationElementMethods.put("GetClickablePoint", Function.getFunction(methodsArray[84], Function.ALT_CONVENTION));
+            iuiAutomationElementMethods.put("CurrentNativeWindowHandle", Function.getFunction(methodsArray[36], Function.ALT_CONVENTION));
         }
         return new FunctionLibrary(iuiAutomationElementMethods, pointerToElement);
     }

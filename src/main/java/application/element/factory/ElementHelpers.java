@@ -14,14 +14,19 @@ public class ElementHelpers extends WindowsDriver {
 
     public static IUIAutomationElement getIUIAutomationElement(By by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId){
         WindowsBy windowsBy = new WindowsBy(by);
+        return getIUIAutomationElement(windowsBy, iuiAutomation, frameElement, dynamicElementId);
+    }
+
+    public static IUIAutomationElement getIUIAutomationElement(WindowsBy windowsBy, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId){
+
         IUIAutomationElement element;
         if(windowsBy.getAttribute().equalsIgnoreCase("By.cssSelector")){
-            List<By> byList = DriverHelpers.splitCssSelectorBy(by);
+            List<By> byList = DriverHelpers.splitCssSelectorBy(windowsBy);
             PointerByReference propertyCondition = iuiAutomation.createMultipleConditions(byList);
             element = frameElement.findFirst(propertyCondition, windowsBy);
         }
-        if(windowsBy.getAttribute().equalsIgnoreCase("By.xpath")){
-            element =  DriverHelpers.returnXpathElement(by, iuiAutomation, frameElement, dynamicElementId);
+        else if(windowsBy.getAttribute().equalsIgnoreCase("By.xpath")){
+            element =  DriverHelpers.returnXpathElement(windowsBy, iuiAutomation, frameElement, dynamicElementId);
         }
         else{
             PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue());
