@@ -74,7 +74,7 @@ public ControlProxy proxy;
         mouseEventArgs.settypeName("System.Windows.Forms.MouseEventArgs");
         mouseEventArgs.setassembly(assembly.getLocation());
         mouseEventArgs.setparams(new system.Object[] {mouseButtons, Int32.parse(1), Int32.parse(middlex), Int32.parse(middley), Int32.parse(1)});
-        proxy.Invoke("OnMouseClick", new system.Object[] {mouseEventArgs});
+        proxy.Invoke("OnMouseDown", new system.Object[] {mouseEventArgs});
         //proxy.Invoke("OnMouseUp", new system.Object[] {mouseEventArgs});
     }
 
