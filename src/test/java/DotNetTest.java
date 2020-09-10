@@ -28,34 +28,22 @@ public class DotNetTest {
     @Test
     public void test(){
         DotNetElement element = new DotNetElement(driver.findElement(By.name("Hey my text changed")));
+ 
         String name = String.valueOf(element.proxy.GetValue("Name"));
         Assert.assertTrue(name.equals("I am a button"));
-
-        //Load the Remote Object Assembly
-        Assembly assembly = Assembly.Load("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
-
-        //Create the mouse buttons parameter
-        //URL: https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.mousebuttons?view=netcore-3.1
-        RemoteObject mouseButtons = new RemoteObject();
-        mouseButtons.settypeName("System.Windows.Forms.MouseButtons");
-        mouseButtons.setassembly(assembly.getLocation());
-        mouseButtons.setgetType("property");
-        mouseButtons.setname("Right");
-
-        //Create the Mouse Arguments Parameter
-        //URL: https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.mouseeventargs?view=netcore-3.1
-        RemoteObject mouseEventArgs = new RemoteObject();
-        mouseEventArgs.settypeName("System.Windows.Forms.MouseEventArgs");
-        mouseEventArgs.setassembly(assembly.getLocation());
-        mouseEventArgs.setparams(new system.Object[] {mouseButtons, Int32.parse(1), Int32.parse(33), Int32.parse(12), Int32.parse(1)});
-        element.proxy.Invoke("OnMouseDown", new system.Object[] {mouseEventArgs});
-
+        
+        //element.getText();
+        //element.getName();
+        //element.click();
+        element.rightclick();
+        //element.setTextAs("example text");
+      
 
     }
 
     @AfterClass
     public void after(){
 
-        //driver.quit();
+       // driver.quit();
     }
 }

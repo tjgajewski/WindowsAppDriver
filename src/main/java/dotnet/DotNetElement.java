@@ -22,7 +22,8 @@ public ControlProxy proxy;
     public String getAttribute(String attribute){
         return proxy.GetValue(attribute).toString();
     }
-
+  
+    
     public void click(){
         //Load the Remote Object Assembly
         Assembly assembly = Assembly.Load("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
@@ -35,16 +36,64 @@ public ControlProxy proxy;
         mouseButtons.setgetType("property");
         mouseButtons.setname("Left");
 
+        String xdim = String.valueOf(proxy.GetValue("Width"));
+        String ydim = String.valueOf(proxy.GetValue("Height"));
+        int middlex = (int)(Double.parseDouble(xdim)/2);
+        int middley = (int)(Double.parseDouble(ydim)/2);
+        
         //Create the Mouse Arguments Parameter
         //URL: https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.mouseeventargs?view=netcore-3.1
         RemoteObject mouseEventArgs = new RemoteObject();
         mouseEventArgs.settypeName("System.Windows.Forms.MouseEventArgs");
         mouseEventArgs.setassembly(assembly.getLocation());
-        mouseEventArgs.setparams(new system.Object[] {mouseButtons, Int32.parse(1), Int32.parse(33), Int32.parse(12), Int32.parse(1)});
-        proxy.Invoke("OnClick", new system.Object[] {mouseEventArgs});
+        mouseEventArgs.setparams(new system.Object[] {mouseButtons, Int32.parse(1), Int32.parse(middlex), Int32.parse(middley), Int32.parse(1)});
+        proxy.Invoke("OnMouseDown", new system.Object[] {mouseEventArgs});
+        proxy.Invoke("OnMouseUp", new system.Object[] {mouseEventArgs});
+    }
+    
+    public void rightclick(){
+        //Load the Remote Object Assembly
+        Assembly assembly = Assembly.Load("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+
+        //Create the mouse buttons parameter
+        //URL: https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.mousebuttons?view=netcore-3.1
+        RemoteObject mouseButtons = new RemoteObject();
+        mouseButtons.settypeName("System.Windows.Forms.MouseButtons");
+        mouseButtons.setassembly(assembly.getLocation());
+        mouseButtons.setgetType("property");
+        mouseButtons.setname("Right");
+
+        String xdim = String.valueOf(proxy.GetValue("Width"));
+        String ydim = String.valueOf(proxy.GetValue("Height"));
+        int middlex = (int)(Double.parseDouble(xdim)/2);
+        int middley = (int)(Double.parseDouble(ydim)/2);
+        
+        //Create the Mouse Arguments Parameter
+        //URL: https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.mouseeventargs?view=netcore-3.1
+        RemoteObject mouseEventArgs = new RemoteObject();
+        mouseEventArgs.settypeName("System.Windows.Forms.MouseEventArgs");
+        mouseEventArgs.setassembly(assembly.getLocation());
+        mouseEventArgs.setparams(new system.Object[] {mouseButtons, Int32.parse(1), Int32.parse(middlex), Int32.parse(middley), Int32.parse(1)});
+        proxy.Invoke("OnMouseClick", new system.Object[] {mouseEventArgs});
         //proxy.Invoke("OnMouseUp", new system.Object[] {mouseEventArgs});
-        proxy.SetValue("Text", new system.String("hello"));
     }
 
-
+    public void setTextAs(String text){
+        proxy.SetValue("Text", new system.String(text));
+    } 
+    
+    public String getText(){
+    	String text =  String.valueOf(proxy.GetValue("Text"));
+    	//proxy.SetValue("Text", new system.String(text));
+    	System.out.println(text);
+   return text;
+    }
+    
+    public String getName(){
+    	String name =  String.valueOf(proxy.GetValue("Name"));
+    	//proxy.SetValue("Text", new system.String(name));
+    	System.out.println(name);
+   return name;
+    }
+    
 }
