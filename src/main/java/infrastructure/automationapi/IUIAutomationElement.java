@@ -51,7 +51,7 @@ public class IUIAutomationElement {
         PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
         methods.get("FindAll").invokeInt(new Object[]{pointerToElement, 4, condition,  IUIAutomationElementArrayPbr});
         if (IUIAutomationElementArrayPbr.getValue() == null) {
-            throw new ElementNotAvailableException(by.getAttribute(), by.getAttributeValue());
+            throw new NoSuchElementException("Unable to find an element using "+ by.toString());
         }
         IUIAutomationElementArray returnArray = new IUIAutomationElementArray(IUIAutomationElementArrayPbr);
         return returnArray;

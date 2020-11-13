@@ -22,12 +22,6 @@ public class FastCalculatorTest {
         capabilities.setCapability("applicationName", "Calculator.exe");
         capabilities.setCapability("ensureCleanSession", "true");
         driver = new WindowsDriver(capabilities);
-        WebElement e = new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(By.name("Spotify Premium")));
-        Actions a = new Actions(driver);
-        a.moveToElement(e);
-        a.contextClick();
-        a.perform();
-        driver.switchTo().frame(e);
     }
 
     @Test
