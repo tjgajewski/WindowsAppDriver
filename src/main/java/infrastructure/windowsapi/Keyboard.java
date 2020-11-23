@@ -1,6 +1,7 @@
 package infrastructure.windowsapi;
 
 import com.gargoylesoftware.htmlunit.NotYetImplementedException;
+import com.sun.jna.platform.unix.X11;
 import com.sun.jna.platform.win32.BaseTSD;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
@@ -66,6 +67,7 @@ public class Keyboard {
         input.input.ki.wVk = new WinDef.WORD(key);
         input.input.ki.dwFlags = new WinDef.DWORD(0);
         checkStatus(User32.INSTANCE.SendInput( new WinDef.DWORD(1), (WinUser.INPUT[]) input.toArray(1), input.size()), key);
+
     }
 
     protected static void releaseKey(long key){
