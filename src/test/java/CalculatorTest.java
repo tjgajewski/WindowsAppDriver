@@ -44,6 +44,23 @@ public class CalculatorTest {
     public void addition() throws InterruptedException {
 
 
+
+
+        for(int i = 0; i < 10 ; i++){
+            Actions action = new Actions(driver);
+            action.moveToElement(driver.findElement(By.id("num"+i+"Button"))).perform();
+            Thread.sleep(1000);
+        }
+
+        List<WebElement> elements = driver.findElements(By.xpath("//*[@id='NumberPad']//button"));
+        for(WebElement element: elements){
+            System.out.println(element.getLocation());
+            Actions action = new Actions(driver);
+            action.moveToElement(element).perform();
+            Thread.sleep(1000);
+        }
+
+
 WindowsElement element = driver.findElement(By.xpath("/window/window/group/group"));
 String x = element.getAbsXpath();
         driver.getWindowElement().getCurrentPropertyValue("hwnd");
