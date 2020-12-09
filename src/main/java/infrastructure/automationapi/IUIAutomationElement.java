@@ -58,6 +58,30 @@ public class IUIAutomationElement {
 
     }
 
+    public IUIAutomationElementArray findAllFirstDescendent(PointerByReference conditionRef, WindowsBy by)  {
+        Pointer condition = conditionRef.getValue();
+        PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
+        methods.get("FindAll").invokeInt(new Object[]{pointerToElement, 2, condition,  IUIAutomationElementArrayPbr});
+        if (IUIAutomationElementArrayPbr.getValue() == null) {
+            throw new NoSuchElementException("Unable to find an element using "+ by.toString());
+        }
+        IUIAutomationElementArray returnArray = new IUIAutomationElementArray(IUIAutomationElementArrayPbr);
+        return returnArray;
+
+    }
+
+    public IUIAutomationElementArray findAllFirstAncestors(PointerByReference conditionRef, WindowsBy by)  {
+        Pointer condition = conditionRef.getValue();
+        PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
+        methods.get("FindAll").invokeInt(new Object[]{pointerToElement, 16, condition,  IUIAutomationElementArrayPbr});
+        if (IUIAutomationElementArrayPbr.getValue() == null) {
+            throw new NoSuchElementException("Unable to find an element using "+ by.toString());
+        }
+        IUIAutomationElementArray returnArray = new IUIAutomationElementArray(IUIAutomationElementArrayPbr);
+        return returnArray;
+
+    }
+
     public PointerByReference getCurrentPattern(int patternId){
         PointerByReference pointerByReference = new PointerByReference();
         methods.get("GetCurrentPattern").invokeInt(new Object[]{pointerToElement, patternId, pointerByReference});
@@ -82,6 +106,13 @@ public class IUIAutomationElement {
         methods.get("GetCurrentBoundingRectangle").invokeInt(new Object[]{pointerToElement,retVal});
         return retVal;
     }
+
+    public WinDef.HWND getNativeWindowhandle () {
+        WinDef.HWND retVal = new WinDef.HWND();
+        methods.get("CurrentNativeWindowHandle").invokeInt(new Object[]{pointerToElement,retVal});
+        return retVal;
+    }
+    //CurrentNativeWindowHandle
     public WinDef.POINT getClickablePoint () {
         WinDef.POINT.ByReference pbr = new WinDef.POINT.ByReference();
         WinDef.BOOLByReference br = new WinDef.BOOLByReference();

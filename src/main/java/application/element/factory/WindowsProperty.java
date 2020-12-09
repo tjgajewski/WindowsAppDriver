@@ -44,6 +44,19 @@ public class WindowsProperty {
             case "handle":
                 propertyIndex = 30020;
                 break;
+            case "frameworkid":
+            case "framework id":
+                propertyIndex = 30024;
+                break;
+            case "levelpropertyid":
+            case "level property id":
+                propertyIndex = 30154;
+                break;
+            case "process id":
+            case "ppid":
+            case "processid":
+                propertyIndex = 30002;
+                break;
             default:
                 throw new WindowsDriverException(attribute + " is an unspoorted property type");
         }

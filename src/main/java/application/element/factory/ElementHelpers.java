@@ -12,12 +12,12 @@ import java.util.List;
 
 public class ElementHelpers extends WindowsDriver {
 
-    public static IUIAutomationElement getIUIAutomationElement(By by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId){
+    public static IUIAutomationElement getIUIAutomationElement(By by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId, WindowsDriver driver){
         WindowsBy windowsBy = new WindowsBy(by);
-        return getIUIAutomationElement(windowsBy, iuiAutomation, frameElement, dynamicElementId);
+        return getIUIAutomationElement(windowsBy, iuiAutomation, frameElement, dynamicElementId, driver);
     }
 
-    public static IUIAutomationElement getIUIAutomationElement(WindowsBy windowsBy, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId){
+    public static IUIAutomationElement getIUIAutomationElement(WindowsBy windowsBy, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId, WindowsDriver driver){
 
         IUIAutomationElement element;
         if(windowsBy.getAttribute().equalsIgnoreCase("By.cssSelector")){
@@ -26,7 +26,7 @@ public class ElementHelpers extends WindowsDriver {
             element = frameElement.findFirst(propertyCondition, windowsBy);
         }
         else if(windowsBy.getAttribute().equalsIgnoreCase("By.xpath")){
-            element =  DriverHelpers.returnXpathElement(windowsBy, iuiAutomation, frameElement, dynamicElementId);
+            element =  DriverHelpers.returnXpathElement(windowsBy, iuiAutomation, frameElement, dynamicElementId, driver);
         }
         else{
             PointerByReference propertyCondition = iuiAutomation.createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue());

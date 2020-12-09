@@ -6,11 +6,15 @@ import application.element.factory.ElementHelpers;
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
 import com.google.common.collect.ImmutableMap;
+import com.sun.jna.platform.win32.WinDef;
 import infrastructure.automationapi.*;
 import infrastructure.automationapi.patterns.WindowPattern;
 import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.codec.binary.Base64;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.logging.Logs;
@@ -22,6 +26,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -44,12 +49,17 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     }
 
     protected IUIAutomation iuiAutomation;
+
+    public WindowsElement getRootElement() {
+        return new WindowsElement(rootElement,"-1",this);
+    }
+
     protected IUIAutomationElement rootElement;
     protected IUIAutomationElement windowElement;
     protected FunctionLibraries iuiAutomationElementLib;
     protected DesiredCapabilities capabilities;
     protected WindowsDriverCommands command;
-    private HashMap<String, By> generatedElements = new HashMap<>();
+    public HashMap<String, By> generatedElements = new HashMap<>();
 
 
     public WindowsDriver(){
@@ -86,7 +96,7 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     @Override
     public WindowsElement findElement(By by) {
         String dynamicElementId = String.valueOf(generatedElements.size());
-        WindowsElement windowsElement = new WindowsElement(by,dynamicElementId,iuiAutomation,windowElement);
+        WindowsElement windowsElement = new WindowsElement(by,dynamicElementId,iuiAutomation,windowElement,this);
         generatedElements.put(dynamicElementId,by);
         return windowsElement;
     }
@@ -94,9 +104,9 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
     public WindowsElement getNextSibling(By by){
         IUIAutomationTreeWalker treeWalker = iuiAutomation.getTreeWalker();
         String dynamicElementId = String.valueOf(generatedElements.size());
-        IUIAutomationElement firstElement =  ElementHelpers.getIUIAutomationElement(by, iuiAutomation, windowElement, dynamicElementId);
+        IUIAutomationElement firstElement =  ElementHelpers.getIUIAutomationElement(by, iuiAutomation, windowElement, dynamicElementId, this);
         IUIAutomationElement targetElement = treeWalker.getNextSiblingElement(firstElement);
-        WindowsElement windowsElement = new WindowsElement(targetElement, dynamicElementId);
+        WindowsElement windowsElement = new WindowsElement(targetElement, dynamicElementId, this);
         return windowsElement;
     }
     @Override
@@ -108,15 +118,105 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         for(int i = 0; i < elements.getLength(); i++){
             String dynamicElementId = String.valueOf(generatedElements.size());
             generatedElements.put(dynamicElementId,by);
-            WindowsElement currentElement = new WindowsElement(elements.getElement(i),dynamicElementId);
+            WindowsElement currentElement = new WindowsElement(elements.getElement(i), dynamicElementId, this);
             elementsList.add(currentElement);
         }
         return elementsList;
     }
 
+    public WindowsElement elementFromPoint(WinDef.POINT point){
+        String dynamicElementId = String.valueOf(generatedElements.size());
+        PointerByReference pointerToElement = new PointerByReference();
+        iuiAutomation.elementFromPoint(point, pointerToElement);
+        generatedElements.put(dynamicElementId,null);
+        return new WindowsElement(new IUIAutomationElement(pointerToElement), dynamicElementId, this);
+
+    }
+
+    public WindowsElement getFocusedElement(){
+        String dynamicElementId = String.valueOf(generatedElements.size());
+        PointerByReference pointerToElement = new PointerByReference();
+        iuiAutomation.getFocusedElement(pointerToElement);
+        generatedElements.put(dynamicElementId,null);
+        return new WindowsElement(new IUIAutomationElement(pointerToElement), dynamicElementId, this);
+
+    }
+
+    public Element xml;
+
+    public Element buildXmlHierarchy() {
+        if(xml==null){
+            String dom = getPageSource();
+            Document doc = Jsoup.parse(dom);
+            xml = doc.getElementsByTag("body").get(0);
+        }
+        return xml;
+    }
+
+    private void compileXml(StringBuilder dom, WindowsElement element){
+
+        List<WindowsElement> children = element.getAllChildrenElements();
+        for(WindowsElement child : children){
+            hierarchyId++;
+            String tag = child.getTagName().replace(" ","-");;
+            dom.append("<"+tag);
+            appendAttributeToXml(dom, child, "name");
+            appendAttributeToXml(dom, child, "id");
+            appendAttributeToXml(dom, child, "classname");
+            //appendAttributeToXml(front, child, "size");
+            appendAttributeToXml(dom, child, "frameworkid");
+            // appendAttributeToXml(front, child, "hwnd");
+            appendAttributeToXml(dom, child, "text");
+            dom.append(" hierarchyId=\""+hierarchyId+"\"");
+            queryTable.put(hierarchyId,child);
+            dom.append(">");
+            if(children.size()>0){
+                compileXml(dom, child);
+            }
+            dom.append("</"+tag+">");
+        }
+    }
+
+    private void appendAttributeToXml(StringBuilder sb, WindowsElement element, String propertyName){
+        String value = element.getAttribute(propertyName);
+        if(!value.equals("")&&!value.equals("null")){
+            sb.append(" "+propertyName+"=\""+value+"\"");
+        }
+    }
+
+    public HashMap<Integer, WindowsElement> getQueryTable() {
+        return queryTable;
+    }
+
+    private HashMap<Integer, WindowsElement> queryTable;
+    private Integer hierarchyId;
     @Override
     public String getPageSource() {
-        return null;
+        queryTable = new HashMap<>();
+        StringBuilder dom = new StringBuilder();
+        hierarchyId=0;
+        WindowsElement mainWindow = new WindowsElement(windowElement,"-1",this);
+        String tag = mainWindow.getTagName().replace(" ","-");
+        if(tag.equals("")){
+            tag = "undefined";
+        }
+        dom.append("<"+tag);
+        appendAttributeToXml(dom, mainWindow, "name");
+        appendAttributeToXml(dom, mainWindow, "id");
+        appendAttributeToXml(dom, mainWindow, "classname");
+        appendAttributeToXml(dom, mainWindow, "frameworkid");
+        appendAttributeToXml(dom, mainWindow, "text");
+        dom.append(" hierarchyId=\""+hierarchyId+"\"");
+        queryTable.put(hierarchyId,mainWindow);
+        dom.append(">");
+        if(mainWindow.getAllChildrenElements().size()>0){
+            compileXml(dom, mainWindow);
+        }
+        dom.append("</"+tag+">");
+
+
+
+        return dom.toString();
     }
 
     @Override

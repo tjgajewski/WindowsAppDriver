@@ -55,6 +55,7 @@ public class WindowsBy {
                 this.attributeIndex = className;
                 break;
             case "By.tagName":
+                attributeValue=attributeValue.replace("-"," ");
                 this.attributeIndex = localControlType;
                 break;
             case "By.cssSelector":
@@ -87,6 +88,7 @@ public class WindowsBy {
             case "tagname":
             case "localizedcontroltype":
             case "tag":
+                attributeValue=attributeValue.replace("-"," ");
                 this.attributeIndex = localControlType;
                 break;
             case "By.cssSelector":

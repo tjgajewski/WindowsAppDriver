@@ -1,11 +1,16 @@
 package application.driver;
 
+import application.driver.factory.WindowsDriver;
 import application.element.factory.ElementHelpers;
 import application.element.factory.WindowsBy;
+import application.element.factory.WindowsElement;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.automationapi.IUIAutomationTreeWalker;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import us.codecraft.xsoup.Xsoup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +45,21 @@ public class DriverHelpers{
         return tempBy;
     }
 
-    public static IUIAutomationElement returnXpathElement(WindowsBy by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId){
+    public static IUIAutomationElement returnXpathElement(WindowsBy by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId, WindowsDriver driver){
+        Element dom= driver.buildXmlHierarchy();
+        Elements elements = Xsoup.compile(by.getAttributeValue()).evaluate(dom).getElements();
+        if(elements.size()==0){
+            driver.xml=null;
+            dom=driver.buildXmlHierarchy();
+            elements=Xsoup.compile(by.getAttributeValue()).evaluate(dom).getElements();
+        }
+        String hierarchId=elements.get(0).attr("hierarchyId");
+        WindowsElement element = driver.getQueryTable().get(Integer.parseInt(hierarchId));
+        return element.getIUIAutomationElement();
+
+
+
+        /*
         IUIAutomationTreeWalker treeWalker = iuiAutomation.getTreeWalker();
        // String original = by.toString().split(":")[1];
       //  original = original.replaceAll(" ", "");
@@ -63,6 +82,8 @@ public class DriverHelpers{
             if(currentCommand.equalsIgnoreCase("**")){
                 currentElement = treeWalker.getLastChildElement(currentElement);} }
         return currentElement;
+         */
+
     }
 
     public static WindowsBy xpathParser(String value){

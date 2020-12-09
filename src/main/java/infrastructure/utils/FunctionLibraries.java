@@ -38,7 +38,7 @@ public class FunctionLibraries {
             Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(iuiAutomationInterfacePointer.getPointer(0), 58);
             iuiAutomationFunctions.put("CompareElements", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("GetRootElement", Function.getFunction(methodsArray[5], Function.ALT_CONVENTION));
-            iuiAutomationFunctions.put("GetFocusedElement", Function.getFunction(methodsArray[5], Function.ALT_CONVENTION));
+            iuiAutomationFunctions.put("GetFocusedElement", Function.getFunction(methodsArray[8], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("GetElementFromHandle", Function.getFunction(methodsArray[6], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("ElementFromPoint", Function.getFunction(methodsArray[7], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateTreeWalker", Function.getFunction(methodsArray[13], Function.ALT_CONVENTION));

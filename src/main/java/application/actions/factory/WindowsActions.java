@@ -25,7 +25,7 @@ public class WindowsActions implements WindowsActionsInterface {
     @Override
     public void mouseMoveTo(Map<String, ?> parameters, HashMap<String, By> generatedElements) {
         By by = generatedElements.get(parameters.get("element"));
-        element = new WindowsElement(by, driver.getIuiAutomation(), driver.getWindowElement());
+        element = new WindowsElement(by, null, driver.getIuiAutomation(), driver.getWindowElement(), driver);
         element.moveToElement();
     }
 

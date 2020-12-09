@@ -99,4 +99,17 @@ public class IUIAutomation {
         methods.get("GetContentViewWalker").invokeInt(new Object[]{pointerToInterface, pointerToWalker});
     }
 
+    public void elementFromPoint(WinDef.POINT point, PointerByReference pointerToElement){
+        methods.get("ElementFromPoint").invokeInt(new Object[]{pointerToInterface, point, pointerToElement});
+    }
+
+    public void getFocusedElement(PointerByReference pointerToElement){
+        methods.get("GetFocusedElement").invokeInt(new Object[]{pointerToInterface, pointerToElement});
+    }
+
+
+    public void createTrueCondition(PointerByReference pointerToCondition){
+        methods.get("CreateTrueCondition").invokeInt(new Object[]{pointerToInterface, pointerToCondition});
+    }
+
 }

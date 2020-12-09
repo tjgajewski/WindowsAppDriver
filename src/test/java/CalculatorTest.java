@@ -2,6 +2,9 @@ import application.actions.factory.WindowsActions;
 import application.driver.factory.WindowsDriver;
 import application.element.factory.WindowsBy;
 import application.element.factory.WindowsElement;
+import com.sun.jna.platform.WindowUtils;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
@@ -19,6 +22,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.awt.*;
+import java.util.List;
+
 public class CalculatorTest {
 
     private WindowsDriver driver;
@@ -35,7 +41,14 @@ public class CalculatorTest {
     }
 
     @Test
-    public void addition(){
+    public void addition() throws InterruptedException {
+
+
+WindowsElement element = driver.findElement(By.xpath("/window/window/group/group"));
+String x = element.getAbsXpath();
+        driver.getWindowElement().getCurrentPropertyValue("hwnd");
+        List<WindowsElement> siblings = element.getParent().getAllChildrenElements(By.tagName(element.getTagName()));
+        driver.findElement(By.xpath("/window/window/group/group")).getAttribute("name");
         driver.findElement(By.cssSelector("button.Five")).click();
         driver.findElement(By.name("Open Navigation")).click();
         driver.findElement(By.name("Programmer Calculator")).isDisplayed();
@@ -47,6 +60,49 @@ public class CalculatorTest {
         String name = driver.findElement(By.id("CalculatorResults")).getAttribute("name");
         Assert.assertEquals(name, "Display is 8", "5 plus 3 should equal 8");
 
+    }
+
+    private void compileXml(StringBuilder front, StringBuilder endTags, WindowsElement element){
+        List<WindowsElement> children = null;
+try {
+    children = element.getAllChildrenElements();
+}
+catch (Error e){
+    System.out.println("puase");
+}
+        
+        
+        for(WindowsElement child : children){
+            String tag = child.getTagName();
+            front.append("<"+tag);
+            appendAttributeToXml(front, child, "name");
+            appendAttributeToXml(front, child, "id");
+            appendAttributeToXml(front, child, "classname");
+            //appendAttributeToXml(front, child, "size");
+            appendAttributeToXml(front, child, "frameworkid");
+           // appendAttributeToXml(front, child, "hwnd");
+            appendAttributeToXml(front, child, "text");
+            if(children.size()>0){
+                compileXml(front, endTags, child);
+            }
+            front.append("></"+tag+">");
+        }
+    }
+
+    private void appendAttributeToXml(StringBuilder sb, WindowsElement element, String propertyName){
+        String value = element.getAttribute(propertyName);
+        if(!value.equals("")&&!value.equals("null")){
+            sb.append(" "+propertyName+"=\""+value+"\"");
+        }
+    }
+
+    public WindowsElement descendentElementFromPoint(WindowsElement element, Point point){
+        for(WindowsElement child : element.getAllDescendentElements()){
+            if(child.getWinDefRect().toRectangle().contains(point)&&child.getAllChildrenElements().size()==0){
+               return child;
+            }
+        }
+        return element;
     }
 
     @Test
