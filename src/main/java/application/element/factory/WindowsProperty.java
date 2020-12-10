@@ -57,6 +57,10 @@ public class WindowsProperty {
             case "processid":
                 propertyIndex = 30002;
                 break;
+            case "runtimeid":
+            case "runtime id":
+                propertyIndex = 30000;
+                break;
             default:
                 throw new WindowsDriverException(attribute + " is an unspoorted property type");
         }

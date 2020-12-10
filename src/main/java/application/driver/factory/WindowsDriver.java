@@ -101,6 +101,13 @@ public class WindowsDriver extends RemoteWebDriver implements WebDriver, SearchC
         return windowsElement;
     }
 
+    public WindowsElement findElement(WindowsBy by) {
+        String dynamicElementId = String.valueOf(generatedElements.size());
+        WindowsElement windowsElement = new WindowsElement(by,dynamicElementId,iuiAutomation,windowElement,this);
+       // generatedElements.put(dynamicElementId,by);
+        return windowsElement;
+    }
+
     public WindowsElement getNextSibling(By by){
         IUIAutomationTreeWalker treeWalker = iuiAutomation.getTreeWalker();
         String dynamicElementId = String.valueOf(generatedElements.size());

@@ -13,7 +13,7 @@ import org.testng.annotations.*;
 
 public class FastCalculatorTest {
 
-    WebDriver driver;
+    WindowsDriver driver;
 
     @BeforeClass
     public void before(){
@@ -28,6 +28,13 @@ public class FastCalculatorTest {
     public void addition(){
 
       //  driver.findElement(By.name("Five")).click();
+        driver.findElement(By.name("Five")).getAttribute("runtimeid");
+        int[] id = driver.findElement(By.name("Five")).getRuntimeId();
+        System.out.println(id);
+        int[] id1 = driver.findElement(By.name("Four")).getRuntimeId();
+        System.out.println(id1);
+        int[] id2 = driver.findElement(By.name("Three")).getRuntimeId();
+        System.out.println(id2);
         driver.findElement(By.name("Five")).getRect();
         driver.findElement(By.name("Five")).getLocation();
         Actions a = new Actions(driver);

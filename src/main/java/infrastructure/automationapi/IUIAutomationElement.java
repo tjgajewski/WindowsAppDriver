@@ -2,6 +2,8 @@ package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
 import com.sun.jna.internal.ReflectionUtils;
+import com.sun.jna.platform.win32.OaIdl;
+import com.sun.jna.ptr.IntByReference;
 import infrastructure.ElementNotAvailableException;
 import infrastructure.utils.FunctionLibraries;
 import application.element.factory.WindowsProperty;
@@ -86,6 +88,13 @@ public class IUIAutomationElement {
         PointerByReference pointerByReference = new PointerByReference();
         methods.get("GetCurrentPattern").invokeInt(new Object[]{pointerToElement, patternId, pointerByReference});
         return pointerByReference;
+    }
+
+    public  PointerByReference  getRuntimeId(){
+        PointerByReference propertyValue = new PointerByReference();
+        int num = methods.get("GetCurrentRuntimeId").invokeInt(new Object[]{pointerToElement,propertyValue});
+        System.out.println(num);
+        return propertyValue;
     }
 
     public Variant.VARIANT.ByReference getCurrentPropertyValue(int propertyId) {

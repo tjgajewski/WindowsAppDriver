@@ -2,6 +2,7 @@ package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
 import com.sun.jna.platform.win32.COM.Unknown;
+import com.sun.jna.ptr.IntByReference;
 import infrastructure.utils.FunctionLibraries;
 import com.sun.jna.*;
 import com.sun.jna.platform.win32.*;
@@ -42,6 +43,15 @@ public class IUIAutomation {
         return condition;
     }
 
+    public PointerByReference createPropertyCondition(int propertyTypeId, Variant.VARIANT propertyValue) {
+        Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
+        value.setValue(Variant.VT_VARIANT, propertyValue);
+        PointerByReference condition = new PointerByReference();
+        int status = methods.get("CreatePropertyCondition").invokeInt(new Object[]{pointerToInterface, propertyTypeId, value, condition});
+        COMUtils.SUCCEEDED(status);
+        return condition;
+    }
+
     public PointerByReference createPropertyCondition(WindowsBy windowsBy) {
         int propertyTypeId = windowsBy.getAttributeIndex();
         String propertyValue = windowsBy.getAttributeValue();
@@ -58,6 +68,14 @@ public class IUIAutomation {
     public PointerByReference createPropertyCondition(int propertyTypeId, int propertyValue) {
         Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
         value.setValue(Variant.VT_INT, propertyValue);
+        PointerByReference condition = new PointerByReference();
+        methods.get("CreatePropertyCondition").invokeInt(new Object[]{pointerToInterface, propertyTypeId, value, condition});
+        return condition;
+    }
+
+    public PointerByReference createPropertyCondition(int propertyTypeId, IntByReference propertyValue) {
+        Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
+        value.setValue(Variant.VT_INT_PTR, propertyValue);
         PointerByReference condition = new PointerByReference();
         methods.get("CreatePropertyCondition").invokeInt(new Object[]{pointerToInterface, propertyTypeId, value, condition});
         return condition;

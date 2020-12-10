@@ -8,6 +8,7 @@ import com.sun.jna.platform.win32.OaIdl;
 import com.sun.jna.platform.win32.Variant;
 import com.sun.jna.platform.win32.WTypes;
 import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 import infrastructure.automationapi.IUIAutomation;
 import infrastructure.automationapi.IUIAutomationElement;
@@ -46,16 +47,24 @@ public class WindowsElement implements WebElement, Locatable {
         this.element = element;
         this.dynamicElementId = dynamicElementId;
     }
-/*
-    public WindowsElement(By by, String dynamicElementId, IUIAutomation iuiAutomation,IUIAutomationElement frameElement, WindowsDriver driver){
-        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement, dynamicElementId, driver);
-        this.element = element;
-        this.dynamicElementId = dynamicElementId;
+
+    public int[] getRuntimeId(){
+        PointerByReference ar = element.getRuntimeId();
+        int[] array = new int[4];
+        ar.getValue().read(0,array,0,4);
+
+            return array;
     }
 
- */
-
     public WindowsElement(By by, String dynamicElementId, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, WindowsDriver driver){
+
+        this.dynamicElementId = dynamicElementId;
+        this.driver = driver;
+        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement, dynamicElementId, driver);
+        this.element = element;
+    }
+
+    public WindowsElement(WindowsBy by, String dynamicElementId, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, WindowsDriver driver){
 
         this.dynamicElementId = dynamicElementId;
         this.driver = driver;

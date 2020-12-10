@@ -15,6 +15,7 @@ public class WindowsBy {
     private String attributeValue;
     private int textValue = 30045;
     private int boundingRect = 30001;
+    private int runtimeId = 30000;
 
     public WindowsBy (By by){
         String[] locator = by.toString().split(":",2);
@@ -102,6 +103,9 @@ public class WindowsBy {
                 break;
             case "boundingrectangle":
                 this.attributeIndex = boundingRect;
+                break;
+            case "runtimeid":
+                this.attributeIndex = runtimeId;
                 break;
             default:
                 throw new WindowsDriverException(attribute + " is an unsupported property for finding an element");
