@@ -183,14 +183,14 @@ public class FunctionLibraries {
         }
         return new FunctionLibrary(iuiAutomationTreeWalkerMethods, pointerToTreeWalker);
     }
-
+    private HashMap<String, Function> iuiAutomationToggleMethods;
     public FunctionLibrary iuiAutomationLibraryTogglePatternMethods(PointerByReference pointerToPatternClassInstanceByReference) {
         Pointer pointerToPatternClassInstance = pointerToPatternClassInstanceByReference.getValue();
-        if(iuiAutomationInvokeMethods == null) {
-            iuiAutomationInvokeMethods  = new HashMap<>();
+        if(iuiAutomationToggleMethods == null) {
+            iuiAutomationToggleMethods  = new HashMap<>();
             Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(pointerToPatternClassInstance.getPointer(0), 4);
-            iuiAutomationInvokeMethods.put("Toggle", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
+            iuiAutomationToggleMethods.put("Toggle", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
         }
-        return new FunctionLibrary(iuiAutomationInvokeMethods, pointerToPatternClassInstance);
+        return new FunctionLibrary(iuiAutomationToggleMethods, pointerToPatternClassInstance);
     }
 }
