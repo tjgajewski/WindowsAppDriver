@@ -183,4 +183,14 @@ public class FunctionLibraries {
         }
         return new FunctionLibrary(iuiAutomationTreeWalkerMethods, pointerToTreeWalker);
     }
+
+    public FunctionLibrary iuiAutomationLibraryTogglePatternMethods(PointerByReference pointerToPatternClassInstanceByReference) {
+        Pointer pointerToPatternClassInstance = pointerToPatternClassInstanceByReference.getValue();
+        if(iuiAutomationInvokeMethods == null) {
+            iuiAutomationInvokeMethods  = new HashMap<>();
+            Pointer[] methodsArray = PointerHelpers.readMethodsToPointerArray(pointerToPatternClassInstance.getPointer(0), 4);
+            iuiAutomationInvokeMethods.put("Toggle", Function.getFunction(methodsArray[3], Function.ALT_CONVENTION));
+        }
+        return new FunctionLibrary(iuiAutomationInvokeMethods, pointerToPatternClassInstance);
+    }
 }

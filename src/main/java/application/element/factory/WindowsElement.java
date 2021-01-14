@@ -15,6 +15,7 @@ import infrastructure.automationapi.IUIAutomationElement;
 import infrastructure.automationapi.IUIAutomationElementArray;
 import infrastructure.automationapi.patterns.InvokePattern;
 import infrastructure.automationapi.patterns.SelectItemPattern;
+import infrastructure.automationapi.patterns.TogglePattern;
 import infrastructure.automationapi.patterns.ValuePattern;
 import infrastructure.robotapi.Robo;
 import infrastructure.windowsapi.Keyboard;
@@ -107,6 +108,9 @@ public class WindowsElement implements WebElement, Locatable {
         }
         else if(SelectItemPattern.isAvailableForElement(element)){
             new SelectItemPattern(element).select();
+        }
+        else if(TogglePattern.isAvailableForElement(element)){
+            new TogglePattern(element).toggle();
         }
         else {
             Point clickablePoint = getLocation();
