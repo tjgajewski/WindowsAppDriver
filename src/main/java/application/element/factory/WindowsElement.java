@@ -25,14 +25,15 @@ import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import xpath.parser.Queryable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class WindowsElement implements WebElement, Locatable {
 
     private IUIAutomationElement element;
-    protected String dynamicElementId="-1";
     public WindowsDriver getWrappedDriver() {
         return driver;
     }
@@ -41,35 +42,32 @@ public class WindowsElement implements WebElement, Locatable {
     }
     WindowsDriver driver;
 
-
-
-    public WindowsElement(IUIAutomationElement element, String dynamicElementId, WindowsDriver driver){
+    public WindowsElement(IUIAutomationElement element, WindowsDriver driver){
         this.driver = driver;
         this.element = element;
-        this.dynamicElementId = dynamicElementId;
     }
 
-    public int[] getRuntimeId(){
-        PointerByReference ar = element.getRuntimeId();
-        int[] array = new int[4];
-        ar.getValue().read(0,array,0,4);
-
-            return array;
+    public ArrayList<String> getRuntimeId(){
+       OaIdl.SAFEARRAY.ByReference ar = element.getRuntimeId();
+       int size = Math.toIntExact(ar.getElemsize());
+        ArrayList<String> attrs = new ArrayList<>();
+       for(int i = 0; i < size; i++){
+           System.out.println("on i = " +i);
+           attrs.add(Integer.toHexString((Integer) (ar.getElement(i))));
+       }
+       return attrs;
     }
 
-    public WindowsElement(By by, String dynamicElementId, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, WindowsDriver driver){
-
-        this.dynamicElementId = dynamicElementId;
+    public WindowsElement(By by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, WindowsDriver driver){
         this.driver = driver;
-        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement, dynamicElementId, driver);
+        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement, driver);
         this.element = element;
     }
 
-    public WindowsElement(WindowsBy by, String dynamicElementId, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, WindowsDriver driver){
+    public WindowsElement(WindowsBy by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, WindowsDriver driver){
 
-        this.dynamicElementId = dynamicElementId;
         this.driver = driver;
-        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement, dynamicElementId, driver);
+        IUIAutomationElement element = ElementHelpers.getIUIAutomationElement(by, iuiAutomation, frameElement, driver);
         this.element = element;
     }
 
@@ -91,13 +89,13 @@ public class WindowsElement implements WebElement, Locatable {
     }
 
     public WindowsElement getParent(){
-        return new WindowsElement(driver.getIuiAutomation().getTreeWalker().getParentElement(element), "-1", driver);
+        return new WindowsElement(driver.getIuiAutomation().getTreeWalker().getParentElement(element), driver);
     }
     public WindowsElement getPreviousSibling(){
-        return new WindowsElement(driver.getIuiAutomation().getTreeWalker().getPreviousSiblingElement(element), "-1", driver);
+        return new WindowsElement(driver.getIuiAutomation().getTreeWalker().getPreviousSiblingElement(element), driver);
     }
     public WindowsElement getNextSibling(){
-        return new WindowsElement(driver.getIuiAutomation().getTreeWalker().getNextSiblingElement(element), "-1", driver);
+        return new WindowsElement(driver.getIuiAutomation().getTreeWalker().getNextSiblingElement(element), driver);
     }
 
     @Override
@@ -260,9 +258,7 @@ public List<WindowsElement> getAllDescendentElements(){
     IUIAutomationElementArray elements = element.findAll(trueCondPtr, new WindowsBy(By.id("ALL ElEMENTS")));
     List<WindowsElement> elementsList = new ArrayList<>();
     for(int i = 0; i < elements.getLength(); i++){
-        String dynamicElementId = String.valueOf(driver.generatedElements.size());
-        driver.generatedElements.put(dynamicElementId,null);
-        WindowsElement currentElement = new WindowsElement(elements.getElement(i),dynamicElementId,driver);
+        WindowsElement currentElement = new WindowsElement(elements.getElement(i),driver);
         elementsList.add(currentElement);
     }
     return elementsList;
@@ -274,9 +270,7 @@ public List<WindowsElement> getAllDescendentElements(){
         IUIAutomationElementArray elements = element.findAllFirstDescendent(trueCondPtr, new WindowsBy(By.id("ALL ElEMENTS")));
         List<WindowsElement> elementsList = new ArrayList<>();
         for(int i = 0; i < elements.getLength(); i++){
-            String dynamicElementId = String.valueOf(driver.generatedElements.size());
-            driver.generatedElements.put(dynamicElementId,null);
-            WindowsElement currentElement = new WindowsElement(elements.getElement(i),dynamicElementId,driver);
+            WindowsElement currentElement = new WindowsElement(elements.getElement(i),driver);
             elementsList.add(currentElement);
         }
         return elementsList;
@@ -284,13 +278,11 @@ public List<WindowsElement> getAllDescendentElements(){
 
     public List<WindowsElement> getAllChildrenElements(By by){
         WindowsBy windowsBy = new WindowsBy(by);
-        PointerByReference propertyCondition = driver.getIuiAutomation().createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue());
+        PointerByReference propertyCondition = driver.getIuiAutomation().createPropertyCondition(windowsBy.getAttributeIndex(), windowsBy.getAttributeValue().toString());
         IUIAutomationElementArray elements = element.findAllFirstDescendent(propertyCondition, windowsBy);
         List<WindowsElement> elementsList = new ArrayList<>();
         for(int i = 0; i < elements.getLength(); i++){
-            String dynamicElementId = String.valueOf(driver.generatedElements.size());
-            driver.generatedElements.put(dynamicElementId,null);
-            WindowsElement currentElement = new WindowsElement(elements.getElement(i),dynamicElementId,driver);
+            WindowsElement currentElement = new WindowsElement(elements.getElement(i),driver);
             elementsList.add(currentElement);
         }
         return elementsList;

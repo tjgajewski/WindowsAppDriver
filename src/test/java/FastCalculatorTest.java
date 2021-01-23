@@ -26,21 +26,21 @@ public class FastCalculatorTest {
 
     @Test
     public void addition(){
-
-      //  driver.findElement(By.name("Five")).click();
-        driver.findElement(By.name("Five")).getAttribute("runtimeid");
-        int[] id = driver.findElement(By.name("Five")).getRuntimeId();
-        System.out.println(id);
-        int[] id1 = driver.findElement(By.name("Four")).getRuntimeId();
-        System.out.println(id1);
-        int[] id2 = driver.findElement(By.name("Three")).getRuntimeId();
-        System.out.println(id2);
-        driver.findElement(By.name("Five")).getRect();
-        driver.findElement(By.name("Five")).getLocation();
+        driver.findElement(By.xpath("//*[@name='Five']")).getRuntimeId();
         Actions a = new Actions(driver);
-        a.moveToElement(driver.findElement(By.name("Five")));
+        a.moveToElement(driver.findElement(By.name("Three")));
         a.click();
         a.perform();
+      //  driver.findElement(By.name("Five")).click();
+        driver.findElement(By.name("Five"));
+
+   //     System.out.println(id8);
+        driver.findElement(By.name("Five")).getRect();
+        driver.findElement(By.name("Five")).getLocation();
+        Actions a2 = new Actions(driver);
+        a2.moveToElement(driver.findElement(By.name("Five")));
+        a2.click();
+        a2.perform();
         driver.findElement(By.name("Plus")).click();
         driver.findElement(By.name("Three")).click();
         driver.findElement(By.name("Equals")).click();

@@ -2,6 +2,7 @@ package infrastructure.automationapi;
 
 import application.element.factory.WindowsBy;
 import com.sun.jna.internal.ReflectionUtils;
+import com.sun.jna.platform.win32.COM.COMUtils;
 import com.sun.jna.platform.win32.OaIdl;
 import com.sun.jna.ptr.IntByReference;
 import infrastructure.ElementNotAvailableException;
@@ -44,6 +45,8 @@ public class IUIAutomationElement {
         PointerByReference pointerToElementByReference = new PointerByReference();
         int errorCode = methods.get("FindFirst").invokeInt(new Object[]{pointerToElement, 4, condition, pointerToElementByReference});
         if(pointerToElementByReference.getValue() == null){
+            System.out.println(errorCode);
+            COMUtils.SUCCEEDED(errorCode);
             throw new NoSuchElementException("Unable to find an element using "+ by.toString());
         }
         return new IUIAutomationElement(pointerToElementByReference);
@@ -52,6 +55,18 @@ public class IUIAutomationElement {
         Pointer condition = conditionRef.getValue();
         PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
         methods.get("FindAll").invokeInt(new Object[]{pointerToElement, 4, condition,  IUIAutomationElementArrayPbr});
+        if (IUIAutomationElementArrayPbr.getValue() == null) {
+            throw new NoSuchElementException("Unable to find an element using "+ by.toString());
+        }
+        IUIAutomationElementArray returnArray = new IUIAutomationElementArray(IUIAutomationElementArrayPbr);
+        return returnArray;
+
+    }
+
+    public IUIAutomationElementArray findAll(PointerByReference conditionRef, WindowsBy by, int scope)  {
+        Pointer condition = conditionRef.getValue();
+        PointerByReference IUIAutomationElementArrayPbr = new PointerByReference();
+        methods.get("FindAll").invokeInt(new Object[]{pointerToElement, scope, condition,  IUIAutomationElementArrayPbr});
         if (IUIAutomationElementArrayPbr.getValue() == null) {
             throw new NoSuchElementException("Unable to find an element using "+ by.toString());
         }
@@ -90,11 +105,10 @@ public class IUIAutomationElement {
         return pointerByReference;
     }
 
-    public  PointerByReference  getRuntimeId(){
-        PointerByReference propertyValue = new PointerByReference();
-        int num = methods.get("GetCurrentRuntimeId").invokeInt(new Object[]{pointerToElement,propertyValue});
-        System.out.println(num);
-        return propertyValue;
+    public  OaIdl.SAFEARRAY.ByReference getRuntimeId(){
+        //OaIdl.SAFEARRAY.ByReference propertyValue = new OaIdl.SAFEARRAY.ByReference();
+        //methods.get("GetCurrentRuntimeId").invokeInt(new Object[]{pointerToElement,propertyValue});
+        return (OaIdl.SAFEARRAY.ByReference) getCurrentPropertyValue(30000).getValue();
     }
 
     public Variant.VARIANT.ByReference getCurrentPropertyValue(int propertyId) {

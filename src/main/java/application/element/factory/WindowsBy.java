@@ -12,7 +12,7 @@ public class WindowsBy {
     private int comboSelector = 001;
     private String attribute;
     private int attributeIndex;
-    private String attributeValue;
+    private Object attributeValue;
     private int textValue = 30045;
     private int boundingRect = 30001;
     private int runtimeId = 30000;
@@ -27,7 +27,7 @@ public class WindowsBy {
         setAttributeIndexByByMethod(locator[0],locator[1].trim());
     }
 
-    public WindowsBy (String attributeIndex, String attributeValue){
+    public WindowsBy (String attributeIndex, Object attributeValue){
         setAttributeIndexByAttribute(attributeIndex, attributeValue);
     }
 
@@ -39,7 +39,7 @@ public class WindowsBy {
         return attributeIndex;
     }
 
-    public String getAttributeValue() {
+    public Object getAttributeValue() {
         return attributeValue;
     }
 
@@ -74,7 +74,7 @@ public class WindowsBy {
         this.attributeValue = attributeValue;
     }
 
-    public void setAttributeIndexByAttribute(String attribute, String attributeValue){
+    public void setAttributeIndexByAttribute(String attribute, Object attributeValue){
         switch (attribute.toLowerCase()) {
             case "id":
             case "automationid":
@@ -89,7 +89,7 @@ public class WindowsBy {
             case "tagname":
             case "localizedcontroltype":
             case "tag":
-                attributeValue=attributeValue.replace("-"," ");
+                attributeValue=attributeValue.toString().replace("-"," ");
                 this.attributeIndex = localControlType;
                 break;
             case "By.cssSelector":
@@ -99,6 +99,7 @@ public class WindowsBy {
                 this.attributeIndex = textValue;
                 break;
             case "By.xpath":
+            case "xpath":
                 this.attributeIndex = comboSelector;
                 break;
             case "boundingrectangle":

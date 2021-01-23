@@ -46,6 +46,7 @@ public class FunctionLibraries {
             iuiAutomationFunctions.put("GetContentViewWalker", Function.getFunction(methodsArray[15], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateCacheRequest", Function.getFunction(methodsArray[20], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreatePropertyCondition", Function.getFunction(methodsArray[23], Function.ALT_CONVENTION));
+            iuiAutomationFunctions.put("CreatePropertyConditionEx", Function.getFunction(methodsArray[24], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateAndCondition", Function.getFunction(methodsArray[25], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateOrCondition", Function.getFunction(methodsArray[28], Function.ALT_CONVENTION));
             iuiAutomationFunctions.put("CreateTrueCondition", Function.getFunction(methodsArray[21], Function.ALT_CONVENTION));

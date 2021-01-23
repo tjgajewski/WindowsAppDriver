@@ -28,6 +28,6 @@ public class WindowsElementCoordinates implements Coordinates {
 
     @Override
     public Object getAuxiliary() {
-        return element.dynamicElementId;
+        return element.getRuntimeId().toString();
     }
 }

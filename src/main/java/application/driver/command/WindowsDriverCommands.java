@@ -36,11 +36,10 @@ public class WindowsDriverCommands {
      *
      * @param command           the command
      * @param parameters        the parameters
-     * @param generatedElements the generated elements
      */
-    public void execute(String command, Map<String, ?> parameters, HashMap<String, By> generatedElements){
+    public void execute(String command, Map<String, ?> parameters){
         try {
-            methodHashMap.get(command).invoke(action, parameters, generatedElements);
+            methodHashMap.get(command).invoke(action, parameters);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

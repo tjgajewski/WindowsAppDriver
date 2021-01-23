@@ -20,7 +20,7 @@ public class DriverHelpers{
     public static List<By> splitCssSelectorBy(WindowsBy by){
        // String original = by.toString().split(":")[1];
         //original = original.replaceAll(" ", "");
-        String original = by.getAttributeValue();
+        String original = by.getAttributeValue().toString();
         List<By>byList = new ArrayList<>();
         String[] stringArray = original.split("(?=\\.)|(?=#)|(?=@)|(?=\\$)");
         By b1 =  By.tagName(stringArray[0]);
@@ -45,13 +45,13 @@ public class DriverHelpers{
         return tempBy;
     }
 
-    public static IUIAutomationElement returnXpathElement(WindowsBy by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, String dynamicElementId, WindowsDriver driver){
+    public static IUIAutomationElement returnXpathElement(WindowsBy by, IUIAutomation iuiAutomation, IUIAutomationElement frameElement, WindowsDriver driver){
         Element dom= driver.buildXmlHierarchy();
-        Elements elements = Xsoup.compile(by.getAttributeValue()).evaluate(dom).getElements();
+        Elements elements = Xsoup.compile(by.getAttributeValue().toString()).evaluate(dom).getElements();
         if(elements.size()==0){
             driver.xml=null;
             dom=driver.buildXmlHierarchy();
-            elements=Xsoup.compile(by.getAttributeValue()).evaluate(dom).getElements();
+            elements=Xsoup.compile(by.getAttributeValue().toString()).evaluate(dom).getElements();
         }
         String hierarchId=elements.get(0).attr("hierarchyId");
         WindowsElement element = driver.getQueryTable().get(Integer.parseInt(hierarchId));

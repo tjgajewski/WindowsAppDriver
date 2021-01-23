@@ -43,20 +43,30 @@ public class IUIAutomation {
         return condition;
     }
 
-    public PointerByReference createPropertyCondition(int propertyTypeId, Variant.VARIANT propertyValue) {
+    public PointerByReference createPropertyConditionEx(int propertyTypeId, String propertyValue, int flag) {
         Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
-        value.setValue(Variant.VT_VARIANT, propertyValue);
+        WTypes.BSTR sysAllocated = OleAuto.INSTANCE.SysAllocString(propertyValue);
+        value.setValue(Variant.VT_BSTR, sysAllocated);
         PointerByReference condition = new PointerByReference();
-        int status = methods.get("CreatePropertyCondition").invokeInt(new Object[]{pointerToInterface, propertyTypeId, value, condition});
+        int status = methods.get("CreatePropertyConditionEx").invokeInt(new Object[]{pointerToInterface, propertyTypeId, value, flag, condition});
+        COMUtils.SUCCEEDED(status);
+        OleAuto.INSTANCE.SysFreeString(sysAllocated);
+        return condition;
+    }
+
+    public PointerByReference createPropertyCondition(int propertyTypeId, Object propertyValue) {
+
+        PointerByReference condition = new PointerByReference();
+        int status = methods.get("CreatePropertyCondition").invokeInt(new Object[]{pointerToInterface, propertyTypeId, propertyValue, condition});
         COMUtils.SUCCEEDED(status);
         return condition;
     }
 
     public PointerByReference createPropertyCondition(WindowsBy windowsBy) {
         int propertyTypeId = windowsBy.getAttributeIndex();
-        String propertyValue = windowsBy.getAttributeValue();
+        Object propertyValue = windowsBy.getAttributeValue();
         Variant.VARIANT.ByValue value = new Variant.VARIANT.ByValue();
-        WTypes.BSTR sysAllocated = OleAuto.INSTANCE.SysAllocString(propertyValue);
+        WTypes.BSTR sysAllocated = OleAuto.INSTANCE.SysAllocString(propertyValue.toString());
         value.setValue(Variant.VT_BSTR, sysAllocated);
         PointerByReference condition = new PointerByReference();
         int status = methods.get("CreatePropertyCondition").invokeInt(new Object[]{pointerToInterface, propertyTypeId, value, condition});
@@ -84,6 +94,12 @@ public class IUIAutomation {
     public PointerByReference createAndCondition(PointerByReference condition1, PointerByReference condition2) {
         PointerByReference pointerByReference = new PointerByReference();
         int status = methods.get("CreateAndCondition").invokeInt(new Object[]{pointerToInterface, condition1.getValue(), condition2.getValue(), pointerByReference});
+        return pointerByReference;
+    }
+
+    public PointerByReference createOrCondition(PointerByReference condition1, PointerByReference condition2) {
+        PointerByReference pointerByReference = new PointerByReference();
+        int status = methods.get("CreateOrCondition").invokeInt(new Object[]{pointerToInterface, condition1.getValue(), condition2.getValue(), pointerByReference});
         return pointerByReference;
     }
 

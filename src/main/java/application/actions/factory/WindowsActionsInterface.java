@@ -12,25 +12,22 @@ public interface WindowsActionsInterface {
      * Mouse move to.
      *
      * @param parameters        the parameters
-     * @param generatedElements the generated elements
      */
-    void mouseMoveTo(Map<String, ?> parameters, HashMap<String, By> generatedElements);
+    void mouseMoveTo(Map<String, ?> parameters);
 
     /**
      * Mouse click.
      *
      * @param parameters        the parameters
-     * @param generatedElements the generated elements
      */
-    void mouseClick(Map<String, ?> parameters, HashMap<String, By> generatedElements);
+    void mouseClick(Map<String, ?> parameters);
 
     /**
      * Send keys to active element.
      *
      * @param parameters        the parameters
-     * @param generatedElements the generated elements
      */
-    void sendKeysToActiveElement(Map<String, ?> parameters, HashMap<String, By> generatedElements);
+    void sendKeysToActiveElement(Map<String, ?> parameters);
 
 //    /**
 //     * Mouse double click.
