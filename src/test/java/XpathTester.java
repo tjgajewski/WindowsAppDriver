@@ -15,11 +15,12 @@ import java.util.List;
 public class XpathTester {
 
     public static void main(String[] args){
-        String xpath = "//*[@id='NumberPad']//*[@name='Five']";
+        String xpath = "//*[@name='Standard Calculator mode']";
         String xpath23 = "//button[@id='Minimize']";
         String xpath33 = "//*[@id='NumberPad']//button[4]";
         String xpath3 = "//*[@id='NumberPad']//*[@name='Five']";
         String xpath4 = "//*[@id='NumberPad']//*[@name='Five']";
+
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("applicationPath", "C:\\Windows\\System32\\calc.exe");
         capabilities.setCapability("applicationName", "Calculator.exe");
